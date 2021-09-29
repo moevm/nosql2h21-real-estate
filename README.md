@@ -2,6 +2,9 @@
 
 > with docker
 
+## Screencast
+stage 1: https://drive.google.com/drive/folders/1K7iJmywjCsTB6ucvJoBitbTb58f5psz7?usp=sharing
+
 ### Dev
 
 1. build
