@@ -1,7 +1,7 @@
 import { User } from "core/models";
 import dbConnect from "lib/db/dbConnect";
 import { parse as cookieParse } from "cookie";
-import { UserDBModel } from "lib/db/sheme";
+import { UserDBModel } from "lib/db/shema";
 import type { NextApiRequest } from "next";
 import { getUserIdByJWT } from "./jwt";
 

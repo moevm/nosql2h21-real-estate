@@ -1,6 +1,6 @@
 import { SignInResponseData, SignUpResquestData } from "core/types/api";
 import { comparePasswords, generateJWT, getUserIdByJWT } from "lib/auth";
-import { UserDBModel } from "lib/db/sheme";
+import { UserDBModel } from "lib/db/shema";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { serialize } from "cookie";
 import dbConnect from "lib/db/dbConnect";

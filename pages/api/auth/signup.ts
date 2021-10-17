@@ -1,7 +1,7 @@
 import { SignUpResponseData, SignUpResquestData } from "core/types/api";
 import { encodePassword } from "lib/auth";
 import dbConnect from "lib/db/dbConnect";
-import { UserDBModel } from "lib/db/sheme";
+import { UserDBModel } from "lib/db/shema";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 async function handler(req: NextApiRequest, res: NextApiResponse<SignUpResponseData>): Promise<void> {
