@@ -4,7 +4,6 @@ import { Schema, model, models } from "mongoose";
 /* User */
 const UserModelSchema = new Schema<User>(
   {
-    _id: Schema.Types.ObjectId,
     firstName: Schema.Types.String,
     lastName: Schema.Types.String,
     email: { type: Schema.Types.String, lowercase: true },
@@ -21,7 +20,6 @@ export const UserDBModel = model<User>("User", UserModelSchema);
 /* Tag */
 const TagModelSchema = new Schema<Tag>(
   {
-    _id: Schema.Types.ObjectId,
     name: Schema.Types.String,
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true } },
@@ -33,7 +31,6 @@ export const TagDBModel = model<Tag>("Tag", TagModelSchema);
 /* Reply */
 const ReplyModelSchema = new Schema<Reply>(
   {
-    _id: Schema.Types.ObjectId,
     owner: UserModelSchema,
     text: Schema.Types.String,
     rating: Schema.Types.Number,
@@ -62,7 +59,6 @@ export const AddressDBModel = model<Address>("Address", AddressModelSchema);
 /* House */
 const HouseModelSchema = new Schema<House>(
   {
-    _id: Schema.Types.String,
     owner: UserModelSchema,
     address: AddressModelSchema,
     photo: [Schema.Types.String],
@@ -87,7 +83,6 @@ export const HouseDBModel = model<House>("House", HouseModelSchema);
 /* Advertisement */
 const AdvertisementModelSchema = new Schema<Advertisement>(
   {
-    _id: Schema.Types.ObjectId,
     owner: UserModelSchema,
     title: Schema.Types.String,
     price: Schema.Types.Number,
