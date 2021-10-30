@@ -1,5 +1,5 @@
 import { SignInResponseData, SignUpResquestData } from "core/types/api";
-import { comparePasswords, generateJWT, getUserIdByJWT } from "lib/auth";
+import { comparePasswords, generateJWT } from "lib/auth";
 import { UserDBModel } from "lib/db/shema";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { serialize } from "cookie";
@@ -9,12 +9,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse<SignInResponseD
   const data = req.body as SignUpResquestData;
   try {
     await dbConnect();
+
     const resUser = await UserDBModel.findOne({ email: data.email });
-    if (resUser === null) throw new Error("user was not found");
+    if (!resUser) throw new Error("user was not found");
+
     const correctPassword = await comparePasswords(data.password!, resUser.password!);
-    if (correctPassword === false) throw new Error("invalid password");
+    if (!correctPassword) throw new Error("invalid password");
+
     const jwt = generateJWT(resUser);
-    const idid = getUserIdByJWT(jwt);
     res.setHeader("Set-Cookie", [serialize("accessToken", jwt)]);
 
     delete resUser.password;

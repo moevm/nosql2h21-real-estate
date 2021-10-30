@@ -13,6 +13,5 @@ export default async function getAuthorizedUser(req: NextApiRequest): Promise<Us
   const userId = getUserIdByJWT(accessToken);
   if (userId === null) return null;
   await dbConnect();
-  const user = await UserDBModel.findById(userId);
-  return user;
+  return UserDBModel.findById(userId);
 }

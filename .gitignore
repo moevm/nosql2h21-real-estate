@@ -4,7 +4,6 @@ build
 .next
 .idea
 
-!.idea/runConfigurations/*
 .env.local
 .env.*.local
 yarn-error.log
