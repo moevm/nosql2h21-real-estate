@@ -6,10 +6,10 @@
     "dev": "NODE_OPTIONS='--inspect=0.0.0.0' NODE_ENV=development next dev",
     "build": "next build",
     "start": "next start",
-    "docker:dev:build": "docker-compose --env-file=./.env --env-file=./.env.development build",
-    "docker:dev:start": "docker-compose --env-file=./.env --env-file=./.env.development up",
-    "docker:stage:build": "docker-compose --env-file=./.env --env-file=./.env.production build",
-    "docker:stage:start": "docker-compose --env-file=./.env --env-file=./.env.production up",
+    "docker:dev:build": "docker-compose --env-file=./.env.development build",
+    "docker:dev:start": "docker-compose --env-file=./.env.development up",
+    "docker:stage:build": "docker-compose --env-file=./.env.production build",
+    "docker:stage:start": "docker-compose --env-file=./.env.production up",
     "lint": "next lint --fix"
   },
   "dependencies": {

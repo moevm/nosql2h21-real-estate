@@ -26,7 +26,7 @@ export type SignUpResquestData = {
   email: User["email"];
   password: User["password"];
 };
-export type SignUpResponseData = Response<null>;
+export type SignUpResponseData = Response<User>;
 
 export type SignOutResponseData = Response<null>;
 

@@ -22,7 +22,7 @@ export enum AdvTarget {
   rents,
 }
 
-export interface Adv {
+export interface Advertisement {
   _id: string;
   owner: User;
   title: string;
@@ -80,5 +80,5 @@ export interface House {
   lenToMetro: number; // calc from map when created
 
   rating: number;
-  Replys: Reply[];
+  replies: Reply[];
 }
