@@ -41,6 +41,7 @@
     "react-hooks/exhaustive-deps": "warn",
     "import/prefer-default-export": "off",
     // "prettier/prettier": ["error", { "endOfLine": "auto", "singleQuote": false, "tabWidth": 2 }],
+    // "prettier/prettier": "warn",
     "react/jsx-props-no-spreading": "off",
     "import/no-extraneous-dependencies": ["error", { "devDependencies": ["src/app/core/api/mock.ts"] }],
     "react/no-array-index-key": "off",
@@ -68,7 +69,8 @@
     ],
     "jsx-a11y/control-has-associated-label": "off",
     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
-    "indent": ["error", 2]
+    "indent": ["error", 2],
+    "no-underscore-dangle": "off"
   },
   "settings": {
     "import/resolver": {
