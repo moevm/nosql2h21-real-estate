@@ -13,7 +13,7 @@ services:
     depends_on:
       - mongodb
     volumes:
-      - ./data-node:/data/db
+      # - ./data-node:/data/db
       - ./:/${DOCKER_VOLUME}
     networks:
       - webappnetwork
