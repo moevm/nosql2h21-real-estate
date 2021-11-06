@@ -1,5 +1,5 @@
-import { User, Advertisement, House, Tag, Reply, Address } from "core/models";
-import { Schema, model, models } from "mongoose";
+import { Address, Advertisement, AdvTarget, FinishingType, House, HouseType, Reply, Tag, User } from "core/models";
+import { model, models, Schema } from "mongoose";
 
 /* User */
 const UserModelSchema = new Schema<User>(
@@ -8,7 +8,7 @@ const UserModelSchema = new Schema<User>(
     lastName: Schema.Types.String,
     email: { type: Schema.Types.String, lowercase: true },
     password: Schema.Types.String,
-    rating: Schema.Types.String,
+    rating: Schema.Types.Number,
     avatar: Schema.Types.String,
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true },
@@ -26,12 +26,11 @@ const TagModelSchema = new Schema<Tag>(
 );
 
 delete models.Tag;
-export const TagDBModel = model<Tag>("Tag", TagModelSchema);
 
 /* Reply */
 const ReplyModelSchema = new Schema<Reply>(
   {
-    owner: UserModelSchema,
+    owner: { type: Schema.Types.ObjectId, ref: "User" },
     text: Schema.Types.String,
     rating: Schema.Types.Number,
   },
@@ -39,7 +38,6 @@ const ReplyModelSchema = new Schema<Reply>(
 );
 
 delete models.Reply;
-export const ReplyDBModel = model<Reply>("Reply", ReplyModelSchema);
 
 /* Address */
 const AddressModelSchema = new Schema<Address>(
@@ -54,22 +52,21 @@ const AddressModelSchema = new Schema<Address>(
 );
 
 delete models.Address;
-export const AddressDBModel = model<Address>("Address", AddressModelSchema);
 
 /* House */
 const HouseModelSchema = new Schema<House>(
   {
-    owner: UserModelSchema,
+    owner: { type: Schema.Types.ObjectId, ref: "User" },
     address: AddressModelSchema,
     photo: [Schema.Types.String],
     description: Schema.Types.String,
-    type: [0, 1, 2],
+    type: [HouseType.house, HouseType.flat, HouseType.apartment],
     size: Schema.Types.Number,
     hasBalcony: Schema.Types.Boolean,
     countBathrooms: Schema.Types.Number,
     countRoom: Schema.Types.Number,
     year: Schema.Types.Number,
-    finishing: [0, 1],
+    finishing: [FinishingType.NORM, FinishingType.NENORM],
     lenToMetro: Schema.Types.Number,
     rating: Schema.Types.Number,
     replies: [ReplyModelSchema],
@@ -87,7 +84,7 @@ const AdvertisementModelSchema = new Schema<Advertisement>(
     title: Schema.Types.String,
     price: Schema.Types.Number,
     house: HouseModelSchema,
-    target: [0, 1],
+    target: [AdvTarget.rents, AdvTarget.sell],
     tags: [TagModelSchema],
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true },

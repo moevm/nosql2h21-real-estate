@@ -1,10 +1,3 @@
-/*
-    TODO:
-    add to all shemes
-    createdAt
-    updatedAt
-*/
-
 export interface User {
   _id: string;
   firstName: string;
@@ -53,7 +46,7 @@ export interface Address {
 export enum HouseType {
   house,
   flat,
-  apartament,
+  apartment,
 }
 export enum FinishingType {
   NORM,
