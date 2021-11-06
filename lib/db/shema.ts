@@ -27,7 +27,7 @@ const TagModelSchema = new Schema<Tag>(
 );
 
 delete models.Tag;
-export const TagDBModel = model<User>("Tag", TagModelSchema);
+export const TagDBModel = model<Tag>("Tag", TagModelSchema);
 
 /* Reply */
 const ReplyModelSchema = new Schema<Reply>(
