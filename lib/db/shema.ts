@@ -1,5 +1,6 @@
-import { Address, Advertisement, AdvTarget, FinishingType, House, HouseType, Reply, Tag, User } from "core/models";
-import { model, models, Schema } from "mongoose";
+import { enumToNumArray } from "core/helpers/enumToNumArray";
+import { User, Advertisement, House, Tag, Reply, Address, HouseType, FinishingType, AdvTargetType } from "core/models";
+import { Schema, model, models } from "mongoose";
 
 /* User */
 const UserModelSchema = new Schema<User>(
@@ -20,7 +21,7 @@ export const UserDBModel = model<User>("User", UserModelSchema);
 /* Tag */
 const TagModelSchema = new Schema<Tag>(
   {
-    name: Schema.Types.String,
+    value: Schema.Types.String,
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true } },
 );
@@ -43,8 +44,8 @@ delete models.Reply;
 /* Address */
 const AddressModelSchema = new Schema<Address>(
   {
-    x: Schema.Types.Number,
-    y: Schema.Types.Number,
+    lat: Schema.Types.Number,
+    lng: Schema.Types.Number,
     value: Schema.Types.String,
     floor: Schema.Types.Number,
     door: Schema.Types.Number,
@@ -61,13 +62,25 @@ const HouseModelSchema = new Schema<House>(
     address: AddressModelSchema,
     photo: [Schema.Types.String],
     description: Schema.Types.String,
-    type: [HouseType.house, HouseType.flat, HouseType.apartment],
+    type: {
+      type: Number,
+      // default: 0,
+      // enum: [0, 1, 2],
+      default: HouseType.house,
+      enum: enumToNumArray(HouseType),
+    },
     size: Schema.Types.Number,
     hasBalcony: Schema.Types.Boolean,
     countBathrooms: Schema.Types.Number,
     countRoom: Schema.Types.Number,
     year: Schema.Types.Number,
-    finishing: [FinishingType.NORM, FinishingType.NENORM],
+    finishing: {
+      type: Number,
+      // default: 0,
+      // enum: [0, 1],
+      default: FinishingType.norm,
+      enum: enumToNumArray(FinishingType),
+    },
     lenToMetro: Schema.Types.Number,
     rating: Schema.Types.Number,
     replies: [ReplyModelSchema],
@@ -86,7 +99,13 @@ const AdvertisementModelSchema = new Schema<Advertisement>(
     price: Schema.Types.Number,
     house: { type: Schema.Types.ObjectId, ref: "House" },
     target: [AdvTarget.rents, AdvTarget.sell],
-    tags: [{ type: Schema.Types.ObjectId, ref: "Tag" }],
+      target: {
+          type: Number,
+          // default: 0,
+          // enum: [0, 1],
+          default: AdvTargetType.rents,
+          enum: enumToNumArray(AdvTargetType),
+      },
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true },
 );

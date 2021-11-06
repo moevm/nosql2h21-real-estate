@@ -1,8 +1,10 @@
 node_modules
 data-node
+data-node.*
 build
 .next
 .idea
+.vscode
 
 .env.local
 .env.*.local
