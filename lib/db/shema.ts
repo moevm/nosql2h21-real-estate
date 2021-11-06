@@ -26,6 +26,7 @@ const TagModelSchema = new Schema<Tag>(
 );
 
 delete models.Tag;
+export const TagDBModel = model<User>("Tag", TagModelSchema);
 
 /* Reply */
 const ReplyModelSchema = new Schema<Reply>(
@@ -80,12 +81,12 @@ export const HouseDBModel = model<House>("House", HouseModelSchema);
 /* Advertisement */
 const AdvertisementModelSchema = new Schema<Advertisement>(
   {
-    owner: UserModelSchema,
+    owner: { type: Schema.Types.ObjectId, ref: "User" },
     title: Schema.Types.String,
     price: Schema.Types.Number,
-    house: HouseModelSchema,
+    house: { type: Schema.Types.ObjectId, ref: "House" },
     target: [AdvTarget.rents, AdvTarget.sell],
-    tags: [TagModelSchema],
+    tags: [{ type: Schema.Types.ObjectId, ref: "Tag" }],
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true },
 );
