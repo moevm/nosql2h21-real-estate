@@ -105,6 +105,7 @@ const AdvertisementModelSchema = new Schema<Advertisement>(
       default: AdvTargetType.rents,
       enum: enumToNumArray(AdvTargetType),
     },
+    tags: [{ type: Schema.Types.ObjectId, ref: "Tag" }],
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true },
 );
