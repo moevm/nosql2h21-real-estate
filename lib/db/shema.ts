@@ -98,14 +98,13 @@ const AdvertisementModelSchema = new Schema<Advertisement>(
     title: Schema.Types.String,
     price: Schema.Types.Number,
     house: { type: Schema.Types.ObjectId, ref: "House" },
-    target: [AdvTarget.rents, AdvTarget.sell],
-      target: {
-          type: Number,
-          // default: 0,
-          // enum: [0, 1],
-          default: AdvTargetType.rents,
-          enum: enumToNumArray(AdvTargetType),
-      },
+    target: {
+      type: Number,
+      // default: 0,
+      // enum: [0, 1],
+      default: AdvTargetType.rents,
+      enum: enumToNumArray(AdvTargetType),
+    },
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true },
 );
