@@ -9,7 +9,7 @@ const UserModelSchema = new Schema<User>(
     lastName: Schema.Types.String,
     email: { type: Schema.Types.String, lowercase: true },
     password: Schema.Types.String,
-    rating: Schema.Types.String,
+    rating: Schema.Types.Number,
     avatar: Schema.Types.String,
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true },
@@ -23,7 +23,7 @@ const TagModelSchema = new Schema<Tag>(
   {
     value: Schema.Types.String,
   },
-  { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true },
+  { toJSON: { virtuals: true }, toObject: { virtuals: true } },
 );
 
 delete models.Tag;
@@ -40,7 +40,6 @@ const ReplyModelSchema = new Schema<Reply>(
 );
 
 delete models.Reply;
-export const ReplyDBModel = model<Reply>("Reply", ReplyModelSchema);
 
 /* Address */
 const AddressModelSchema = new Schema<Address>(
@@ -51,11 +50,11 @@ const AddressModelSchema = new Schema<Address>(
     floor: Schema.Types.Number,
     door: Schema.Types.Number,
   },
-  { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true },
+  { toJSON: { virtuals: true }, toObject: { virtuals: true } },
 );
 
-// delete models.Address;
-// export const AddressDBModel = model<Address>("Address", AddressModelSchema);
+delete models.Address;
+
 /* House */
 const HouseModelSchema = new Schema<House>(
   {
@@ -65,8 +64,6 @@ const HouseModelSchema = new Schema<House>(
     description: Schema.Types.String,
     type: {
       type: Number,
-      // default: 0,
-      // enum: [0, 1, 2],
       default: HouseType.house,
       enum: enumToNumArray(HouseType),
     },
@@ -77,8 +74,6 @@ const HouseModelSchema = new Schema<House>(
     year: Schema.Types.Number,
     finishing: {
       type: Number,
-      // default: 0,
-      // enum: [0, 1],
       default: FinishingType.norm,
       enum: enumToNumArray(FinishingType),
     },
@@ -86,7 +81,7 @@ const HouseModelSchema = new Schema<House>(
     rating: Schema.Types.Number,
     replies: [ReplyModelSchema],
   },
-  { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true },
+  { toJSON: { virtuals: true }, toObject: { virtuals: true } },
 );
 
 delete models.House;
@@ -98,16 +93,14 @@ const AdvertisementModelSchema = new Schema<Advertisement>(
     title: Schema.Types.String,
     price: Schema.Types.Number,
     house: { type: Schema.Types.ObjectId, ref: "House" },
-    tags: [{ type: Schema.Types.ObjectId, ref: "Tag" }],
     target: {
       type: Number,
-      // default: 0,
-      // enum: [0, 1],
       default: AdvTargetType.rents,
       enum: enumToNumArray(AdvTargetType),
     },
+    tags: [{ type: Schema.Types.ObjectId, ref: "Tag" }],
   },
-  // { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true },
+  { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true },
 );
 
 delete models.Advertisement;

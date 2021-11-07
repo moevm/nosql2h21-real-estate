@@ -1,10 +1,3 @@
-/*
-    TODO:
-    add to all shemes
-    createdAt
-    updatedAt
-*/
-
 export interface User {
   _id: string;
   firstName: string;
@@ -36,8 +29,6 @@ export interface Advertisement {
 export interface Tag {
   _id: string;
   value: string;
-  createdAt: string;
-  updatedAt: string;
 }
 export interface Reply {
   _id: string;
@@ -54,13 +45,11 @@ export interface Address {
   value: string;
   floor: number;
   door: number;
-  createdAt: string;
-  updatedAt: string;
 }
 export enum HouseType {
   house,
   flat,
-  apartament,
+  apartment,
 }
 export enum FinishingType {
   norm,
@@ -88,6 +77,4 @@ export interface House {
 
   rating: number;
   replies: Reply[];
-  createdAt: string;
-  updatedAt: string;
 }
