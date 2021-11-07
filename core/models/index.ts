@@ -29,8 +29,6 @@ export interface Advertisement {
 export interface Tag {
   _id: string;
   value: string;
-  createdAt: string;
-  updatedAt: string;
 }
 export interface Reply {
   _id: string;
@@ -47,8 +45,6 @@ export interface Address {
   value: string;
   floor: number;
   door: number;
-  createdAt: string;
-  updatedAt: string;
 }
 export enum HouseType {
   house,
@@ -81,6 +77,4 @@ export interface House {
 
   rating: number;
   replies: Reply[];
-  createdAt: string;
-  updatedAt: string;
 }

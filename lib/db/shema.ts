@@ -64,8 +64,6 @@ const HouseModelSchema = new Schema<House>(
     description: Schema.Types.String,
     type: {
       type: Number,
-      // default: 0,
-      // enum: [0, 1, 2],
       default: HouseType.house,
       enum: enumToNumArray(HouseType),
     },
@@ -76,8 +74,6 @@ const HouseModelSchema = new Schema<House>(
     year: Schema.Types.Number,
     finishing: {
       type: Number,
-      // default: 0,
-      // enum: [0, 1],
       default: FinishingType.norm,
       enum: enumToNumArray(FinishingType),
     },
@@ -94,14 +90,11 @@ export const HouseDBModel = model<House>("House", HouseModelSchema);
 /* Advertisement */
 const AdvertisementModelSchema = new Schema<Advertisement>(
   {
-    owner: { type: Schema.Types.ObjectId, ref: "User" },
     title: Schema.Types.String,
     price: Schema.Types.Number,
     house: { type: Schema.Types.ObjectId, ref: "House" },
     target: {
       type: Number,
-      // default: 0,
-      // enum: [0, 1],
       default: AdvTargetType.rents,
       enum: enumToNumArray(AdvTargetType),
     },
