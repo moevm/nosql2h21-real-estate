@@ -11,7 +11,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<SignUpResponseD
     await dbConnect();
 
     await UserDBModel.findOne({ email: data.email }).then((resUser) => {
-      if (resUser !== null) throw new Error("user with such an email already exists");
+      if (resUser !== null) throw new Error("users with such an email already exists");
     });
 
     const encodedPassword = await encodePassword(data.password!);

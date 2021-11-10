@@ -6,10 +6,13 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<AdvResponseData>): Promise<void> {
   try {
+    if (req.method !== "GET") throw Error("Only GET requests allowed!");
     const { id } = req.query;
     await dbConnect();
+
     const data = await AdvertisementDBModel.findById(id).populate("tags");
-    if (!data) throw new Error(ErrorMessagesTypes.err404);
+    if (!data) throw Error(ErrorMessagesTypes.err404);
+
     res.status(200).json({ success: true, data });
   } catch (error) {
     if (error instanceof Error) {
