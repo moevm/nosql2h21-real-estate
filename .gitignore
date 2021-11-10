@@ -1,8 +1,12 @@
 node_modules
 data-node
+data-node.*
 build
 .idea
 .next
+.idea
+.vscode
+
 .env.local
 .env.*.local
 yarn-error.log

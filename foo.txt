@@ -1,0 +1,357 @@
+[1mdiff --git a/.env b/.env[m
+[1mindex aa09ae5..53fede5 100644[m
+[1m--- a/.env[m
+[1m+++ b/.env[m
+[36m@@ -1,5 +1,4 @@[m
+ SECRET="RkUuVfL8iSAmDz81wis6ctVU1BE5ukqz1ahDVJfDyxvD6pgH8SXEbuYRP62tHZF"[m
+ JWT_KEY="TLFe2DYrzeep36fMgfvDPHRorMzQIvuAB1qmSW2u8HYdQpH7lTbR7j4IboAAwoQ"[m
+[31m-DB_HOST=mongodb://mongodb:27018/NoSQL_t1[m
+[31m-NEXTAUTH_URL="http://localhost/api/auth"[m
+[32m+[m[32mDB_HOST=mongodb://mongodb:27017/NoSQL_t1[m
+ SALT_ROUNDS=5[m
+[1mdiff --git a/.env.development b/.env.development[m
+[1mindex 53b32c2..5d823a6 100644[m
+[1m--- a/.env.development[m
+[1m+++ b/.env.development[m
+[36m@@ -1,2 +1,3 @@[m
+ NODE_ENV=development[m
+ DOCKER_VOLUME="app"[m
+[32m+[m[32m# COMPOSE_PROJECT_NAME=nosql2h21-real-estate-dev[m
+\ No newline at end of file[m
+[1mdiff --git a/.env.production b/.env.production[m
+[1mindex 0a53899..102fb76 100644[m
+[1m--- a/.env.production[m
+[1m+++ b/.env.production[m
+[36m@@ -1,2 +1,3 @@[m
+ NODE_ENV=production[m
+ DOCKER_VOLUME="null"[m
+[32m+[m[32mCOMPOSE_PROJECT_NAME=nosql2h21-real-estate-prod[m
+[1mdiff --git a/.eslintrc.json b/.eslintrc.json[m
+[1mindex 8a67b55..584ba49 100644[m
+[1m--- a/.eslintrc.json[m
+[1m+++ b/.eslintrc.json[m
+[36m@@ -41,6 +41,7 @@[m
+     "react-hooks/exhaustive-deps": "warn",[m
+     "import/prefer-default-export": "off",[m
+     // "prettier/prettier": ["error", { "endOfLine": "auto", "singleQuote": false, "tabWidth": 2 }],[m
+[32m+[m[32m    // "prettier/prettier": "warn",[m
+     "react/jsx-props-no-spreading": "off",[m
+     "import/no-extraneous-dependencies": ["error", { "devDependencies": ["src/app/core/api/mock.ts"] }],[m
+     "react/no-array-index-key": "off",[m
+[36m@@ -68,7 +69,8 @@[m
+     ],[m
+     "jsx-a11y/control-has-associated-label": "off",[m
+     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],[m
+[31m-    "indent": ["error", 2][m
+[32m+[m[32m    "indent": ["error", 2],[m
+[32m+[m[32m    "no-underscore-dangle": "off"[m
+   },[m
+   "settings": {[m
+     "import/resolver": {[m
+[1mdiff --git a/.gitignore b/.gitignore[m
+[1mindex fe7b2f2..6bd44d3 100644[m
+[1m--- a/.gitignore[m
+[1m+++ b/.gitignore[m
+[36m@@ -1,8 +1,10 @@[m
+ node_modules[m
+ data-node[m
+[32m+[m[32mdata-node.*[m
+ build[m
+ .next[m
+ .idea[m
+[32m+[m[32m.vscode[m
+ [m
+ .env.local[m
+ .env.*.local[m
+[1mdiff --git a/Dockerfile.development b/Dockerfile.development[m
+[1mindex 42d554b..370f64e 100644[m
+[1m--- a/Dockerfile.development[m
+[1m+++ b/Dockerfile.development[m
+[36m@@ -3,9 +3,10 @@[m [mFROM node:14-alpine[m
+ [m
+ WORKDIR /app[m
+ [m
+[31m-COPY package*.json ./[m
+[32m+[m[32mCOPY package.json ./[m
+[32m+[m[32mCOPY yarn.lock ./[m
+ [m
+[31m-RUN yarn install [m
+[32m+[m[32mRUN yarn install --frozen-lockfile[m[41m [m
+ [m
+ EXPOSE 3000[m
+ EXPOSE 9229[m
+[1mdiff --git a/core/models/index.ts b/core/models/index.ts[m
+[1mindex 07cb4e0..59cf4b9 100644[m
+[1m--- a/core/models/index.ts[m
+[1m+++ b/core/models/index.ts[m
+[36m@@ -17,38 +17,45 @@[m [mexport interface User {[m
+   updatedAt: string;[m
+ }[m
+ [m
+[31m-export enum AdvTarget {[m
+[32m+[m[32mexport enum AdvTargetType {[m
+   sell,[m
+   rents,[m
+ }[m
+ [m
+ export interface Advertisement {[m
+   _id: string;[m
+[31m-  owner: User;[m
+   title: string;[m
+   price: number;[m
+   house: House;[m
+[31m-  target: AdvTarget;[m
+[32m+[m[32m  target: AdvTargetType;[m
+   tags: Tag[];[m
+[32m+[m[32m  createdAt: string;[m
+[32m+[m[32m  updatedAt: string;[m
+ }[m
+ [m
+ export interface Tag {[m
+   _id: string;[m
+[31m-  name: string;[m
+[32m+[m[32m  value: string;[m
+[32m+[m[32m  createdAt: string;[m
+[32m+[m[32m  updatedAt: string;[m
+ }[m
+ export interface Reply {[m
+   _id: string;[m
+   owner: User;[m
+   text: string;[m
+   rating: number;[m
+[32m+[m[32m  createdAt: string;[m
+[32m+[m[32m  updatedAt: string;[m
+ }[m
+ [m
+ export interface Address {[m
+[31m-  x: number;[m
+[31m-  y: number;[m
+[31m-  value: string; // calc from map when created[m
+[32m+[m[32m  lat: number;[m
+[32m+[m[32m  lng: number;[m
+[32m+[m[32m  value: string;[m
+   floor: number;[m
+   door: number;[m
+[32m+[m[32m  createdAt: string;[m
+[32m+[m[32m  updatedAt: string;[m
+ }[m
+ export enum HouseType {[m
+   house,[m
+[36m@@ -56,8 +63,8 @@[m [mexport enum HouseType {[m
+   apartament,[m
+ }[m
+ export enum FinishingType {[m
+[31m-  NORM,[m
+[31m-  NENORM,[m
+[32m+[m[32m  norm,[m
+[32m+[m[32m  nenorm,[m
+ }[m
+ [m
+ export interface House {[m
+[36m@@ -81,4 +88,6 @@[m [mexport interface House {[m
+ [m
+   rating: number;[m
+   replies: Reply[];[m
+[32m+[m[32m  createdAt: string;[m
+[32m+[m[32m  updatedAt: string;[m
+ }[m
+[1mdiff --git a/core/types/api.ts b/core/types/api.ts[m
+[1mindex 5645f45..380c577 100644[m
+[1m--- a/core/types/api.ts[m
+[1m+++ b/core/types/api.ts[m
+[36m@@ -1,4 +1,4 @@[m
+[31m-import { User } from "core/models";[m
+[32m+[m[32mimport { Advertisement, House, User } from "core/models";[m
+ [m
+ export type ApiRequest<Req, Res extends Response<any>> = (data?: Req) => Promise<Res>;[m
+ export type SuccessResponse<T> = {[m
+[36m@@ -31,14 +31,31 @@[m [mexport type SignUpResponseData = Response<User>;[m
+ export type SignOutResponseData = Response<null>;[m
+ [m
+ export type UserCreateResquestData = User;[m
+[31m-[m
+ export type UserCreateResponseData = Response<User>;[m
+[31m-export type UserReadResquestData = {};[m
+ [m
+[32m+[m[32mexport type UserReadResquestData = {};[m
+ export type UserReadResponseData = Response<User>;[m
+[31m-export type UserUpdateResquestData = User;[m
+ [m
+[32m+[m[32mexport type UserUpdateResquestData = User;[m
+ export type UserUpdateResponseData = Response<User>;[m
+[31m-export type UserListResquestData = {};[m
+ [m
+[32m+[m[32mexport type UserListResquestData = {};[m
+ export type UserListResponseData = Response<User[]>;[m
+[32m+[m[32m// Adv list[m
+[32m+[m[32mexport type AdvListResquestData = {};[m
+[32m+[m[32mexport type AdvListResponseData = Response<Advertisement[]>;[m
+[32m+[m[32m// Adv current[m
+[32m+[m[32mexport type AdvResquestData = { id: string };[m
+[32m+[m[32mexport type AdvResponseData = Response<Advertisement | null>;[m
+[32m+[m[32m// Adv list[m
+[32m+[m[32mexport type HouseListResquestData = {};[m
+[32m+[m[32mexport type HouseListResponseData = Response<House[]>;[m
+[32m+[m[32m// Adv current[m
+[32m+[m[32mexport type HouseResquestData = { id: string };[m
+[32m+[m[32mexport type HouseResponseData = Response<House | null>;[m
+[32m+[m
+[32m+[m[32m// Errors msgs[m
+[32m+[m[32mexport enum ErrorMessagesTypes {[m
+[32m+[m[32m  err404 = "404",[m
+[32m+[m[32m  // TODO: ...[m
+[32m+[m[32m}[m
+[1mdiff --git a/docker-compose.yml b/docker-compose.yml[m
+[1mindex f60bfd9..474ec96 100644[m
+[1m--- a/docker-compose.yml[m
+[1m+++ b/docker-compose.yml[m
+[36m@@ -13,7 +13,7 @@[m [mservices:[m
+     depends_on:[m
+       - mongodb[m
+     volumes:[m
+[31m-      - ./data-node:/data/db[m
+[32m+[m[32m      # - ./data-node:/data/db[m
+       - ./:/${DOCKER_VOLUME}[m
+     networks:[m
+       - webappnetwork[m
+[1mdiff --git a/lib/db/shema.ts b/lib/db/shema.ts[m
+[1mindex cd68996..6a02f54 100644[m
+[1m--- a/lib/db/shema.ts[m
+[1m+++ b/lib/db/shema.ts[m
+[36m@@ -1,4 +1,5 @@[m
+[31m-import { User, Advertisement, House, Tag, Reply, Address } from "core/models";[m
+[32m+[m[32mimport { enumToNumArray } from "core/helpers/enumToNumArray";[m
+[32m+[m[32mimport { User, Advertisement, House, Tag, Reply, Address, HouseType, FinishingType, AdvTargetType } from "core/models";[m
+ import { Schema, model, models } from "mongoose";[m
+ [m
+ /* User */[m
+[36m@@ -20,9 +21,9 @@[m [mexport const UserDBModel = model<User>("User", UserModelSchema);[m
+ /* Tag */[m
+ const TagModelSchema = new Schema<Tag>([m
+   {[m
+[31m-    name: Schema.Types.String,[m
+[32m+[m[32m    value: Schema.Types.String,[m
+   },[m
+[31m-  { toJSON: { virtuals: true }, toObject: { virtuals: true } },[m
+[32m+[m[32m  { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true },[m
+ );[m
+ [m
+ delete models.Tag;[m
+[36m@@ -31,7 +32,7 @@[m [mexport const TagDBModel = model<Tag>("Tag", TagModelSchema);[m
+ /* Reply */[m
+ const ReplyModelSchema = new Schema<Reply>([m
+   {[m
+[31m-    owner: UserModelSchema,[m
+[32m+[m[32m    owner: { type: Schema.Types.ObjectId, ref: "User" },[m
+     text: Schema.Types.String,[m
+     rating: Schema.Types.Number,[m
+   },[m
+[36m@@ -44,37 +45,48 @@[m [mexport const ReplyDBModel = model<Reply>("Reply", ReplyModelSchema);[m
+ /* Address */[m
+ const AddressModelSchema = new Schema<Address>([m
+   {[m
+[31m-    x: Schema.Types.Number,[m
+[31m-    y: Schema.Types.Number,[m
+[32m+[m[32m    lat: Schema.Types.Number,[m
+[32m+[m[32m    lng: Schema.Types.Number,[m
+     value: Schema.Types.String,[m
+     floor: Schema.Types.Number,[m
+     door: Schema.Types.Number,[m
+   },[m
+[31m-  { toJSON: { virtuals: true }, toObject: { virtuals: true } },[m
+[32m+[m[32m  { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true },[m
+ );[m
+ [m
+[31m-delete models.Address;[m
+[31m-export const AddressDBModel = model<Address>("Address", AddressModelSchema);[m
+[31m-[m
+[32m+[m[32m// delete models.Address;[m
+[32m+[m[32m// export const AddressDBModel = model<Address>("Address", AddressModelSchema);[m
+ /* House */[m
+ const HouseModelSchema = new Schema<House>([m
+   {[m
+[31m-    owner: UserModelSchema,[m
+[32m+[m[32m    owner: { type: Schema.Types.ObjectId, ref: "User" },[m
+     address: AddressModelSchema,[m
+     photo: [Schema.Types.String],[m
+     description: Schema.Types.String,[m
+[31m-    type: [0, 1, 2],[m
+[32m+[m[32m    type: {[m
+[32m+[m[32m      type: Number,[m
+[32m+[m[32m      // default: 0,[m
+[32m+[m[32m      // enum: [0, 1, 2],[m
+[32m+[m[32m      default: HouseType.house,[m
+[32m+[m[32m      enum: enumToNumArray(HouseType),[m
+[32m+[m[32m    },[m
+     size: Schema.Types.Number,[m
+     hasBalcony: Schema.Types.Boolean,[m
+     countBathrooms: Schema.Types.Number,[m
+     countRoom: Schema.Types.Number,[m
+     year: Schema.Types.Number,[m
+[31m-    finishing: [0, 1],[m
+[32m+[m[32m    finishing: {[m
+[32m+[m[32m      type: Number,[m
+[32m+[m[32m      // default: 0,[m
+[32m+[m[32m      // enum: [0, 1],[m
+[32m+[m[32m      default: FinishingType.norm,[m
+[32m+[m[32m      enum: enumToNumArray(FinishingType),[m
+[32m+[m[32m    },[m
+     lenToMetro: Schema.Types.Number,[m
+     rating: Schema.Types.Number,[m
+     replies: [ReplyModelSchema],[m
+   },[m
+[31m-  { toJSON: { virtuals: true }, toObject: { virtuals: true } },[m
+[32m+[m[32m  { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true },[m
+ );[m
+ [m
+ delete models.House;[m
+[36m@@ -83,14 +95,19 @@[m [mexport const HouseDBModel = model<House>("House", HouseModelSchema);[m
+ /* Advertisement */[m
+ const AdvertisementModelSchema = new Schema<Advertisement>([m
+   {[m
+[31m-    owner: UserModelSchema,[m
+     title: Schema.Types.String,[m
+     price: Schema.Types.Number,[m
+[31m-    house: HouseModelSchema,[m
+[31m-    target: [0, 1],[m
+[31m-    tags: [TagModelSchema],[m
+[32m+[m[32m    house: { type: Schema.Types.ObjectId, ref: "House" },[m
+[32m+[m[32m    tags: [{ type: Schema.Types.ObjectId, ref: "Tag" }],[m
+[32m+[m[32m    target: {[m
+[32m+[m[32m      type: Number,[m
+[32m+[m[32m      // default: 0,[m
+[32m+[m[32m      // enum: [0, 1],[m
+[32m+[m[32m      default: AdvTargetType.rents,[m
+[32m+[m[32m      enum: enumToNumArray(AdvTargetType),[m
+[32m+[m[32m    },[m
+   },[m
+[31m-  { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true },[m
+[32m+[m[32m  // { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true },[m
+ );[m
+ [m
+ delete models.Advertisement;[m
+[1mdiff --git a/package.json b/package.json[m
+[1mindex 28c9d6c..8753dcb 100644[m
+[1m--- a/package.json[m
+[1m+++ b/package.json[m
+[36m@@ -4,7 +4,7 @@[m
+   "private": true,[m
+   "scripts": {[m
+     "dev": "NODE_OPTIONS='--inspect=0.0.0.0' NODE_ENV=development next dev",[m
+[31m-    "build": "next build",[m
+[32m+[m[32m    "build": "NODE_ENV=production next build",[m
+     "start": "next start",[m
+     "docker:dev:build": "docker-compose --env-file=./.env.development build",[m
+     "docker:dev:start": "docker-compose --env-file=./.env.development up",[m
+[1mdiff --git a/tsconfig.json b/tsconfig.json[m
+[1mindex a176629..8bf1990 100644[m
+[1m--- a/tsconfig.json[m
+[1m+++ b/tsconfig.json[m
+[36m@@ -26,6 +26,6 @@[m
+         "isolatedModules": true,[m
+         "experimentalDecorators": true[m
+     },[m
+[31m-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],[m
+[32m+[m[32m    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "lib/db/shema.old.js"],[m
+     "exclude": ["node_modules"][m
+ }[m

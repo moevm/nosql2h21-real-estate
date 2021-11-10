@@ -3,13 +3,13 @@ import crypto from "crypto";
 
 export const generateJWT = (user: User): string => {
   const head = Buffer.from(JSON.stringify({ alg: "HS256", typ: "jwt" })).toString("base64");
-  const body = Buffer.from(JSON.stringify(user)).toString("base64");
+  // eslint-disable-next-line no-underscore-dangle
+  const body = Buffer.from(JSON.stringify(user._id)).toString("base64");
   const signature = crypto
     .createHmac("SHA256", process.env.JWT_KEY || "1a2b-3c4d-5e6f-7g8h")
     .update(`${head}.${body}`)
     .digest("base64");
-  const token = `${head}.${body}.${signature}`;
-  return token;
+  return `${head}.${body}.${signature}`;
 };
 
 export const getUserIdByJWT = (token: string): string | null => {
