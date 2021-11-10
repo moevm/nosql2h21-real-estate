@@ -1,10 +1,3 @@
-/*
-    TODO:
-    add to all shemes
-    createdAt
-    updatedAt
-*/
-
 export interface User {
   _id: string;
   firstName: string;
@@ -17,47 +10,50 @@ export interface User {
   updatedAt: string;
 }
 
-export enum AdvTarget {
+export enum AdvTargetType {
   sell,
   rents,
 }
 
-export interface Adv {
+export interface Advertisement {
   _id: string;
-  owner: User;
   title: string;
   price: number;
   house: House;
-  target: AdvTarget;
+  target: AdvTargetType;
   tags: Tag[];
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Tag {
   _id: string;
-  name: string;
+  value: string;
 }
 export interface Reply {
   _id: string;
   owner: User;
   text: string;
   rating: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Address {
-  x: number;
-  y: number;
-  value: string; // calc from map when created
+  lat: number;
+  lng: number;
+  value: string;
   floor: number;
   door: number;
 }
 export enum HouseType {
   house,
   flat,
-  apartament,
+  apartment,
 }
 export enum FinishingType {
-  NORM,
-  NENORM,
+  norm,
+  nenorm,
 }
 
 export interface House {
@@ -80,5 +76,5 @@ export interface House {
   lenToMetro: number; // calc from map when created
 
   rating: number;
-  Replys: Reply[];
+  replies: Reply[];
 }

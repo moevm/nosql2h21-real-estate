@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "NODE_OPTIONS='--inspect=0.0.0.0' NODE_ENV=development next dev",
-    "build": "next build",
+    "build": "NODE_ENV=production next build",
     "start": "next start",
     "docker:dev:build": "docker-compose --env-file=./.env.development build",
     "docker:dev:start": "docker-compose --env-file=./.env.development up",
