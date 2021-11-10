@@ -11,7 +11,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<SignInResponseD
     await dbConnect();
 
     const resUser = await UserDBModel.findOne({ email: data.email });
-    if (!resUser) throw new Error("users was not found");
+    if (!resUser) throw new Error("user was not found");
 
     const correctPassword = await comparePasswords(data.password!, resUser.password!);
     if (!correctPassword) throw new Error("invalid password");
