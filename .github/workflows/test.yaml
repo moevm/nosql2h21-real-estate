@@ -16,7 +16,7 @@ jobs:
       - name: Build 🛠
         run: npm run docker:stage:build
 
-      - name: Start 😑
+      - name: Start ➡️
         run: npm run docker:stage:start
 
       - name: Test ⚙
