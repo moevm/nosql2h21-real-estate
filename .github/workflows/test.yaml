@@ -14,10 +14,10 @@ jobs:
         run: npm install
 
       - name: Build 🛠
-        run: npm docker:stage:build
+        run: npm run docker:stage:build
 
       - name: Start 😑
-        run: npm docker:stage:start
+        run: npm run docker:stage:start
 
       - name: Test ⚙
         run: npm run test
