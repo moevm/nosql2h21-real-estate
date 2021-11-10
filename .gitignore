@@ -1,6 +1,7 @@
 node_modules
 data-node
 build
+.idea
 .next
 .env.local
 .env.*.local
