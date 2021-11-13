@@ -1,5 +1,5 @@
 import { User } from "core/models";
-import dbConnect from "lib/db/dbConnect";
+
 import { parse as cookieParse } from "cookie";
 import { UserDBModel } from "lib/db/shema";
 import type { NextApiRequest } from "next";
@@ -12,6 +12,5 @@ export default async function getAuthorizedUser(req: NextApiRequest): Promise<Us
   const { accessToken } = cookie;
   const userId = getUserIdByJWT(accessToken);
   if (userId === null) return null;
-  await dbConnect();
   return UserDBModel.findById(userId);
 }

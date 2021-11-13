@@ -69,7 +69,7 @@
     ],
     "jsx-a11y/control-has-associated-label": "off",
     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
-    "indent": ["error", 2],
+    // "indent": ["error", 2],
     "no-underscore-dangle": "off"
   },
   "settings": {
