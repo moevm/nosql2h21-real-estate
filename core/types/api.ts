@@ -39,23 +39,28 @@ export type UserReadResponseData = Response<User>;
 export type UserUpdateResquestData = User;
 export type UserUpdateResponseData = Response<User>;
 
+// User current
+export type UserResquestData = { id: string };
+export type UserResponseData = Response<User | null>;
+// User list
 export type UserListResquestData = {};
 export type UserListResponseData = Response<User[]>;
-// Adv list
-export type AdvListResquestData = {};
-export type AdvListResponseData = Response<Advertisement[]>;
 // Adv current
 export type AdvResquestData = { id: string };
 export type AdvResponseData = Response<Advertisement | null>;
 // Adv list
-export type HouseListResquestData = {};
-export type HouseListResponseData = Response<House[]>;
-// Adv current
+export type AdvListResquestData = {};
+export type AdvListResponseData = Response<Advertisement[]>;
+// House current
 export type HouseResquestData = { id: string };
 export type HouseResponseData = Response<House | null>;
+// House list
+export type HouseListResquestData = {};
+export type HouseListResponseData = Response<House[]>;
 
 // Errors msgs
 export enum ErrorMessagesTypes {
   err404 = "404",
+  err401 = "401",
   // TODO: ...
 }
