@@ -3,13 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "NODE_OPTIONS='--inspect=0.0.0.0' NODE_ENV=development next dev",
-    "build": "NODE_ENV=production next build",
-    "start": "next start",
+    "dev": "nodemon",
+    "build": "NODE_ENV=production next build && tsc --project tsconfig.server.json",
+    "start": "cross-env NODE_ENV=production node dist/index.js",
     "docker:dev:build": "docker-compose --env-file=./.env.development build",
     "docker:dev:start": "docker-compose --env-file=./.env.development up",
     "docker:stage:build": "docker-compose --env-file=./.env.production build",
     "docker:stage:start": "docker-compose --env-file=./.env.production up",
+    "docker:mongo": "docker-compose up mongodb",
     "lint": "next lint --fix"
   },
   "dependencies": {
@@ -24,6 +25,7 @@
     "axios": "^0.21.4",
     "bcrypt": "^5.0.1",
     "cookie": "^0.4.1",
+    "cross-env": "^7.0.3",
     "crypto": "^1.0.1",
     "mobx": "^6.3.3",
     "mobx-react": "^7.2.0",
@@ -46,7 +48,9 @@
     "eslint-config-next": "11.1.2",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
+    "nodemon": "^2.0.15",
     "prettier": "^2.4.1",
+    "ts-node": "^10.4.0",
     "typescript": "4.4.3"
   }
 }

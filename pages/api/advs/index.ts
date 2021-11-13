@@ -1,27 +1,19 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { AdvListResponseData } from "core/types/api";
-import dbConnect from "lib/db/dbConnect";
+import { AdvListResponseData, ServerApiHandler } from "core/types/api";
+import apiHandleMethods from "lib/apiHandleMethods";
 import { AdvertisementDBModel } from "lib/db/shema";
-import type { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<AdvListResponseData>): Promise<void> {
-  try {
-    if (req.method !== "GET") throw Error("Only GET requests allowed!");
-    await dbConnect();
+const get: ServerApiHandler<{}, AdvListResponseData> = async (req, res) => {
+  const data = await AdvertisementDBModel.find()
+    .populate("tags")
+    .populate({
+      path: "house",
+      populate: {
+        path: "owner",
+      },
+    });
 
-    const data = await AdvertisementDBModel.find()
-      .populate("tags")
-      .populate({
-        path: "house",
-        populate: {
-          path: "owner",
-        },
-      });
+  res.status(200).json({ success: true, data });
+};
 
-    res.status(200).json({ success: true, data });
-  } catch (error) {
-    if (error instanceof Error) {
-      res.status(200).json({ success: false, error: error.message });
-    }
-  }
-}
+export default apiHandleMethods().get(get).prepare();
