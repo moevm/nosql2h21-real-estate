@@ -17,7 +17,7 @@ jobs:
         run: sudo docker-compose --env-file=./.env.development up -d --build
 
       - name: Wait ⏱️
-        run: sleep 100
+        run: sleep 15
 
       - name: Test ⚙
-        run: yarn run test
+        run: mocha --require ts-node/register --recursive --extension test.ts --timeout 5000

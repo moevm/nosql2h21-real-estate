@@ -9,11 +9,13 @@ describe("User app accessing test", () => {
   const agent = chai.request.agent("http://localhost:3000");
   let token = "";
 
-  before(async () => {
-    token = (await accessToken()) ?? "";
+  before(() => {
+    return accessToken().then((tk) => {
+      token = tk ?? "";
+    });
   });
 
-  it("Should log in user", () => {
+  it("Should log user in", () => {
     return agent
       .post("/api/auth/signin")
       .send(defaultUser)
