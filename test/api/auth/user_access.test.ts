@@ -17,16 +17,18 @@ describe("User app accessing test", () => {
 
   it("Should log user in", () => {
     return agent
-      .post("/api/auth/signin")
+      .put("/api/auth/signin")
       .send(defaultUser)
       .then((res) => {
+        chai.expect(res).to.have.status(200);
         chai.expect(res).to.have.cookie("accessToken", token);
       });
   });
 
   it("Should log out user", () => {
-    return agent.get("/api/auth/signout").then((res) => {
-      chai.expect(res).not.to.have.cookie("accessToken");
+    return agent.put("/api/auth/signout").then((res) => {
+      chai.expect(res).to.have.status(200);
+      chai.expect(res).to.have.cookie("accessToken", "");
     });
   });
 });

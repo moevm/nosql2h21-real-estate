@@ -17,13 +17,15 @@ describe("User account lifecycle test", () => {
         lastName: "Test",
       })
       .then((res) => {
+        chai.expect(res).to.have.status(200);
         chai.expect(res).to.have.cookie("accessToken");
       });
   });
 
   it("Should delete user", () => {
-    return agent.get("/api/auth/signout").then((res) => {
-      chai.expect(res).not.to.have.cookie("accessToken");
+    return agent.put("/api/auth/signout").then((res) => {
+      chai.expect(res).to.have.status(200);
+      chai.expect(res).to.have.cookie("accessToken", "");
     });
   });
 });

@@ -44,3 +44,8 @@ export async function accessToken(): Promise<string | null> {
     req.end();
   });
 }
+
+export function getData(text: string): any {
+  const body = JSON.parse(text);
+  return { success: body.success, data: body.data };
+}
