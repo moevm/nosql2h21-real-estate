@@ -2,7 +2,7 @@ import * as React from "react";
 import Link from "next/link";
 import { Avatar, TextField, FormControlLabel, Checkbox, Grid, Box, Typography } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { SignInResquestData } from "core/types/api";
+import { SignInRequestData } from "core/types/api";
 import authFormStore from "stores/authForm";
 import { LoadingButton } from "@mui/lab";
 import RequestStatus from "core/types/requestStatus";
@@ -11,7 +11,7 @@ const SignInForm: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const data: SignInResquestData = {
+    const data: SignInRequestData = {
       email: formData.get("email") as string,
       password: formData.get("password") as string,
     };

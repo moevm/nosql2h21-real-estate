@@ -1,13 +1,10 @@
 import { Advertisement, AdvTargetType, FinishingType, HouseType, Tag, User } from "core/models";
-import { AdvertisementDBModel, HouseDBModel, ReplyDBModel, TagDBModel, UserDBModel } from "lib/db/shema";
-import dbConnect from "lib/db/dbConnect";
+import { AdvertisementDBModel, HouseDBModel, TagDBModel, UserDBModel } from "lib/db/shema";
 import usersData from "./users.json";
 import cianData from "./cian.json";
 import tagsData from "./tags.json";
 
 export const generateDBData = async (): Promise<Advertisement[]> => {
-  await dbConnect();
-  // generate users
   if (!Array.isArray(usersData) && !Array.isArray(cianData) && !Array.isArray(tagsData)) return [];
   const tags = await TagDBModel.insertMany(tagsData.map((value) => ({ value })));
 
@@ -33,16 +30,14 @@ export const generateDBData = async (): Promise<Advertisement[]> => {
   const advsData = await Promise.all(
     cianData.map(async (record) => {
       const owner = randomUser();
-      const replies = await ReplyDBModel.insertMany(
-        new Array(Math.round(1 + Math.random() * 4)).fill(0).map(() => {
-          const user = randomUser();
-          return {
-            owner: user._id,
-            text: `Hello, im ${user.firstName} ${user.lastName}.`,
-            rating: randomInt(),
-          };
-        }),
-      );
+      const replies = new Array(Math.round(1 + Math.random() * 4)).fill(0).map(() => {
+        const user = randomUser();
+        return {
+          owner: user._id,
+          text: `Hello, im ${user.firstName} ${user.lastName}.`,
+          rating: randomInt(),
+        };
+      });
       const address = {
         lat: record.coords.lat,
         lng: record.coords.lng,

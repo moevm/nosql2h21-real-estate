@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Avatar, TextField, Grid, Box, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { SignUpResquestData } from "core/types/api";
+import { SignUpRequestData } from "core/types/api";
 import authFormStore from "stores/authForm";
 import RequestStatus from "core/types/requestStatus";
 
@@ -11,7 +11,7 @@ const SignUpForm: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const data: SignUpResquestData = {
+    const data: SignUpRequestData = {
       firstName: formData.get("firstName") as string,
       lastName: formData.get("lastName") as string,
       email: formData.get("email") as string,

@@ -1,25 +1,25 @@
 import myaxios from "core/api/axios";
 import {
   UserCreateResponseData,
-  UserCreateResquestData,
-  UserReadResquestData,
+  UserCreateRequestData,
+  UserReadRequestData,
   UserReadResponseData,
-  UserUpdateResquestData,
+  UserUpdateRequestData,
   UserUpdateResponseData,
-  UserListResquestData,
+  UserListRequestData,
   UserListResponseData,
 } from "core/types/api";
 
-function create(data: UserCreateResquestData) {
+function create(data: UserCreateRequestData) {
   return myaxios.post<UserCreateResponseData>(`/users`, data);
 }
-function read(data: UserReadResquestData) {
+function read(data: UserReadRequestData) {
   return myaxios.get<UserReadResponseData>(`/users`, data);
 }
-function update(data: UserUpdateResquestData) {
+function update(data: UserUpdateRequestData) {
   return myaxios.put<UserUpdateResponseData>(`/users`, data);
 }
-function list(data: UserListResquestData) {
+function list(data: UserListRequestData) {
   return myaxios.get<UserListResponseData>(`/users`, data);
 }
 const userApi = { create, read, update, list };

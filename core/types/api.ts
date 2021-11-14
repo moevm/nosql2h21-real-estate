@@ -1,4 +1,5 @@
 import { Advertisement, House, User } from "core/models";
+import { NextApiRequest, NextApiResponse } from "next";
 
 export type ApiRequest<Req, Res extends Response<any>> = (data?: Req) => Promise<Res>;
 export type SuccessResponse<T> = {
@@ -10,17 +11,27 @@ export type ErrorResponse = {
   error: string;
 };
 
-export type Response<T> = SuccessResponse<T> | ErrorResponse;
+export type ServerApiHandler<Req, Res, Q extends Record<string, string> = {}> = (
+  req: Omit<NextApiRequest, "body"> & { body: Req; query: Q },
+  res: NextApiResponse<Res>,
+) => Promise<any>;
+export type ServerApiHandlerWithUser<Req, Res, Q extends Record<string, string> = {}> = (
+  req: Omit<NextApiRequest, "body"> & { body: Req; query: Q },
+  res: NextApiResponse<Res>,
+  user: User,
+) => Promise<any>;
+
+export type Response<T extends any = {}> = SuccessResponse<T> | ErrorResponse;
 
 export type UserAuthInfoResponse = Response<User>;
 
-export type SignInResquestData = {
+export type SignInRequestData = {
   email: User["email"];
   password: User["password"];
 };
 export type SignInResponseData = Response<User>;
 
-export type SignUpResquestData = {
+export type SignUpRequestData = {
   firstName: User["firstName"];
   lastName: User["lastName"];
   email: User["email"];
@@ -30,32 +41,37 @@ export type SignUpResponseData = Response<User>;
 
 export type SignOutResponseData = Response<null>;
 
-export type UserCreateResquestData = User;
+export type UserCreateRequestData = User;
 export type UserCreateResponseData = Response<User>;
 
-export type UserReadResquestData = {};
+export type UserReadRequestData = {};
 export type UserReadResponseData = Response<User>;
 
-export type UserUpdateResquestData = User;
+export type UserUpdateRequestData = User;
 export type UserUpdateResponseData = Response<User>;
 
-export type UserListResquestData = {};
+// User current
+export type UserRequestData = { id: string };
+export type UserResponseData = Response<User | null>;
+// User list
+export type UserListRequestData = {};
 export type UserListResponseData = Response<User[]>;
-// Adv list
-export type AdvListResquestData = {};
-export type AdvListResponseData = Response<Advertisement[]>;
 // Adv current
-export type AdvResquestData = { id: string };
+export type AdvRequestData = { id: string };
 export type AdvResponseData = Response<Advertisement | null>;
 // Adv list
-export type HouseListResquestData = {};
-export type HouseListResponseData = Response<House[]>;
-// Adv current
-export type HouseResquestData = { id: string };
+export type AdvListRequestData = {};
+export type AdvListResponseData = Response<Advertisement[]>;
+// House current
+export type HouseRequestData = { id: string };
 export type HouseResponseData = Response<House | null>;
+// House list
+export type HouseListRequestData = {};
+export type HouseListResponseData = Response<House[]>;
 
 // Errors msgs
 export enum ErrorMessagesTypes {
   err404 = "404",
+  err401 = "401",
   // TODO: ...
 }

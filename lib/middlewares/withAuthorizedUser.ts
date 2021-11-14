@@ -1,11 +1,7 @@
-import { User } from "core/models";
-import type { NextApiRequest, NextApiResponse } from "next";
+import { ServerApiHandler, ServerApiHandlerWithUser } from "core/types/api";
 import getAuthorizedUser from "../auth/getAuthorizedUser";
 
-type Handler = (req: NextApiRequest, res: NextApiResponse) => Promise<void>;
-type HandlerWithUser = (req: NextApiRequest, res: NextApiResponse, user: User) => Promise<void>;
-
-export default function withAuthorizedUser(handler: HandlerWithUser): Handler {
+export default function withAuthorizedUser(handler: ServerApiHandlerWithUser<any, any>): ServerApiHandler<any, any> {
   return async (req, res) => {
     const user = await getAuthorizedUser(req);
     if (user === null) {

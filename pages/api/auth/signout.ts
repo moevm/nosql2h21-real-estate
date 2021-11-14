@@ -1,13 +1,10 @@
-import { SignOutResponseData } from "core/types/api";
-import type { NextApiRequest, NextApiResponse } from "next";
+import { ServerApiHandler, SignOutResponseData } from "core/types/api";
 import { serialize } from "cookie";
+import apiHandleMethods from "lib/apiHandleMethods";
 
-async function handler(req: NextApiRequest, res: NextApiResponse<SignOutResponseData>): Promise<void> {
-  try {
-    res.setHeader("Set-Cookie", [serialize("accessToken", "", { maxAge: 0 })]);
-    res.status(200).json({ success: true, data: null });
-  } catch (error) {
-    res.status(200).json({ success: false, error: (error as Error).message });
-  }
-}
-export default handler;
+const post: ServerApiHandler<{}, SignOutResponseData> = async (req, res) => {
+  res.setHeader("Set-Cookie", [serialize("accessToken", "", { maxAge: 0 })]);
+  res.status(200).json({ success: true, data: null });
+};
+
+export default apiHandleMethods().post(post).prepare();
