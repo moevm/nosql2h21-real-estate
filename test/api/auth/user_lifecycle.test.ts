@@ -18,13 +18,12 @@ describe("User account lifecycle test", () => {
       })
       .then((res) => {
         chai.expect(res).to.have.cookie("accessToken");
-        chai.expect(res).to.not.have.cookie("accessToken", "");
       });
   });
 
   it("Should delete user", () => {
     return agent.get("/api/auth/signout").then((res) => {
-      chai.expect(res).to.have.cookie("accessToken", "");
+      chai.expect(res).not.to.have.cookie("accessToken");
     });
   });
 });

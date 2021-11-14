@@ -1,4 +1,4 @@
-import https from "https";
+import http from "http";
 
 let token = "";
 
@@ -17,7 +17,7 @@ export async function accessToken(): Promise<string | null> {
     }
 
     const data = JSON.stringify(defaultUser);
-    const req = https.request(
+    const req = http.request(
       {
         method: "POST",
         hostname: "localhost",
@@ -29,9 +29,11 @@ export async function accessToken(): Promise<string | null> {
         },
       },
       (res) => {
-        const tk = res.headers.cookie?.split(";").find((cookie) => {
-          return cookie.split("=")[0] === "accessToken";
-        });
+        const tk = res.headers["set-cookie"]
+          ?.find((cookie) => {
+            return cookie.split("=")[0] === "accessToken";
+          })
+          ?.split("=")[1];
         if (tk) {
           token = tk;
           resolve(tk);
