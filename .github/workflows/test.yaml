@@ -13,11 +13,11 @@ jobs:
       - name: Install 🔧
         run: yarn install
 
-      - name: Build 🛠
-        run: sudo docker-compose --env-file=./.env.development up -d --build
+      - name: Launch 🛠
+        run: yarn run docker:dev:launch
 
       - name: Wait ⏱️
-        run: sleep 15
+        run: sleep 60
 
       - name: Test ⚙
         run: yarn run test

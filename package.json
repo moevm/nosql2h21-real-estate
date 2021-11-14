@@ -8,6 +8,7 @@
     "start": "cross-env NODE_ENV=production node dist/index.js",
     "docker:dev:build": "docker-compose --env-file=./.env.development build",
     "docker:dev:start": "docker-compose --env-file=./.env.development up",
+    "docker:dev:launch": "docker-compose --env-file=./.env.development up -d --build",
     "docker:stage:build": "docker-compose --env-file=./.env.production build",
     "docker:stage:start": "docker-compose --env-file=./.env.production up",
     "docker:mongo": "docker-compose up mongodb",
