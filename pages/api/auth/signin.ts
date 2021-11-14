@@ -4,7 +4,7 @@ import { UserDBModel } from "lib/db/shema";
 import { serialize } from "cookie";
 import apiHandleMethods from "lib/apiHandleMethods";
 
-const post: ServerApiHandler<SignUpRequestData, SignInResponseData> = async (req, res) => {
+const put: ServerApiHandler<SignUpRequestData, SignInResponseData> = async (req, res) => {
   const data = req.body;
   const resUser = await UserDBModel.findOne({ email: data.email });
   if (!resUser) throw new Error("user was not found");
@@ -19,4 +19,4 @@ const post: ServerApiHandler<SignUpRequestData, SignInResponseData> = async (req
   res.status(200).json({ success: true, data: resUser });
 };
 
-export default apiHandleMethods().post(post).prepare();
+export default apiHandleMethods().put(put).prepare();
