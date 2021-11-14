@@ -35,7 +35,7 @@ const apiHandleMethods = <Q extends Record<string, string> = {}>() => {
             return res.status(404).json({ success: false, error: "page not found" });
           } catch (error) {
             if (error instanceof Error) {
-              res.status(200).json({ success: false, error: error.message });
+              res.status(500).json({ success: false, error: error.message });
             }
           }
         },
