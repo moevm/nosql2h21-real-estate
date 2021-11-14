@@ -2,9 +2,9 @@
 import chai from "chai";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import chaiHttp from "chai-http";
-import { defaultUser } from "../../test_env";
+import { defaultUser } from "../test_env";
 
-describe("User creation test", () => {
+describe("User app accessing test", () => {
   chai.use(chaiHttp);
   const agent = chai.request.agent("http://localhost:3000");
 

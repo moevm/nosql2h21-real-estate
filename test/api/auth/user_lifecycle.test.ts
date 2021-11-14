@@ -3,7 +3,7 @@ import chai from "chai";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import chaiHttp from "chai-http";
 
-describe("User creation test", () => {
+describe("User account lifecycle test", () => {
   chai.use(chaiHttp);
   const agent = chai.request.agent("http://localhost:3000");
 
