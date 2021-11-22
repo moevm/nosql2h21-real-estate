@@ -1,11 +1,12 @@
 import { AdvCard } from "components/moleculs";
 import AdvCardLoading from "components/moleculs/advCard/AdvCardLoading";
+
 import { observer } from "mobx-react";
 import React from "react";
 import advsStore from "stores/advs";
 import PaginatedList from "../paginatedList";
 
-const HousesList: React.FC = () => {
+const AdvsList: React.FC = () => {
   return (
     <>
       потом фильтры сюда бахну
@@ -14,4 +15,4 @@ const HousesList: React.FC = () => {
   );
 };
 
-export default observer(HousesList);
+export default observer(AdvsList);

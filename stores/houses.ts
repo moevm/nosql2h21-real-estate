@@ -5,7 +5,7 @@ import { AdvListRequestData } from "core/types/api";
 import PaginatedList from "./helpers/PaginatedListStore";
 import toasts from "./toasts";
 
-class AdvsStore extends PaginatedList<Advertisement, typeof advApi.list> {
+class HousesStore extends PaginatedList<Advertisement, typeof advApi.list> {
   constructor() {
     super(advApi.list);
     makeObservable(this, {
@@ -27,5 +27,5 @@ class AdvsStore extends PaginatedList<Advertisement, typeof advApi.list> {
   }
 }
 
-const advsStore = new AdvsStore();
-export default advsStore;
+const housesStore = new HousesStore();
+export default housesStore;

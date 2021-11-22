@@ -2,6 +2,9 @@ import { Advertisement, House, User } from "core/models";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export type ApiQuery<Req, Res extends ResponseData<any>> = (data: Req) => Promise<Res>;
+export type ApiQueryWithPagintaion<Req extends RequestDataWithPagintaion, Res extends ResponseDataWithPagintaion> = (
+  data: Req,
+) => Promise<Res>;
 
 export type SuccessResponse<T> = {
   success: true;
@@ -74,8 +77,8 @@ export type AdvReadResponseData = ResponseData<Advertisement | null>;
 export type AdvListRequestData = RequestDataWithPagintaion<{}>;
 export type AdvListResponseData = ResponseDataWithPagintaion<Advertisement[]>;
 // House current
-export type HouseRequestData = RequestData<{ id: string }>;
-export type HouseResponseData = ResponseData<House | null>;
+export type HouseReadRequestData = RequestData<{ id: string }>;
+export type HouseReadResponseData = ResponseData<House | null>;
 // House list
 export type HouseListRequestData = RequestDataWithPagintaion<{}>;
 export type HouseListResponseData = ResponseDataWithPagintaion<House[]>;
