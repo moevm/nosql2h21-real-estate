@@ -1,9 +1,10 @@
 import apiHandleMethods from "lib/apiHandleMethods";
 import withAuthorizedUser from "lib/middlewares/withAuthorizedUser";
-import { AdvResponseData, ErrorMessagesTypes, ServerApiHandler } from "core/types/api";
+import { AdvReadResponseData, ErrorMessagesTypes, ServerApiHandler } from "core/types/api";
 import { AdvertisementDBModel, HouseDBModel, TagDBModel } from "lib/db/shema";
 
-const post: ServerApiHandler<{}, AdvResponseData> = withAuthorizedUser(async (req, res, user) => {
+// FIXME: change body type
+const post: ServerApiHandler<{}, AdvReadResponseData> = withAuthorizedUser(async (req, res, user) => {
   const ins = JSON.parse(req.body);
   ins.house = HouseDBModel.findById(ins.house).populate("owner");
   if (ins.house.owner._id !== user!!._id) throw Error(ErrorMessagesTypes.err401);
