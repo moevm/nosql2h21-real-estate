@@ -1,7 +1,7 @@
 import React from "react";
 import { ApiQueryWithPagintaion, RequestDataWithPagintaion, ResponseDataWithPagintaion } from "core/types/api";
 import PaginatedListStore from "stores/helpers/PaginatedListStore";
-import PaginatedList from "components/organisms/PaginatedList";
+import { PaginatedList } from "components/organisms";
 // waste
 export const usePaginatedList = <
   T,

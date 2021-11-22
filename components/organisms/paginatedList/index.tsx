@@ -1,4 +1,4 @@
-import PaginationFooter from "components/moleculs/PaginationFooter";
+import { PaginationFooter } from "components/moleculs";
 import { ApiQueryWithPagintaion, RequestDataWithPagintaion, ResponseDataWithPagintaion } from "core/types/api";
 import RequestStatus from "core/types/requestStatus";
 import { observer } from "mobx-react";

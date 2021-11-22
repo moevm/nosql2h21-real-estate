@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import { Container } from "@mui/material";
-import { SignInForm, SignUpForm } from "components/organisms/AuthForms";
+import { SignInForm, SignUpForm } from "components/organisms";
 import { useRouter } from "next/dist/client/router";
 
 type QueryParams = {
