@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { HouseListRequestData, HouseListResponseData, ServerApiHandler } from "core/types/api";
-import apiHandleMethods from "lib/apiHandleMethods";
-import { HouseDBModel } from "lib/db/shema";
+import apiHandleMethods from "serverSide/apiHandleMethods";
+import { HouseDBModel } from "serverSide/db/shema";
 
 const post: ServerApiHandler<HouseListRequestData, HouseListResponseData> = async (req, res) => {
   const { body } = req;

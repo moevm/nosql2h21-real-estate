@@ -1,7 +1,7 @@
-import apiHandleMethods from "lib/apiHandleMethods";
+import apiHandleMethods from "serverSide/apiHandleMethods";
 import { AdvListResponseData, ErrorMessagesTypes, ServerApiHandler } from "core/types/api";
-import { AdvertisementDBModel } from "lib/db/shema";
-import getAuthorizedUser from "lib/auth/getAuthorizedUser";
+import { AdvertisementDBModel } from "serverSide/db/shema";
+import getAuthorizedUser from "serverSide/auth/getAuthorizedUser";
 
 const get: ServerApiHandler<{}, AdvListResponseData> = async (req, res) => {
   const user = await getAuthorizedUser(req);

@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { AdvListRequestData, AdvListResponseData, ServerApiHandler } from "core/types/api";
-import apiHandleMethods from "lib/apiHandleMethods";
-import { AdvertisementDBModel } from "lib/db/shema";
+import apiHandleMethods from "serverSide/apiHandleMethods";
+import { AdvertisementDBModel } from "serverSide/db/shema";
 
 const post: ServerApiHandler<AdvListRequestData, AdvListResponseData> = async (req, res) => {
   const { body } = req;

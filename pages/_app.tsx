@@ -11,7 +11,7 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import ToastManager from "components/organisms/toastManager";
+import ToastManager from "components/organisms/ToastManager";
 
 const MyApp: NextPage<AppProps> = ({ Component, pageProps }) => {
   useEffect(() => {

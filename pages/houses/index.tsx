@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import WithBar from "components/templates/withBar";
-import HousesList from "components/organisms/housesList";
+import WithBar from "components/templates/WithBar";
+import HousesList from "components/organisms/HousesList";
 
 const Advs: NextPage = () => {
   return (

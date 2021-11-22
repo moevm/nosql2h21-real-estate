@@ -1,4 +1,4 @@
-import WithBar from "components/templates/withBar";
+import WithBar from "components/templates/WithBar";
 import { observer } from "mobx-react";
 import type { NextPage } from "next";
 import authStore from "stores/auth";

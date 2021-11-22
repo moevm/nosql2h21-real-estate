@@ -1,5 +1,5 @@
 import { AdvCard } from "components/moleculs";
-import PaginationFooter from "components/moleculs/paginationFooter";
+import PaginationFooter from "components/moleculs/PaginationFooter";
 import RequestStatus from "core/types/requestStatus";
 import { observer } from "mobx-react";
 import React, { useEffect } from "react";

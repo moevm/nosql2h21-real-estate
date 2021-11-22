@@ -1,9 +1,9 @@
 import { AdvCard } from "components/moleculs";
-import AdvCardLoading from "components/moleculs/advCard/AdvCardLoading";
+import AdvCardLoading from "components/moleculs/AdvCard/AdvCardLoading";
 import { observer } from "mobx-react";
 import React from "react";
 import advsStore from "stores/advs";
-import PaginatedList from "../paginatedList";
+import PaginatedList from "../PaginatedList";
 
 const HousesList: React.FC = () => {
   return (

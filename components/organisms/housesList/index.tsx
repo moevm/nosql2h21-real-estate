@@ -1,11 +1,11 @@
-import HouseCard from "components/moleculs/houseCard";
-import HouseCardLoading from "components/moleculs/houseCard/HouseCardLoading";
+import HouseCard from "components/moleculs/HouseCard";
+import HouseCardLoading from "components/moleculs/HouseCard/HouseCardLoading";
 
 import { observer } from "mobx-react";
 import React from "react";
 import housesStore from "stores/houses";
 
-import PaginatedList from "../paginatedList";
+import PaginatedList from "../PaginatedList";
 
 const HousesList: React.FC = () => {
   return (
