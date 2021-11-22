@@ -1,13 +1,13 @@
 import { makeObservable, observable, override } from "mobx";
-import advApi from "core/api/db/adv";
-import { Advertisement } from "core/models";
+import { House } from "core/models";
 import { AdvListRequestData } from "core/types/api";
+import houseApi from "core/api/db/house";
 import PaginatedList from "./helpers/PaginatedListStore";
 import toasts from "./toasts";
 
-class HousesStore extends PaginatedList<Advertisement, typeof advApi.list> {
+class HousesStore extends PaginatedList<House, typeof houseApi.list> {
   constructor() {
-    super(advApi.list);
+    super(houseApi.list);
     makeObservable(this, {
       filters: observable,
       loadList: override,

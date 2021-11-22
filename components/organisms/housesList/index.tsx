@@ -1,18 +1,19 @@
-import { AdvCard } from "components/moleculs";
-import AdvCardLoading from "components/moleculs/advCard/AdvCardLoading";
+import HouseCard from "components/moleculs/houseCard";
+import HouseCardLoading from "components/moleculs/houseCard/HouseCardLoading";
 
 import { observer } from "mobx-react";
 import React from "react";
-import advsStore from "stores/advs";
+import housesStore from "stores/houses";
+
 import PaginatedList from "../paginatedList";
 
-const AdvsList: React.FC = () => {
+const HousesList: React.FC = () => {
   return (
     <>
       потом фильтры сюда бахну
-      <PaginatedList store={advsStore} RowComponent={AdvCard} RowLoadingComponent={AdvCardLoading} />
+      <PaginatedList store={housesStore} RowComponent={HouseCard} RowLoadingComponent={HouseCardLoading} />
     </>
   );
 };
 
-export default observer(AdvsList);
+export default observer(HousesList);

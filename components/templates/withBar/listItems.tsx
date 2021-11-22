@@ -21,6 +21,14 @@ export const mainListItems = (
         <ListItemText primary="Advs" />
       </ListItem>
     </Link>
+    <Link href="/houses" passHref>
+      <ListItem button>
+        <ListItemIcon>
+          <Receipt />
+        </ListItemIcon>
+        <ListItemText primary="Houses" />
+      </ListItem>
+    </Link>
     {/* <Link href="/auth/signin" passHref>
       <ListItem button>
         <ListItemIcon>

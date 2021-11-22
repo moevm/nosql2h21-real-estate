@@ -12,5 +12,5 @@ export default async function getAuthorizedUser(req: NextApiRequest): Promise<Us
   const { accessToken } = cookie;
   const userId = getUserIdByJWT(accessToken);
   if (userId === null) return null;
-  return UserDBModel.findById(userId);
+  return UserDBModel.findById(userId).select("+password");
 }

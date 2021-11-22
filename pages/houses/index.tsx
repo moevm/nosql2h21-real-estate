@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import WithBar from "components/templates/withBar";
-import AdvsList from "components/organisms/advsList";
+import HousesList from "components/organisms/housesList";
 
 const Advs: NextPage = () => {
   return (
@@ -9,8 +9,7 @@ const Advs: NextPage = () => {
       <Head>
         <title>NoSQL | Advs</title>
       </Head>
-      
-      <AdvsList />
+      <HousesList />
     </WithBar>
   );
 };
