@@ -5,8 +5,10 @@ import { serialize } from "cookie";
 import apiHandleMethods from "serverSide/apiHandleMethods";
 
 const post: ServerApiHandler<SignUpRequestData, SignInResponseData> = async (req, res) => {
+  // eslint-disable-next-line no-debugger
+  debugger;
   const data = req.body;
-  const resUser = await UserDBModel.findOne({ email: data.email });
+  const resUser = await UserDBModel.findOne({ email: data.email }).select("+passwors");
   if (!resUser) throw new Error("user was not found");
 
   const correctPassword = await comparePasswords(data.password!, resUser.password!);
@@ -19,4 +21,5 @@ const post: ServerApiHandler<SignUpRequestData, SignInResponseData> = async (req
   res.status(200).json({ success: true, data: resUser });
 };
 
+// export default post;
 export default apiHandleMethods().post(post).prepare();

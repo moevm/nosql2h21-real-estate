@@ -3,7 +3,7 @@ import { ResponseData } from "core/types/api";
 import toasts from "stores/toasts";
 
 const myaxios = axios.create({
-  baseURL: "api",
+  baseURL: "/api",
   headers: {
     "Content-Type": "application/json",
     // "Access-Control-Allow-Origin": process.env.API_PATH,
