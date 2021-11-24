@@ -52,7 +52,7 @@ describe("User test", () => {
   });
 
   it("Should delete user", async () => {
-    const res = await agent.put("/api/auth/signout");
+    const res = await agent.delete("/api/auth/signup");
     chai.expect(res).to.have.status(200);
     chai.expect(res).to.have.cookie("accessToken", "");
   });

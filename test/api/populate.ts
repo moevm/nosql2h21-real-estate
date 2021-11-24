@@ -17,10 +17,11 @@ export const defaultUser = {
   },
   token: "",
   house: "",
+  id: "",
 };
 
-function populate(path: string, data: any, auth = "", getToken = false): Promise<string | any> {
-  return new Promise<string | any>((resolve, reject) => {
+function populate(path: string, data: any, auth = "", getToken = false): Promise<{ data: any; token: string | null }> {
+  return new Promise<{ data: any; token: string | null }>((resolve, reject) => {
     const dataStr = JSON.stringify(data);
     const req = http.request(
       {
@@ -47,9 +48,9 @@ function populate(path: string, data: any, auth = "", getToken = false): Promise
             if (value.success) {
               if (getToken) {
                 const tk = getTokenCookie(res.headers["set-cookie"] ?? []);
-                if (tk) resolve(tk);
+                if (tk) resolve({ data: value.data, token: tk });
                 else reject(Error("No access token was specified!"));
-              } else resolve(value.data);
+              } else resolve({ data: value.data, token: null });
             } else reject(Error("Request unsuccessful!"));
           } catch (e) {
             reject(Error(`Server error happened!\n${body}`));
@@ -65,19 +66,24 @@ function populate(path: string, data: any, auth = "", getToken = false): Promise
 // Creating test user and other user (to demonstrate difference between ALL and MY (houses and advertisements))
 let otherToken = "";
 before(async () => {
-  defaultUser.token = (await populate("/api/auth/signup", defaultUser.user, "", true)) ?? "";
+  const { data, token } = await populate("/api/auth/signup", defaultUser.user, "", true);
+  defaultUser.token = token ?? "";
+  defaultUser.id = data._id;
 
-  otherToken = await populate(
-    "/api/auth/signup",
-    {
-      email: "other.user@site.com",
-      password: "09876",
-      firstName: "User",
-      lastName: "Other",
-    },
-    "",
-    true,
-  );
+  otherToken =
+    (
+      await populate(
+        "/api/auth/signup",
+        {
+          email: "other.user@site.com",
+          password: "09876",
+          firstName: "User",
+          lastName: "Other",
+        },
+        "",
+        true,
+      )
+    ).token ?? "";
 });
 
 // Creating other users house and my house
@@ -106,30 +112,32 @@ before(async () => {
       },
       defaultUser.token,
     )
-  )._id;
+  ).data._id;
 
-  house = await populate(
-    "/api/houses/new",
-    {
-      address: {
-        lat: 10,
-        lng: -10,
-        value: "Pushkina st., Kolotushkikna h.",
-        floor: 7,
-        door: 19,
+  house = (
+    await populate(
+      "/api/houses/new",
+      {
+        address: {
+          lat: 10,
+          lng: -10,
+          value: "Pushkina st., Kolotushkikna h.",
+          floor: 7,
+          door: 19,
+        },
+        photo: ["https://picsum.photos/seed/picsum/200/300", "https://picsum.photos/seed/picsum/200/300"],
+        description: "a house",
+        type: 1,
+        size: 149,
+        hasBalcony: true,
+        countBathrooms: 5,
+        countRoom: 13,
+        year: 1934,
+        finishing: 1,
       },
-      photo: ["https://picsum.photos/seed/picsum/200/300", "https://picsum.photos/seed/picsum/200/300"],
-      description: "a house",
-      type: 1,
-      size: 149,
-      hasBalcony: true,
-      countBathrooms: 5,
-      countRoom: 13,
-      year: 1934,
-      finishing: 1,
-    },
-    otherToken,
-  );
+      otherToken,
+    )
+  ).data._id;
 });
 
 // Creating other users advertisement
@@ -139,7 +147,7 @@ before(async () => {
     {
       title: "Other user's advertisement",
       price: 1000,
-      house: house._id,
+      house: house,
       target: 1,
       tags: [],
     },
