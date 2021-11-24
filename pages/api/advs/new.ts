@@ -3,6 +3,7 @@ import withAuthorizedUser from "lib/middlewares/withAuthorizedUser";
 import { AdvResponseData, ErrorMessagesTypes, ServerApiHandler } from "core/types/api";
 import { AdvertisementDBModel, HouseDBModel } from "lib/db/shema";
 
+// Bundles nothing
 const post: ServerApiHandler<{}, AdvResponseData> = withAuthorizedUser(async (req, res, user) => {
   const data = req.body;
 

@@ -3,6 +3,7 @@ import { ErrorMessagesTypes, ServerApiHandler, UserResponseData } from "core/typ
 import apiHandleMethods from "lib/apiHandleMethods";
 import { UserDBModel } from "lib/db/shema";
 
+// Bundles nothing.
 const get: ServerApiHandler<{}, UserResponseData> = async (req, res) => {
   const { id } = req.query;
   const data = await UserDBModel.findById(id);

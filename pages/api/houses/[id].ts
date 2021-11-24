@@ -4,6 +4,7 @@ import apiHandleMethods from "lib/apiHandleMethods";
 import { HouseDBModel } from "lib/db/shema";
 import withAuthorizedUser from "../../../lib/middlewares/withAuthorizedUser";
 
+// Bundles User
 const get: ServerApiHandler<{}, HouseResponseData> = async (req, res) => {
   const { id } = req.query;
 
@@ -13,10 +14,11 @@ const get: ServerApiHandler<{}, HouseResponseData> = async (req, res) => {
   res.status(200).json({ success: true, data });
 };
 
+// Bundles nothing
 const del: ServerApiHandler<{}, AdvResponseData> = withAuthorizedUser(async (req, res, user) => {
   const { id } = req.query;
 
-  const data = await HouseDBModel.findById(id).populate("owner");
+  const data = await HouseDBModel.findById(id);
   if (!data) throw Error(ErrorMessagesTypes.err404);
 
   const houseOwner = data.owner._id as any;

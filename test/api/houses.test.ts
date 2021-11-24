@@ -69,6 +69,7 @@ describe("Houses test", () => {
     chai.expect(data.length).to.be.equal(2);
   });
 
+  // TODO: revise for deletion!!
   it("Should get list of all houses", async () => {
     const res = await agent.get("/api/houses");
     chai.expect(res).to.have.status(200);

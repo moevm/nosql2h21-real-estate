@@ -1,16 +1,56 @@
 import apiHandleMethods from "lib/apiHandleMethods";
 import { AdvListResponseData, ErrorMessagesTypes, ServerApiHandler } from "core/types/api";
-import { AdvertisementDBModel } from "lib/db/shema";
+import { AdvertisementDBModel, HouseDBModel, TagDBModel, UserDBModel } from "lib/db/shema";
 import withAuthorizedUser from "../../../lib/middlewares/withAuthorizedUser";
 
+// Bundles House and Tags
 const get: ServerApiHandler<{}, AdvListResponseData> = withAuthorizedUser(async (req, res, user) => {
-  // FIXME: the line just won't follow documentation https://docs.mongodb.com/manual/tutorial/query-embedded-documents/#query-on-nested-field
-  const data = await AdvertisementDBModel.find({ "house.owner._id": user._id }).populate({
-    path: "house",
-    populate: {
-      path: "owner",
+  const data = await AdvertisementDBModel.aggregate([
+    {
+      $lookup: {
+        from: HouseDBModel.collection.name,
+        localField: "house",
+        foreignField: "_id",
+        as: "house",
+      },
     },
-  });
+    {
+      $set: {
+        house: { $first: "$house" },
+      },
+    },
+    {
+      $lookup: {
+        from: UserDBModel.collection.name,
+        localField: "house.owner",
+        foreignField: "_id",
+        as: "house.owner",
+      },
+    },
+    {
+      $set: {
+        "house.owner": { $first: "$house.owner" },
+      },
+    },
+    {
+      $match: {
+        "house.owner._id": user._id,
+      },
+    },
+    {
+      $set: {
+        "house.owner": user._id,
+      },
+    },
+    {
+      $lookup: {
+        from: TagDBModel.collection.name,
+        localField: "tags",
+        foreignField: "_id",
+        as: "tags",
+      },
+    },
+  ]);
   if (!data) throw Error(ErrorMessagesTypes.err404);
 
   res.status(200).json({ success: true, data });
