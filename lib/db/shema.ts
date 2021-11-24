@@ -39,8 +39,6 @@ const ReplyModelSchema = new Schema<Reply>(
   { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true },
 );
 
-delete models.Reply;
-
 /* Address */
 const AddressModelSchema = new Schema<Address>(
   {
@@ -52,8 +50,6 @@ const AddressModelSchema = new Schema<Address>(
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true } },
 );
-
-delete models.Address;
 
 /* House */
 const HouseModelSchema = new Schema<House>(
