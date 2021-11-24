@@ -6,17 +6,18 @@ import apiHandleMethods from "lib/apiHandleMethods";
 
 const put: ServerApiHandler<SignUpRequestData, SignInResponseData> = async (req, res) => {
   const data = req.body;
-  const resUser = await UserDBModel.findOne({ email: data.email });
-  if (!resUser) throw new Error("user was not found");
 
-  const correctPassword = await comparePasswords(data.password!, resUser.password!);
+  const result = await UserDBModel.findOne({ email: data.email });
+  if (!result) throw new Error("user was not found");
+
+  const correctPassword = await comparePasswords(data.password!, result.password!);
   if (!correctPassword) throw new Error("invalid password");
 
-  const jwt = generateJWT(resUser);
+  const jwt = generateJWT(result);
   res.setHeader("Set-Cookie", [serialize("accessToken", jwt)]);
 
-  delete resUser.password;
-  res.status(200).json({ success: true, data: resUser });
+  delete result.password;
+  res.status(200).json({ success: true, data: result });
 };
 
 export default apiHandleMethods().put(put).prepare();
