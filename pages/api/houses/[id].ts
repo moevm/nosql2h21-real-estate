@@ -1,5 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { HouseResponseData, ErrorMessagesTypes, ServerApiHandler, AdvResponseData } from "core/types/api";
+import { HouseResponseData, ErrorMessagesTypes, ServerApiHandler, AdvResponseData, ReplyResponseData } from "core/types/api";
 import apiHandleMethods from "lib/apiHandleMethods";
 import { HouseDBModel } from "lib/db/shema";
 import withAuthorizedUser from "../../../lib/middlewares/withAuthorizedUser";
@@ -29,4 +29,25 @@ const del: ServerApiHandler<{}, AdvResponseData> = withAuthorizedUser(async (req
   res.status(200).json({ success: true, data });
 });
 
-export default apiHandleMethods().get(get).delete(del).prepare();
+// Bundles nothing.
+const post: ServerApiHandler<{}, ReplyResponseData> = withAuthorizedUser(async (req, res, user) => {
+  const { id } = req.query;
+
+  const data = req.body;
+
+  data.rating = data.rating > 5 ? 5 : data.rating;
+  data.rating = data.rating < 0 ? 0 : data.rating;
+
+  const house = await HouseDBModel.findByIdAndUpdate(
+    id,
+    { $push: { replies: { owner: user._id, text: data.text, rating: data.rating } } },
+    { new: true },
+  );
+  if (!house) throw new Error(ErrorMessagesTypes.err404);
+
+  const result = house.replies.slice(-1)[0];
+
+  res.status(200).json({ success: true, data: result });
+});
+
+export default apiHandleMethods().get(get).post(post).delete(del).prepare();

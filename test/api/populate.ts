@@ -140,6 +140,27 @@ before(async () => {
   ).data._id;
 });
 
+// Creating other users reply and my reply
+before(async () => {
+  await populate(
+    `/api/houses/${house}`,
+    {
+      text: "Awesome house! My house.",
+      rating: 5,
+    },
+    otherToken,
+  );
+
+  await populate(
+    `/api/houses/${house}`,
+    {
+      text: "Good enough house, liked it!",
+      rating: 3.5,
+    },
+    defaultUser.token,
+  );
+});
+
 // Creating other users advertisement
 before(async () => {
   await populate(
@@ -147,9 +168,9 @@ before(async () => {
     {
       title: "Other user's advertisement",
       price: 1000,
-      house: house,
+      house,
       target: 1,
-      tags: [],
+      tags: ["other", "foreign", "house"],
     },
     otherToken,
   );

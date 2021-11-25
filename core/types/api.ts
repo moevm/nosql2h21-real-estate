@@ -1,4 +1,4 @@
-import { Advertisement, House, User } from "core/models";
+import { Advertisement, House, Reply, Tag, User } from "core/models";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export type ApiRequest<Req, Res extends Response<any>> = (data?: Req) => Promise<Res>;
@@ -68,6 +68,15 @@ export type HouseResponseData = Response<House | null>;
 // House list
 export type HouseListRequestData = {};
 export type HouseListResponseData = Response<House[]>;
+// Tag list
+export type TagListRequestData = {};
+export type TagListResponseData = Response<Tag[]>;
+// Reply current
+export type ReplyRequestData = {};
+export type ReplyResponseData = Response<Reply | { house: string }>;
+// Reply list
+export type ReplyListRequestData = {};
+export type ReplyListResponseData = Response<Reply[]>;
 
 // Errors msgs
 export enum ErrorMessagesTypes {

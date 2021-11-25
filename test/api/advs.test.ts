@@ -7,6 +7,7 @@ import { defaultUser } from "./populate";
 function compareAdvertisements(a1: any, a2: any): boolean {
   return Object.entries(a1).every((entry) => {
     if (entry[0] === "house") return true;
+    if (entry[0] === "tags") return true;
     return JSON.stringify(entry[1]) === JSON.stringify(a2[entry[0]]);
   });
 }
@@ -20,7 +21,7 @@ describe("Advertisements test", () => {
     title: "My advertisement",
     price: 7505,
     target: 0,
-    tags: [],
+    tags: ["my", "house"],
     house: "", // Should be initialized during test.
   };
 
