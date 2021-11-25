@@ -1,10 +1,10 @@
-import { AdvResponseData, ErrorMessagesTypes, ServerApiHandler } from "core/types/api";
+import { AdvRequestData, AdvResponseData, ErrorMessagesTypes, ServerApiHandler } from "core/types/api";
 import apiHandleMethods from "lib/apiHandleMethods";
 import { AdvertisementDBModel, HouseDBModel } from "lib/db/shema";
 import withAuthorizedUser from "lib/middlewares/withAuthorizedUser";
 
 // Bundles House, User and Tags.
-const get: ServerApiHandler<{}, AdvResponseData> = async (req, res) => {
+const get: ServerApiHandler<AdvRequestData, AdvResponseData> = async (req, res) => {
   const { id } = req.query;
 
   const data = await AdvertisementDBModel.findById(id)
@@ -21,7 +21,7 @@ const get: ServerApiHandler<{}, AdvResponseData> = async (req, res) => {
 };
 
 // Bundles nothing
-const del: ServerApiHandler<{}, AdvResponseData> = withAuthorizedUser(async (req, res, user) => {
+const del: ServerApiHandler<AdvRequestData, AdvResponseData> = withAuthorizedUser(async (req, res, user) => {
   const { id } = req.query;
 
   const data = await AdvertisementDBModel.findById(id);

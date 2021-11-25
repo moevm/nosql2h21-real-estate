@@ -1,10 +1,10 @@
 import apiHandleMethods from "lib/apiHandleMethods";
-import { AdvListResponseData, ErrorMessagesTypes, ServerApiHandler } from "core/types/api";
+import { AdvListResponseData, ErrorMessagesTypes, LoggedInRequestData, ServerApiHandler } from "core/types/api";
 import { AdvertisementDBModel, HouseDBModel, TagDBModel, UserDBModel } from "lib/db/shema";
 import withAuthorizedUser from "../../../lib/middlewares/withAuthorizedUser";
 
 // Bundles House and Tags
-const get: ServerApiHandler<{}, AdvListResponseData> = withAuthorizedUser(async (req, res, user) => {
+const get: ServerApiHandler<LoggedInRequestData, AdvListResponseData> = withAuthorizedUser(async (req, res, user) => {
   const data = await AdvertisementDBModel.aggregate([
     {
       $lookup: {

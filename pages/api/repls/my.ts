@@ -1,10 +1,10 @@
 import apiHandleMethods from "lib/apiHandleMethods";
-import { ReplyListResponseData, ErrorMessagesTypes, ServerApiHandler } from "core/types/api";
+import { ReplyListResponseData, ErrorMessagesTypes, ServerApiHandler, ReplyListRequestData } from "core/types/api";
 import { HouseDBModel } from "lib/db/shema";
 import withAuthorizedUser from "../../../lib/middlewares/withAuthorizedUser";
 
 // Bundles nothing.
-const get: ServerApiHandler<{}, ReplyListResponseData> = withAuthorizedUser(async (req, res, user) => {
+const get: ServerApiHandler<ReplyListRequestData, ReplyListResponseData> = withAuthorizedUser(async (req, res, user) => {
   const data = await HouseDBModel.aggregate([
     {
       $unwind: "$replies",

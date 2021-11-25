@@ -1,10 +1,10 @@
 import apiHandleMethods from "lib/apiHandleMethods";
-import { AdvListResponseData, ErrorMessagesTypes, ServerApiHandler } from "core/types/api";
+import { HouseListResponseData, ErrorMessagesTypes, LoggedInRequestData, ServerApiHandler } from "core/types/api";
 import { HouseDBModel, UserDBModel } from "lib/db/shema";
 import withAuthorizedUser from "../../../lib/middlewares/withAuthorizedUser";
 
 // Bundles User.
-const get: ServerApiHandler<{}, AdvListResponseData> = withAuthorizedUser(async (req, res, user) => {
+const get: ServerApiHandler<LoggedInRequestData, HouseListResponseData> = withAuthorizedUser(async (req, res, user) => {
   const data = await HouseDBModel.aggregate([
     {
       $lookup: {

@@ -1,10 +1,9 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { AdvListResponseData, ServerApiHandler } from "core/types/api";
+import { AdvListRequestData, AdvListResponseData, ServerApiHandler } from "core/types/api";
 import apiHandleMethods from "lib/apiHandleMethods";
 import { AdvertisementDBModel, HouseDBModel, TagDBModel, UserDBModel } from "lib/db/shema";
 
 // Bundles House and Tags
-const get: ServerApiHandler<{}, AdvListResponseData> = async (req, res) => {
+const get: ServerApiHandler<AdvListRequestData, AdvListResponseData> = async (req, res) => {
   const data = await AdvertisementDBModel.aggregate([
     {
       $lookup: {

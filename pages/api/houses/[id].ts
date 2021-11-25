@@ -1,11 +1,10 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { HouseResponseData, ErrorMessagesTypes, ServerApiHandler, AdvResponseData, ReplyResponseData } from "core/types/api";
+import { HouseResponseData, ErrorMessagesTypes, ServerApiHandler, ReplyResponseData, HouseRequestData } from "core/types/api";
 import apiHandleMethods from "lib/apiHandleMethods";
 import { HouseDBModel } from "lib/db/shema";
 import withAuthorizedUser from "../../../lib/middlewares/withAuthorizedUser";
 
 // Bundles User
-const get: ServerApiHandler<{}, HouseResponseData> = async (req, res) => {
+const get: ServerApiHandler<HouseRequestData, HouseResponseData> = async (req, res) => {
   const { id } = req.query;
 
   const data = await HouseDBModel.findById(id).populate("owner");
@@ -15,7 +14,7 @@ const get: ServerApiHandler<{}, HouseResponseData> = async (req, res) => {
 };
 
 // Bundles nothing
-const del: ServerApiHandler<{}, AdvResponseData> = withAuthorizedUser(async (req, res, user) => {
+const del: ServerApiHandler<HouseRequestData, HouseResponseData> = withAuthorizedUser(async (req, res, user) => {
   const { id } = req.query;
 
   const data = await HouseDBModel.findById(id);
@@ -30,10 +29,12 @@ const del: ServerApiHandler<{}, AdvResponseData> = withAuthorizedUser(async (req
 });
 
 // Bundles nothing.
-const post: ServerApiHandler<{}, ReplyResponseData> = withAuthorizedUser(async (req, res, user) => {
+const post: ServerApiHandler<HouseRequestData, ReplyResponseData> = withAuthorizedUser(async (req, res, user) => {
   const { id } = req.query;
 
   const data = req.body;
+
+  // TODO: renew house rating.
 
   data.rating = data.rating > 5 ? 5 : data.rating;
   data.rating = data.rating < 0 ? 0 : data.rating;

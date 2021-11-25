@@ -1,10 +1,10 @@
 import apiHandleMethods from "lib/apiHandleMethods";
 import withAuthorizedUser from "lib/middlewares/withAuthorizedUser";
-import { AdvResponseData, ServerApiHandler } from "core/types/api";
+import { HouseCreateRequestData, HouseResponseData, ServerApiHandler } from "core/types/api";
 import { HouseDBModel } from "lib/db/shema";
 
 // Bundles nothing.
-const post: ServerApiHandler<{}, AdvResponseData> = withAuthorizedUser(async (req, res, user) => {
+const post: ServerApiHandler<HouseCreateRequestData, HouseResponseData> = withAuthorizedUser(async (req, res, user) => {
   const data = req.body;
 
   data.owner = user._id;

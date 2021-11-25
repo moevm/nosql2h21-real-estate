@@ -1,10 +1,10 @@
 import apiHandleMethods from "lib/apiHandleMethods";
 import withAuthorizedUser from "lib/middlewares/withAuthorizedUser";
-import { ErrorMessagesTypes, ReplyResponseData, ServerApiHandler } from "core/types/api";
+import { ErrorMessagesTypes, ReplyRequestData, ReplyResponseData, ServerApiHandler } from "core/types/api";
 import { HouseDBModel } from "lib/db/shema";
 
 // Bundles nothing, adds house _id.
-const get: ServerApiHandler<{}, ReplyResponseData> = async (req, res) => {
+const get: ServerApiHandler<ReplyRequestData, ReplyResponseData> = async (req, res) => {
   const { id } = req.query;
 
   const house = await HouseDBModel.findOne({ "replies._id": id });
@@ -19,7 +19,7 @@ const get: ServerApiHandler<{}, ReplyResponseData> = async (req, res) => {
 };
 
 // Bundles nothing.
-const del: ServerApiHandler<{}, ReplyResponseData> = withAuthorizedUser(async (req, res, user) => {
+const del: ServerApiHandler<ReplyRequestData, ReplyResponseData> = withAuthorizedUser(async (req, res, user) => {
   const { id } = req.query;
 
   const house = await HouseDBModel.findOne({ "replies._id": id });
