@@ -2,7 +2,7 @@ import { AdvListRequestData, AdvListResponseData, ServerApiHandler } from "core/
 import apiHandleMethods from "lib/apiHandleMethods";
 import { AdvertisementDBModel, HouseDBModel, TagDBModel, UserDBModel } from "lib/db/shema";
 
-// Bundles House and Tags
+// Bundles House and Tags.
 const get: ServerApiHandler<AdvListRequestData, AdvListResponseData> = async (req, res) => {
   const data = await AdvertisementDBModel.aggregate([
     {

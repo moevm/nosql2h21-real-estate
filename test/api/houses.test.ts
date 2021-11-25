@@ -50,8 +50,28 @@ describe("Houses test", () => {
     id = data._id;
   });
 
+  it("Should edit created house", async () => {
+    house.type = 1;
+    house.hasBalcony = false;
+    house.year = 1290;
+    house.address = {
+      lat: 15,
+      lng: -79,
+      value: "c, s, b, h",
+      floor: 12,
+      door: 5,
+    };
+
+    const res = await agent.put(`/api/houses/${id}`).send(house).set("Cookie", `accessToken=${defaultUser.token}`);
+    chai.expect(res).to.have.status(200);
+    const { success, data } = JSON.parse(res.text);
+    chai.expect(success).to.be.equal(true);
+
+    chai.expect(compareHouses(house, data)).to.be.equal(true);
+  });
+
   it("Should get created house", async () => {
-    const res = await agent.get(`/api/houses/${id}`);
+    const res = await agent.get(`/api/houses/${id}`).set("Cookie", `accessToken=${defaultUser.token}`);
     chai.expect(res).to.have.status(200);
     const { success, data } = JSON.parse(res.text);
     chai.expect(success).to.be.equal(true);

@@ -28,8 +28,21 @@ describe("Replies test", () => {
     id = data._id;
   });
 
+  it("Should edit created reply", async () => {
+    reply.text = "Bad house. Don't like it.";
+    reply.rating = -1;
+
+    const res = await agent.put(`/api/repls/${id}`).send(reply).set("Cookie", `accessToken=${defaultUser.token}`);
+    chai.expect(res).to.have.status(200);
+    const { success, data } = JSON.parse(res.text);
+    chai.expect(success).to.be.equal(true);
+
+    chai.expect(data.text).to.be.equal(reply.text);
+    chai.expect(data.rating).to.be.equal(0);
+  });
+
   it("Should get created reply", async () => {
-    const res = await agent.get(`/api/repls/${id}`);
+    const res = await agent.get(`/api/repls/${id}`).set("Cookie", `accessToken=${defaultUser.token}`);
     chai.expect(res).to.have.status(200);
     const { success, data } = JSON.parse(res.text);
     chai.expect(success).to.be.equal(true);

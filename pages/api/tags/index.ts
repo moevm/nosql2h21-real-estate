@@ -2,7 +2,7 @@ import { ServerApiHandler, TagListRequestData, TagListResponseData } from "../..
 import { TagDBModel } from "../../../lib/db/shema";
 import apiHandleMethods from "../../../lib/apiHandleMethods";
 
-// Bundles nothing
+// Bundles nothing.
 const get: ServerApiHandler<TagListRequestData, TagListResponseData> = async (req, res) => {
   const data = await TagDBModel.find();
   res.status(200).json({ success: true, data });

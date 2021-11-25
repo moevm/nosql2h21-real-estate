@@ -13,6 +13,6 @@ describe("Tags test", () => {
     const { success, data } = JSON.parse(res.text);
     chai.expect(success).to.be.equal(true);
 
-    chai.expect(data.length).to.be.within(0, 4);
+    chai.expect(data.length).to.be.within(0, 5);
   });
 });

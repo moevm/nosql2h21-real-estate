@@ -4,6 +4,12 @@ import chai from "chai";
 import chaiHttp from "chai-http";
 import { getTokenCookie } from "./populate";
 
+function compareUsers(u1: any, u2: any): boolean {
+  return Object.entries(u1).every((entry) => {
+    return entry[1] === u2[entry[0]];
+  });
+}
+
 describe("User test", () => {
   chai.use(chaiHttp);
   const agent = chai.request.agent("http://localhost:3000");
@@ -36,23 +42,29 @@ describe("User test", () => {
     chai.expect(res).to.have.cookie("accessToken", token);
   });
 
-  it("Should get current user", async () => {
-    const res = await agent.get("/api/auth/me");
+  it("Should edit current user", async () => {
+    user.email = "new.email@site.com";
+    user.lastName = "Surname";
+
+    const res = await agent.put(`/api/auth/me`).send(user).set("Cookie", `accessToken=${token}`);
     chai.expect(res).to.have.status(200);
     const { success, data } = JSON.parse(res.text);
     chai.expect(success).to.be.equal(true);
 
-    chai
-      .expect(
-        Object.entries(user).every((entry) => {
-          return entry[1] === data[entry[0]];
-        }),
-      )
-      .to.be.equal(true);
+    chai.expect(compareUsers(user, data)).to.be.equal(true);
+  });
+
+  it("Should get current user", async () => {
+    const res = await agent.get("/api/auth/me").set("Cookie", `accessToken=${token}`);
+    chai.expect(res).to.have.status(200);
+    const { success, data } = JSON.parse(res.text);
+    chai.expect(success).to.be.equal(true);
+
+    chai.expect(compareUsers(user, data)).to.be.equal(true);
   });
 
   it("Should delete user", async () => {
-    const res = await agent.delete("/api/auth/signup");
+    const res = await agent.delete("/api/auth/me").set("Cookie", `accessToken=${token}`);
     chai.expect(res).to.have.status(200);
     chai.expect(res).to.have.cookie("accessToken", "");
   });

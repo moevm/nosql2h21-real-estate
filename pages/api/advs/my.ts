@@ -3,7 +3,7 @@ import { AdvListResponseData, ErrorMessagesTypes, LoggedInRequestData, ServerApi
 import { AdvertisementDBModel, HouseDBModel, TagDBModel, UserDBModel } from "lib/db/shema";
 import withAuthorizedUser from "../../../lib/middlewares/withAuthorizedUser";
 
-// Bundles House and Tags
+// Bundles House and Tags.
 const get: ServerApiHandler<LoggedInRequestData, AdvListResponseData> = withAuthorizedUser(async (req, res, user) => {
   const data = await AdvertisementDBModel.aggregate([
     {

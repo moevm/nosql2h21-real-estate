@@ -7,6 +7,10 @@ import { HouseDBModel } from "lib/db/shema";
 const post: ServerApiHandler<HouseCreateRequestData, HouseResponseData> = withAuthorizedUser(async (req, res, user) => {
   const data = req.body;
 
+  delete data._id;
+  delete data.id;
+  delete data.createdAt;
+  delete data.updatedAt;
   data.owner = user._id;
   data.lenToMetro = 0; // TODO: count length to metro.
   data.rating = 5;

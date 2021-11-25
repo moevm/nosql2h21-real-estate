@@ -38,8 +38,20 @@ describe("Advertisements test", () => {
     id = data._id;
   });
 
+  it("Should edit created advertisement", async () => {
+    advertisement.tags = ["my", "house", "tag"];
+    advertisement.price = 1205;
+
+    const res = await agent.put(`/api/advs/${id}`).send(advertisement).set("Cookie", `accessToken=${defaultUser.token}`);
+    chai.expect(res).to.have.status(200);
+    const { success, data } = JSON.parse(res.text);
+    chai.expect(success).to.be.equal(true);
+
+    chai.expect(compareAdvertisements(advertisement, data)).to.be.equal(true);
+  });
+
   it("Should get created advertisement", async () => {
-    const res = await agent.get(`/api/advs/${id}`);
+    const res = await agent.get(`/api/advs/${id}`).set("Cookie", `accessToken=${defaultUser.token}`);
     chai.expect(res).to.have.status(200);
     const { success, data } = JSON.parse(res.text);
     chai.expect(success).to.be.equal(true);

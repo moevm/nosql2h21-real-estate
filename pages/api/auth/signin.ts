@@ -4,6 +4,7 @@ import { UserDBModel } from "lib/db/shema";
 import { serialize } from "cookie";
 import apiHandleMethods from "lib/apiHandleMethods";
 
+// Bundles nothing.
 const put: ServerApiHandler<SignUpRequestData, SignInResponseData> = async (req, res) => {
   const data = req.body;
 
