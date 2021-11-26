@@ -94,8 +94,8 @@ before(async () => {
       "/api/houses/new",
       {
         address: {
-          lat: 245,
-          lng: -1197,
+          lat: 180,
+          lng: -97,
           value: "My st., 45",
           floor: 3,
           door: 12,

@@ -9,6 +9,10 @@ export default function withAuthorizedUser(handler: ServerApiHandlerWithUser<any
         success: false,
         error: "authentication needed",
       });
-    } else await handler(req, res, user);
+    } else {
+      const objUser = (user as any).toObject();
+      delete objUser.password;
+      await handler(req, res, objUser);
+    }
   };
 }

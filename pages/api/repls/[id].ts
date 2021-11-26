@@ -25,12 +25,9 @@ const get: ServerApiHandler<ReplyRequestData, ReplyResponseData> = async (req, r
   const house = await HouseDBModel.findOne({ "replies._id": id });
   if (!house) throw new Error(ErrorMessagesTypes.err404);
 
-  const result = (house.replies as any).id(id);
-
-  const finalResult = JSON.parse(JSON.stringify(result));
-  finalResult.house = house._id;
-
-  res.status(200).json({ success: true, data: finalResult });
+  const result = (house.replies as any).id(id).toObject();
+  result.house = house._id;
+  res.status(200).json({ success: true, data: result });
 };
 
 // Bundles nothing.
@@ -44,9 +41,6 @@ const put: ServerApiHandler<HouseRequestData, ReplyResponseData> = withAuthorize
   delete data.id;
   delete data.createdAt;
   delete data.updatedAt;
-
-  data.rating = data.rating > 5 ? 5 : data.rating;
-  data.rating = data.rating < 0 ? 0 : data.rating;
 
   const house = await HouseDBModel.findOneAndUpdate(
     { "replies._id": id, "replies.owner": user._id },

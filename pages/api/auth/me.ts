@@ -27,13 +27,15 @@ const put: ServerApiHandler<LoggedInRequestData, UserResponseData> = withAuthori
 
   if (!nova._id.equals(user._id)) throw Error(ErrorMessagesTypes.err401);
 
-  const result = await UserDBModel.findByIdAndUpdate(user._id, { $set: data }, { new: true });
+  const result = (await UserDBModel.findByIdAndUpdate(user._id, { $set: data }, { new: true }))!!.toObject();
+  delete result.password;
   res.status(200).json({ success: true, data: result });
 });
 
 // Bundles nothing.
 const del: ServerApiHandler<LoggedInRequestData, UserResponseData> = withAuthorizedUser(async (req, res, user) => {
-  const result = await UserDBModel.findByIdAndDelete(user._id);
+  const result = (await UserDBModel.findByIdAndDelete(user._id))?.toObject();
+  delete result?.password;
 
   res.setHeader("Set-Cookie", [serialize("accessToken", "", { maxAge: 0 })]);
   res.status(200).json({ success: true, data: result });

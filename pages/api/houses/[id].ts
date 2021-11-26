@@ -67,8 +67,6 @@ const post: ServerApiHandler<HouseRequestData, ReplyResponseData> = withAuthoriz
   delete data.createdAt;
   delete data.updatedAt;
 
-  data.rating = data.rating > 5 ? 5 : data.rating;
-  data.rating = data.rating < 0 ? 0 : data.rating;
   data.owner = user._id;
 
   const house = await HouseDBModel.findByIdAndUpdate(id, { $push: { replies: data } }, { new: true });

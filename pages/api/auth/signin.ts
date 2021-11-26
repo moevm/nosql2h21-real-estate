@@ -8,7 +8,7 @@ import apiHandleMethods from "lib/apiHandleMethods";
 const put: ServerApiHandler<SignUpRequestData, SignInResponseData> = async (req, res) => {
   const data = req.body;
 
-  const result = await UserDBModel.findOne({ email: data.email });
+  const result = (await UserDBModel.findOne({ email: data.email })).toObject();
   if (!result) throw new Error("user was not found");
 
   const correctPassword = await comparePasswords(data.password!, result.password!);

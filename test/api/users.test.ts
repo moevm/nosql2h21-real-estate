@@ -6,6 +6,7 @@ import { defaultUser } from "./populate";
 
 function compareUsers(u1: any, u2: any): boolean {
   return Object.entries(u1).every((entry) => {
+    if (entry[0] === "password") return u2[entry[0]] === undefined;
     return JSON.stringify(entry[1]) === JSON.stringify(u2[entry[0]]);
   });
 }

@@ -20,7 +20,7 @@ describe("Houses test", () => {
   const house = {
     address: {
       lat: 0,
-      lng: -715,
+      lng: -75,
       value: "city, street, block, house",
       floor: 0,
       door: 1,
@@ -34,12 +34,9 @@ describe("Houses test", () => {
     countRoom: 3,
     year: 2005,
     finishing: 0,
-    owner: "", // Should be initialized during test.
   };
 
   it("Should create a house", async () => {
-    house.owner = defaultUser.id;
-
     const res = await agent.post("/api/houses/new").send(house).set("Cookie", `accessToken=${defaultUser.token}`);
     chai.expect(res).to.have.status(200);
     const { success, data } = JSON.parse(res.text);

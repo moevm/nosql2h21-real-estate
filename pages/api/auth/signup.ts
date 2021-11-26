@@ -8,9 +8,6 @@ import apiHandleMethods from "lib/apiHandleMethods";
 const post: ServerApiHandler<SignUpRequestData, SignUpResponseData> = async (req, res) => {
   const data = req.body as any;
 
-  const user = await UserDBModel.findOne({ email: data.email });
-  if (user) throw new Error("user with such an email already exists");
-
   delete data._id;
   delete data.id;
   delete data.createdAt;
@@ -19,7 +16,7 @@ const post: ServerApiHandler<SignUpRequestData, SignUpResponseData> = async (req
   data.rating = 5;
   data.avatar = null; // TODO: avatar uploading.
 
-  const result = await new UserDBModel(data).save();
+  const result = (await new UserDBModel(data).save()).toObject();
 
   const jwt = generateJWT(result);
   res.setHeader("Set-Cookie", [serialize("accessToken", jwt)]);

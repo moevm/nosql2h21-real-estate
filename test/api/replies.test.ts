@@ -11,7 +11,7 @@ describe("Replies test", () => {
   let id: string;
   const reply = {
     text: "Good house. My house.",
-    rating: 100,
+    rating: 5,
   };
 
   it("Should create a reply", async () => {
@@ -30,7 +30,7 @@ describe("Replies test", () => {
 
   it("Should edit created reply", async () => {
     reply.text = "Bad house. Don't like it.";
-    reply.rating = -1;
+    reply.rating = 0;
 
     const res = await agent.put(`/api/repls/${id}`).send(reply).set("Cookie", `accessToken=${defaultUser.token}`);
     chai.expect(res).to.have.status(200);
