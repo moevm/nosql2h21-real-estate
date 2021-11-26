@@ -16,21 +16,32 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Cookie token is present\", function () {",
-									"    pm.response.to.have.header(\"accessToken\");",
-									"    pm.response.not.to.have.header(\"accessToken\", \"\");",
+									"pm.test(\"Cookie token is present\", () => {",
+									"    pm.expect(pm.cookies.get(\"accessToken\")).not.to.be.null;",
 									"});",
 									"",
-									"pm.test(\"Your test name\", function () {",
-									"    pm.expect(tv4.validate(pm.response.json(), {",
-									"        \"type\": \"object\",",
-									"        \"properties\": {",
-									"            \"email\": { \"const\": \"other.user@site.com\" },",
-									"            \"firstName\": { \"const\": \"User\" },",
-									"            \"lastName\": { \"const\": \"Other\" }",
-									"        },",
-									"        \"additionalProperties\": true,",
-									"        \"required\": [\"email\", \"firstName\", \"lastName\"]",
+									"pm.test(\"Response is valid user object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(tv4.validate(data, pm.collectionVariables.get(\"user_schema\"))).to.be.true;",
+									"",
+									"    pm.collectionVariables.set(\"user_id\", data._id);",
+									"});",
+									"",
+									"pm.test(\"Response is correct user object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(Object.entries({",
+									"        \"email\": \"other.user@site.com\",",
+									"        \"firstName\": \"User\",",
+									"        \"lastName\": \"Other\",",
+									"        \"rating\": 5,",
+									"        \"avatar\": null",
+									"    }).every((entry) => {",
+									"        const v1 = JSON.stringify(entry[1]);",
+									"        const v2 = JSON.stringify(data[entry[0]]);",
+									"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+									"        return v1 === v2;",
 									"    })).to.be.true;",
 									"});"
 								],
@@ -39,9 +50,6 @@
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "noauth"
-						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -72,99 +80,1933 @@
 				},
 				{
 					"name": "Logging user out",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Cookie token is not present\", () => {",
+									"    pm.expect(pm.cookies.get(\"accessToken\")).not.to.be.null;",
+									"});",
+									"",
+									"pm.test(\"Response is null\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(data).to.be.null;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
-						"method": "GET",
+						"method": "PUT",
 						"header": [],
-						"url": null,
+						"url": {
+							"raw": "http://localhost:3000/api/auth/signout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"auth",
+								"signout"
+							]
+						},
 						"description": "Logging sample user out"
 					},
 					"response": []
 				},
 				{
 					"name": "Logging user in",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Cookie token is present\", () => {",
+									"    pm.expect(pm.cookies.get(\"accessToken\")).not.to.be.null;",
+									"",
+									"    pm.collectionVariables.set(\"token\", pm.cookies.get(\"accessToken\"));",
+									"});",
+									"",
+									"pm.test(\"Response is valid user object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(tv4.validate(data, pm.collectionVariables.get(\"user_schema\"))).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Response is correct user object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(Object.entries({",
+									"        \"email\": \"other.user@site.com\",",
+									"        \"firstName\": \"User\",",
+									"        \"lastName\": \"Other\",",
+									"        \"rating\": 5,",
+									"        \"avatar\": null",
+									"    }).every((entry) => {",
+									"        const v1 = JSON.stringify(entry[1]);",
+									"        const v2 = JSON.stringify(data[entry[0]]);",
+									"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+									"        return v1 === v2;",
+									"    })).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
-						"method": "GET",
+						"method": "PUT",
 						"header": [],
-						"url": null,
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"other.user@site.com\",\n    \"password\": \"09876\",\n    \"firstName\": \"User\",\n    \"lastName\": \"Other\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/auth/signin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"auth",
+								"signin"
+							]
+						},
 						"description": "Logging sample user in"
 					},
 					"response": []
 				},
 				{
 					"name": "Editing user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response is valid user object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(tv4.validate(data, pm.collectionVariables.get(\"user_schema\"))).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Response is correct user object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(Object.entries({",
+									"        \"email\": \"new.user@site.com\",",
+									"        \"firstName\": \"User\",",
+									"        \"lastName\": \"Surname\",",
+									"        \"rating\": 5,",
+									"        \"avatar\": \"https://picsum.photos/seed/picsum/200/300\"",
+									"    }).every((entry) => {",
+									"        const v1 = JSON.stringify(entry[1]);",
+									"        const v2 = JSON.stringify(data[entry[0]]);",
+									"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+									"        return v1 === v2;",
+									"    })).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
-						"method": "GET",
+						"method": "PUT",
 						"header": [],
-						"url": null,
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"new.user@site.com\",\n    \"password\": \"56789\",\n    \"lastName\": \"Surname\",\n    \"avatar\": \"https://picsum.photos/seed/picsum/200/300\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/auth/me",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"auth",
+								"me"
+							]
+						},
 						"description": "Editing sample user"
 					},
 					"response": []
 				},
 				{
 					"name": "Getting user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response is valid user object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(tv4.validate(data, pm.collectionVariables.get(\"user_schema\"))).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Response is correct user object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(Object.entries({",
+									"        \"email\": \"new.user@site.com\",",
+									"        \"firstName\": \"User\",",
+									"        \"lastName\": \"Surname\",",
+									"        \"rating\": 5,",
+									"        \"avatar\": \"https://picsum.photos/seed/picsum/200/300\"",
+									"    }).every((entry) => {",
+									"        const v1 = JSON.stringify(entry[1]);",
+									"        const v2 = JSON.stringify(data[entry[0]]);",
+									"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+									"        return v1 === v2;",
+									"    })).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": null,
+						"url": {
+							"raw": "http://localhost:3000/api/auth/me",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"auth",
+								"me"
+							]
+						},
 						"description": "Getting sample user"
-					},
-					"response": []
-				},
-				{
-					"name": "Deleting user",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": null,
-						"description": "Deleting sample user"
 					},
 					"response": []
 				}
 			],
-			"description": "Current user and authentication related requests"
+			"description": "Current user and authentication related requests",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "Getting user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response is valid user object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(tv4.validate(data, pm.collectionVariables.get(\"user_schema\"))).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Response is correct user object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(Object.entries({",
+									"        \"email\": \"new.user@site.com\",",
+									"        \"firstName\": \"User\",",
+									"        \"lastName\": \"Surname\",",
+									"        \"rating\": 5,",
+									"        \"avatar\": \"https://picsum.photos/seed/picsum/200/300\"",
+									"    }).every((entry) => {",
+									"        const v1 = JSON.stringify(entry[1]);",
+									"        const v2 = JSON.stringify(data[entry[0]]);",
+									"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+									"        return v1 === v2;",
+									"    })).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/users/{{user_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users",
+								"{{user_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Getting all users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response is valid user object\", () => {",
+									"    const data = pm.response.json().data[0];",
+									"",
+									"    pm.expect(tv4.validate(data, pm.collectionVariables.get(\"user_schema\"))).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Number of users is correct\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(data.length).to.be.equal(1);",
+									"});",
+									"",
+									"pm.test(\"Response is correct user object\", () => {",
+									"    const data = pm.response.json().data[0];",
+									"",
+									"    pm.expect(Object.entries({",
+									"        \"email\": \"new.user@site.com\",",
+									"        \"firstName\": \"User\",",
+									"        \"lastName\": \"Surname\",",
+									"        \"rating\": 5,",
+									"        \"avatar\": \"https://picsum.photos/seed/picsum/200/300\"",
+									"    }).every((entry) => {",
+									"        const v1 = JSON.stringify(entry[1]);",
+									"        const v2 = JSON.stringify(data[entry[0]]);",
+									"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+									"        return v1 === v2;",
+									"    })).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "houses",
+			"item": [
+				{
+					"name": "Creating house",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response is valid house object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(tv4.validate(data, pm.collectionVariables.get(\"house_schema\"))).to.be.true;",
+									"",
+									"    pm.collectionVariables.set(\"house_id\", data._id);",
+									"});",
+									"",
+									"pm.test(\"Response is correct house object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(Object.entries({",
+									"        \"owner\": pm.collectionVariables.get(\"user_id\"),",
+									"        \"photo\": [\"https://picsum.photos/seed/picsum/200/300\", \"https://picsum.photos/seed/picsum/200/300\"],",
+									"        \"description\": \"a nice house\",",
+									"        \"type\": 0,",
+									"        \"size\": 128,",
+									"        \"hasBalcony\": true,",
+									"        \"countBathrooms\": 2,",
+									"        \"countRoom\": 3,",
+									"        \"year\": 2005,",
+									"        \"finishing\": 0",
+									"    }).every((entry) => {",
+									"        const v1 = JSON.stringify(entry[1]);",
+									"        const v2 = JSON.stringify(data[entry[0]]);",
+									"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+									"        return v1 === v2;",
+									"    })).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Response contains correct address object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(Object.entries({",
+									"        \"lat\": 0,",
+									"        \"lng\": -118,",
+									"        \"value\": \"city, street, block, house\",",
+									"        \"floor\": 0,",
+									"        \"door\": 1",
+									"    }).every((entry) => {",
+									"        const v1 = JSON.stringify(entry[1]);",
+									"        const v2 = JSON.stringify(data.address[entry[0]]);",
+									"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+									"        return v1 === v2;",
+									"    })).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"address\": {\n      \"lat\": 0,\n      \"lng\": -118,\n      \"value\": \"city, street, block, house\",\n      \"floor\": 0,\n      \"door\": 1\n    },\n    \"photo\": [\"https://picsum.photos/seed/picsum/200/300\", \"https://picsum.photos/seed/picsum/200/300\"],\n    \"description\": \"a nice house\",\n    \"type\": 0,\n    \"size\": 128,\n    \"hasBalcony\": true,\n    \"countBathrooms\": 2,\n    \"countRoom\": 3,\n    \"year\": 2005,\n    \"finishing\": 0\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/houses/new",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"houses",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editing house",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response is valid house object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(tv4.validate(data, pm.collectionVariables.get(\"house_schema\"))).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Response is correct house object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(Object.entries({",
+									"        \"owner\": pm.collectionVariables.get(\"user_id\"),",
+									"        \"photo\": [\"https://picsum.photos/seed/picsum/200/300\", \"https://picsum.photos/seed/picsum/200/300\"],",
+									"        \"description\": \"a nice house\",",
+									"        \"type\": 1,",
+									"        \"size\": 128,",
+									"        \"hasBalcony\": true,",
+									"        \"countBathrooms\": 2,",
+									"        \"countRoom\": 3,",
+									"        \"year\": 1999,",
+									"        \"finishing\": 0",
+									"    }).every((entry) => {",
+									"        const v1 = JSON.stringify(entry[1]);",
+									"        const v2 = JSON.stringify(data[entry[0]]);",
+									"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+									"        return v1 === v2;",
+									"    })).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Response contains correct address object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(Object.entries({",
+									"        \"lat\": 0,",
+									"        \"lng\": -1,",
+									"        \"value\": \"city, street, block, house\",",
+									"        \"floor\": 0,",
+									"        \"door\": 1",
+									"    }).every((entry) => {",
+									"        const v1 = JSON.stringify(entry[1]);",
+									"        const v2 = JSON.stringify(data.address[entry[0]]);",
+									"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+									"        return v1 === v2;",
+									"    })).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"address\": {\n      \"lat\": 0,\n      \"lng\": -1,\n      \"value\": \"city, street, block, house\",\n      \"floor\": 0,\n      \"door\": 1\n    },\n    \"photo\": [\"https://picsum.photos/seed/picsum/200/300\", \"https://picsum.photos/seed/picsum/200/300\"],\n    \"description\": \"a nice house\",\n    \"type\": 1,\n    \"size\": 128,\n    \"hasBalcony\": true,\n    \"countBathrooms\": 2,\n    \"countRoom\": 3,\n    \"year\": 1999,\n    \"finishing\": 0\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/houses/{{house_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"houses",
+								"{{house_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Getting house",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response is valid house object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(tv4.validate(data, pm.collectionVariables.get(\"house_schema\"))).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Response is correct house object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(Object.entries({",
+									"        \"photo\": [\"https://picsum.photos/seed/picsum/200/300\", \"https://picsum.photos/seed/picsum/200/300\"],",
+									"        \"description\": \"a nice house\",",
+									"        \"type\": 1,",
+									"        \"size\": 128,",
+									"        \"hasBalcony\": true,",
+									"        \"countBathrooms\": 2,",
+									"        \"countRoom\": 3,",
+									"        \"year\": 1999,",
+									"        \"finishing\": 0",
+									"    }).every((entry) => {",
+									"        const v1 = JSON.stringify(entry[1]);",
+									"        const v2 = JSON.stringify(data[entry[0]]);",
+									"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+									"        return v1 === v2;",
+									"    })).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Response contains correct address object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(Object.entries({",
+									"        \"lat\": 0,",
+									"        \"lng\": -1,",
+									"        \"value\": \"city, street, block, house\",",
+									"        \"floor\": 0,",
+									"        \"door\": 1",
+									"    }).every((entry) => {",
+									"        const v1 = JSON.stringify(entry[1]);",
+									"        const v2 = JSON.stringify(data.address[entry[0]]);",
+									"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+									"        return v1 === v2;",
+									"    })).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Response contains correct owner object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(Object.entries({",
+									"        \"email\": \"new.user@site.com\",",
+									"        \"firstName\": \"User\",",
+									"        \"lastName\": \"Surname\",",
+									"        \"rating\": 5,",
+									"        \"avatar\": \"https://picsum.photos/seed/picsum/200/300\"",
+									"    }).every((entry) => {",
+									"        const v1 = JSON.stringify(entry[1]);",
+									"        const v2 = JSON.stringify(data.owner[entry[0]]);",
+									"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+									"        return v1 === v2;",
+									"    })).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/houses/{{house_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"houses",
+								"{{house_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Getting my houses",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response is valid house object\", () => {",
+									"    const data = pm.response.json().data[0];",
+									"",
+									"    pm.expect(tv4.validate(data, pm.collectionVariables.get(\"house_schema\"))).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Number of houses is correct\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(data.length).to.be.equal(1);",
+									"});",
+									"",
+									"pm.test(\"Response is correct house object\", () => {",
+									"    const data = pm.response.json().data[0];",
+									"",
+									"    pm.expect(Object.entries({",
+									"        \"photo\": [\"https://picsum.photos/seed/picsum/200/300\", \"https://picsum.photos/seed/picsum/200/300\"],",
+									"        \"description\": \"a nice house\",",
+									"        \"type\": 1,",
+									"        \"size\": 128,",
+									"        \"hasBalcony\": true,",
+									"        \"countBathrooms\": 2,",
+									"        \"countRoom\": 3,",
+									"        \"year\": 1999,",
+									"        \"finishing\": 0",
+									"    }).every((entry) => {",
+									"        const v1 = JSON.stringify(entry[1]);",
+									"        const v2 = JSON.stringify(data[entry[0]]);",
+									"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+									"        return v1 === v2;",
+									"    })).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Response contains correct address object\", () => {",
+									"    const data = pm.response.json().data[0];",
+									"",
+									"    pm.expect(Object.entries({",
+									"        \"lat\": 0,",
+									"        \"lng\": -1,",
+									"        \"value\": \"city, street, block, house\",",
+									"        \"floor\": 0,",
+									"        \"door\": 1",
+									"    }).every((entry) => {",
+									"        const v1 = JSON.stringify(entry[1]);",
+									"        const v2 = JSON.stringify(data.address[entry[0]]);",
+									"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+									"        return v1 === v2;",
+									"    })).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Response contains correct owner object\", () => {",
+									"    const data = pm.response.json().data[0];",
+									"",
+									"    pm.expect(Object.entries({",
+									"        \"email\": \"new.user@site.com\",",
+									"        \"firstName\": \"User\",",
+									"        \"lastName\": \"Surname\",",
+									"        \"rating\": 5,",
+									"        \"avatar\": \"https://picsum.photos/seed/picsum/200/300\"",
+									"    }).every((entry) => {",
+									"        const v1 = JSON.stringify(entry[1]);",
+									"        const v2 = JSON.stringify(data.owner[entry[0]]);",
+									"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+									"        return v1 === v2;",
+									"    })).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/houses/my",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"houses",
+								"my"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Getting all houses",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response is valid house object\", () => {",
+									"    const data = pm.response.json().data[0];",
+									"",
+									"    pm.expect(tv4.validate(data, pm.collectionVariables.get(\"house_schema\"))).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Number of houses is correct\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(data.length).to.be.equal(1);",
+									"});",
+									"",
+									"pm.test(\"Response is correct house object\", () => {",
+									"    const data = pm.response.json().data[0];",
+									"",
+									"    pm.expect(Object.entries({",
+									"        \"owner\": pm.collectionVariables.get(\"user_id\"),",
+									"        \"address\": {",
+									"            \"lat\": 0,",
+									"            \"lng\": -118,",
+									"            \"value\": \"city, street, block, house\",",
+									"            \"floor\": 0,",
+									"            \"door\": 1",
+									"        },",
+									"        \"photo\": [\"https://picsum.photos/seed/picsum/200/300\", \"https://picsum.photos/seed/picsum/200/300\"],",
+									"        \"description\": \"a nice house\",",
+									"        \"type\": 1,",
+									"        \"size\": 128,",
+									"        \"hasBalcony\": true,",
+									"        \"countBathrooms\": 2,",
+									"        \"countRoom\": 3,",
+									"        \"year\": 1999,",
+									"        \"finishing\": 0",
+									"    }).every((entry) => {",
+									"        if (entry[0] === \"address\") return true;",
+									"        const v1 = JSON.stringify(entry[1]);",
+									"        const v2 = JSON.stringify(data[entry[0]]);",
+									"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+									"        return v1 === v2;",
+									"    })).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Response contains correct address object\", () => {",
+									"    const data = pm.response.json().data[0];",
+									"",
+									"    pm.expect(Object.entries({",
+									"        \"lat\": 0,",
+									"        \"lng\": -1,",
+									"        \"value\": \"city, street, block, house\",",
+									"        \"floor\": 0,",
+									"        \"door\": 1",
+									"    }).every((entry) => {",
+									"        const v1 = JSON.stringify(entry[1]);",
+									"        const v2 = JSON.stringify(data.address[entry[0]]);",
+									"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+									"        return v1 === v2;",
+									"    })).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/houses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"houses"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "repls",
+			"item": [
+				{
+					"name": "Creating reply",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response is valid reply object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(tv4.validate(data, pm.collectionVariables.get(\"reply_schema\"))).to.be.true;",
+									"",
+									"    pm.collectionVariables.set(\"reply_id\", data._id);",
+									"});",
+									"",
+									"pm.test(\"Response is correct reply object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(Object.entries({",
+									"        \"owner\": pm.collectionVariables.get(\"user_id\"),",
+									"        \"text\": \"Good house. My house.\",",
+									"        \"rating\": 5",
+									"    }).every((entry) => {",
+									"        const v1 = JSON.stringify(entry[1]);",
+									"        const v2 = JSON.stringify(data[entry[0]]);",
+									"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+									"        return v1 === v2;",
+									"    })).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\": \"Good house. My house.\",\n    \"rating\": 5\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/houses/{{house_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"houses",
+								"{{house_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editing reply",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response is valid reply object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(tv4.validate(data, pm.collectionVariables.get(\"reply_schema\"))).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Response is correct reply object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(Object.entries({",
+									"        \"owner\": pm.collectionVariables.get(\"user_id\"),",
+									"        \"text\": \"Not so good house. My house.\",",
+									"        \"rating\": 3",
+									"    }).every((entry) => {",
+									"        const v1 = JSON.stringify(entry[1]);",
+									"        const v2 = JSON.stringify(data[entry[0]]);",
+									"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+									"        return v1 === v2;",
+									"    })).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\": \"Not so good house. My house.\",\n    \"rating\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/repls/{{reply_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"repls",
+								"{{reply_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Getting reply",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response is valid reply object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(tv4.validate(data, pm.collectionVariables.get(\"reply_schema\"))).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Response is correct reply object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(Object.entries({",
+									"        \"owner\": pm.collectionVariables.get(\"user_id\"),",
+									"        \"text\": \"Not so good house. My house.\",",
+									"        \"rating\": 3,",
+									"        \"house\": pm.collectionVariables.get(\"house_id\")",
+									"    }).every((entry) => {",
+									"        const v1 = JSON.stringify(entry[1]);",
+									"        const v2 = JSON.stringify(data[entry[0]]);",
+									"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+									"        return v1 === v2;",
+									"    })).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/repls/{{reply_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"repls",
+								"{{reply_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Getting my replies",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response is valid reply object\", () => {",
+									"    const data = pm.response.json().data[0];",
+									"",
+									"    pm.expect(tv4.validate(data, pm.collectionVariables.get(\"reply_schema\"))).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Number of replies is correct\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(data.length).to.be.equal(1);",
+									"});",
+									"",
+									"pm.test(\"Response is correct reply object\", () => {",
+									"    const data = pm.response.json().data[0];",
+									"",
+									"    pm.expect(Object.entries({",
+									"        \"owner\": pm.collectionVariables.get(\"user_id\"),",
+									"        \"text\": \"Not so good house. My house.\",",
+									"        \"rating\": 3",
+									"    }).every((entry) => {",
+									"        const v1 = JSON.stringify(entry[1]);",
+									"        const v2 = JSON.stringify(data[entry[0]]);",
+									"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+									"        return v1 === v2;",
+									"    })).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/repls/my",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"repls",
+								"my"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "advs",
+			"item": [
+				{
+					"name": "Creating advertisement",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response is valid advertisement object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(tv4.validate(data, pm.collectionVariables.get(\"advertisement_schema\"))).to.be.true;",
+									"",
+									"    pm.collectionVariables.set(\"advertisement_id\", data._id);",
+									"});",
+									"",
+									"pm.test(\"Response is correct advertisement object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(Object.entries({",
+									"        \"title\": \"My advertisement\",",
+									"        \"price\": 1250,",
+									"        \"target\": 0,",
+									"        \"house\":  pm.collectionVariables.get(\"house_id\")",
+									"    }).every((entry) => {",
+									"        const v1 = JSON.stringify(entry[1]);",
+									"        const v2 = JSON.stringify(data[entry[0]]);",
+									"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+									"        return v1 === v2;",
+									"    })).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"My advertisement\",\n    \"price\": 1250,\n    \"target\": 0,\n    \"tags\": [\"my\", \"house\"],\n    \"house\": \"{{house_id}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/advs/new",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"advs",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editing advertisement",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response is valid advertisement object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(tv4.validate(data, pm.collectionVariables.get(\"advertisement_schema\"))).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Response is correct advertisement object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(Object.entries({",
+									"        \"title\": \"My advertisement\",",
+									"        \"price\": 7505,",
+									"        \"target\": 0,",
+									"        \"house\":  pm.collectionVariables.get(\"house_id\")",
+									"    }).every((entry) => {",
+									"        const v1 = JSON.stringify(entry[1]);",
+									"        const v2 = JSON.stringify(data[entry[0]]);",
+									"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+									"        return v1 === v2;",
+									"    })).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"My advertisement\",\n    \"price\": 7505,\n    \"target\": 0,\n    \"tags\": [\"my\", \"house\", \"tag\"],\n    \"house\": \"{{house_id}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/advs/{{advertisement_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"advs",
+								"{{advertisement_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Getting advertisement",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response is valid advertisement object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(tv4.validate(data, pm.collectionVariables.get(\"advertisement_schema\"))).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Response is correct advertisement object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(Object.entries({",
+									"        \"title\": \"My advertisement\",",
+									"        \"price\": 7505,",
+									"        \"target\": 0",
+									"    }).every((entry) => {",
+									"        const v1 = JSON.stringify(entry[1]);",
+									"        const v2 = JSON.stringify(data[entry[0]]);",
+									"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+									"        return v1 === v2;",
+									"    })).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Response is correct house object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(Object.entries({",
+									"        \"photo\": [\"https://picsum.photos/seed/picsum/200/300\", \"https://picsum.photos/seed/picsum/200/300\"],",
+									"        \"description\": \"a nice house\",",
+									"        \"type\": 1,",
+									"        \"size\": 128,",
+									"        \"hasBalcony\": true,",
+									"        \"countBathrooms\": 2,",
+									"        \"countRoom\": 3,",
+									"        \"year\": 1999,",
+									"        \"finishing\": 0",
+									"    }).every((entry) => {",
+									"        const v1 = JSON.stringify(entry[1]);",
+									"        const v2 = JSON.stringify(data.house[entry[0]]);",
+									"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+									"        return v1 === v2;",
+									"    })).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Response contains correct address object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(Object.entries({",
+									"        \"lat\": 0,",
+									"        \"lng\": -1,",
+									"        \"value\": \"city, street, block, house\",",
+									"        \"floor\": 0,",
+									"        \"door\": 1",
+									"    }).every((entry) => {",
+									"        const v1 = JSON.stringify(entry[1]);",
+									"        const v2 = JSON.stringify(data.house.address[entry[0]]);",
+									"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+									"        return v1 === v2;",
+									"    })).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Response contains correct owner object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(Object.entries({",
+									"        \"email\": \"new.user@site.com\",",
+									"        \"firstName\": \"User\",",
+									"        \"lastName\": \"Surname\",",
+									"        \"rating\": 5,",
+									"        \"avatar\": \"https://picsum.photos/seed/picsum/200/300\"",
+									"    }).every((entry) => {",
+									"        const v1 = JSON.stringify(entry[1]);",
+									"        const v2 = JSON.stringify(data.house.owner[entry[0]]);",
+									"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+									"        return v1 === v2;",
+									"    })).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Response contains correct tags object\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect([\"my\", \"house\"].every((tag) => {",
+									"        const includes = data.tags.some((elem) => {",
+									"            return elem.value === tag;",
+									"        });",
+									"        if (!includes) console.error(`${tag} not in data.tags`);",
+									"        return includes;",
+									"    })).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/advs/{{advertisement_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"advs",
+								"{{advertisement_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Getting my advertisements",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response is valid advertisement object\", () => {",
+									"    const data = pm.response.json().data[0];",
+									"",
+									"    pm.expect(tv4.validate(data, pm.collectionVariables.get(\"advertisement_schema\"))).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Number of advertisements is correct\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(data.length).to.be.equal(1);",
+									"});",
+									"",
+									"pm.test(\"Response is correct advertisement object\", () => {",
+									"    const data = pm.response.json().data[0];",
+									"",
+									"    pm.expect(Object.entries({",
+									"        \"title\": \"My advertisement\",",
+									"        \"price\": 7505,",
+									"        \"target\": 0",
+									"    }).every((entry) => {",
+									"        const v1 = JSON.stringify(entry[1]);",
+									"        const v2 = JSON.stringify(data[entry[0]]);",
+									"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+									"        return v1 === v2;",
+									"    })).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Response is correct house object\", () => {",
+									"    const data = pm.response.json().data[0];",
+									"",
+									"    pm.expect(Object.entries({",
+									"        \"photo\": [\"https://picsum.photos/seed/picsum/200/300\", \"https://picsum.photos/seed/picsum/200/300\"],",
+									"        \"description\": \"a nice house\",",
+									"        \"type\": 1,",
+									"        \"size\": 128,",
+									"        \"hasBalcony\": true,",
+									"        \"countBathrooms\": 2,",
+									"        \"countRoom\": 3,",
+									"        \"year\": 1999,",
+									"        \"finishing\": 0",
+									"    }).every((entry) => {",
+									"        const v1 = JSON.stringify(entry[1]);",
+									"        const v2 = JSON.stringify(data.house[entry[0]]);",
+									"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+									"        return v1 === v2;",
+									"    })).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Response contains correct address object\", () => {",
+									"    const data = pm.response.json().data[0];",
+									"",
+									"    pm.expect(Object.entries({",
+									"        \"lat\": 0,",
+									"        \"lng\": -1,",
+									"        \"value\": \"city, street, block, house\",",
+									"        \"floor\": 0,",
+									"        \"door\": 1",
+									"    }).every((entry) => {",
+									"        const v1 = JSON.stringify(entry[1]);",
+									"        const v2 = JSON.stringify(data.house.address[entry[0]]);",
+									"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+									"        return v1 === v2;",
+									"    })).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Response contains correct tags object\", () => {",
+									"    const data = pm.response.json().data[0];",
+									"",
+									"    pm.expect([\"my\", \"house\"].every((tag) => {",
+									"        const includes = data.tags.some((elem) => {",
+									"            return elem.value === tag;",
+									"        });",
+									"        if (!includes) console.error(`${tag} not in data.tags`);",
+									"        return includes;",
+									"    })).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/advs/my",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"advs",
+								"my"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Getting all advertisements",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response is valid advertisement object\", () => {",
+									"    const data = pm.response.json().data[0];",
+									"",
+									"    pm.expect(tv4.validate(data, pm.collectionVariables.get(\"advertisement_schema\"))).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Number of advertisements is correct\", () => {",
+									"    const data = pm.response.json().data;",
+									"",
+									"    pm.expect(data.length).to.be.equal(1);",
+									"});",
+									"",
+									"pm.test(\"Response is correct advertisement object\", () => {",
+									"    const data = pm.response.json().data[0];",
+									"",
+									"    pm.expect(Object.entries({",
+									"        \"title\": \"My advertisement\",",
+									"        \"price\": 7505,",
+									"        \"target\": 0",
+									"    }).every((entry) => {",
+									"        const v1 = JSON.stringify(entry[1]);",
+									"        const v2 = JSON.stringify(data[entry[0]]);",
+									"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+									"        return v1 === v2;",
+									"    })).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Response is correct house object\", () => {",
+									"    const data = pm.response.json().data[0];",
+									"",
+									"    pm.expect(Object.entries({",
+									"        \"photo\": [\"https://picsum.photos/seed/picsum/200/300\", \"https://picsum.photos/seed/picsum/200/300\"],",
+									"        \"description\": \"a nice house\",",
+									"        \"type\": 1,",
+									"        \"size\": 128,",
+									"        \"hasBalcony\": true,",
+									"        \"countBathrooms\": 2,",
+									"        \"countRoom\": 3,",
+									"        \"year\": 1999,",
+									"        \"finishing\": 0",
+									"    }).every((entry) => {",
+									"        const v1 = JSON.stringify(entry[1]);",
+									"        const v2 = JSON.stringify(data.house[entry[0]]);",
+									"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+									"        return v1 === v2;",
+									"    })).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Response contains correct address object\", () => {",
+									"    const data = pm.response.json().data[0];",
+									"",
+									"    pm.expect(Object.entries({",
+									"        \"lat\": 0,",
+									"        \"lng\": -1,",
+									"        \"value\": \"city, street, block, house\",",
+									"        \"floor\": 0,",
+									"        \"door\": 1",
+									"    }).every((entry) => {",
+									"        const v1 = JSON.stringify(entry[1]);",
+									"        const v2 = JSON.stringify(data.house.address[entry[0]]);",
+									"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+									"        return v1 === v2;",
+									"    })).to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Response contains correct tags object\", () => {",
+									"    const data = pm.response.json().data[0];",
+									"",
+									"    pm.expect([\"my\", \"house\"].every((tag) => {",
+									"        const includes = data.tags.some((elem) => {",
+									"            return elem.value === tag;",
+									"        });",
+									"        if (!includes) console.error(`${tag} not in data.tags`);",
+									"        return includes;",
+									"    })).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/advs",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"advs"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Getting all tags",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response is valid tags object\", () => {",
+							"    const data = pm.response.json().data;",
+							"",
+							"    pm.expect(data.all((tag) => {",
+							"        return tv4.validate(tag, pm.collectionVariables.get(\"tag_schema\"));",
+							"    })).to.be.true;",
+							"});",
+							"",
+							"pm.test(\"Number of tags is correct\", () => {",
+							"    const data = pm.response.json().data;",
+							"",
+							"    pm.expect(data.length).to.be.equal(3);",
+							"});",
+							"",
+							"pm.test(\"Response is correct tags object\", () => {",
+							"    const data = pm.response.json().data;",
+							"",
+							"    pm.expect([\"my\", \"house\", \"tag\"].every((tag) => {",
+							"        const includes = data.some((elem) => {",
+							"            return elem.value === tag;",
+							"        });",
+							"        if (!includes) console.error(`${tag} not in data.tags`);",
+							"        return includes;",
+							"    })).to.be.true;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/tags",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"tags"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deleting advertisement",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response is valid advertisement object\", () => {",
+							"    const data = pm.response.json().data;",
+							"",
+							"    pm.expect(tv4.validate(data, pm.collectionVariables.get(\"advertisement_schema\"))).to.be.true;",
+							"});",
+							"",
+							"pm.test(\"Response is correct advertisement object\", () => {",
+							"    const data = pm.response.json().data;",
+							"",
+							"    pm.expect(Object.entries({",
+							"        \"title\": \"My advertisement\",",
+							"        \"price\": 7505,",
+							"        \"target\": 0,",
+							"        \"house\":  pm.collectionVariables.get(\"house_id\")",
+							"    }).every((entry) => {",
+							"        const v1 = JSON.stringify(entry[1]);",
+							"        const v2 = JSON.stringify(data[entry[0]]);",
+							"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+							"        return v1 === v2;",
+							"    })).to.be.true;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/advs/{{advertisement_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"advs",
+						"{{advertisement_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deleting reply",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response is valid reply object\", () => {",
+							"    const data = pm.response.json().data;",
+							"",
+							"    pm.expect(tv4.validate(data, pm.collectionVariables.get(\"reply_schema\"))).to.be.true;",
+							"});",
+							"",
+							"pm.test(\"Response is correct reply object\", () => {",
+							"    const data = pm.response.json().data;",
+							"",
+							"    pm.expect(Object.entries({",
+							"        \"owner\": pm.collectionVariables.get(\"user_id\"),",
+							"        \"text\": \"Not so good house. My house.\",",
+							"        \"rating\": 3",
+							"    }).every((entry) => {",
+							"        const v1 = JSON.stringify(entry[1]);",
+							"        const v2 = JSON.stringify(data[entry[0]]);",
+							"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+							"        return v1 === v2;",
+							"    })).to.be.true;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/repls/{{reply_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"repls",
+						"{{reply_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deleting house",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response is valid house object\", () => {",
+							"    const data = pm.response.json().data;",
+							"",
+							"    pm.expect(tv4.validate(data, pm.collectionVariables.get(\"house_schema\"))).to.be.true;",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response is correct house object\", () => {",
+							"    const data = pm.response.json().data;",
+							"",
+							"    pm.expect(Object.entries({",
+							"        \"photo\": [\"https://picsum.photos/seed/picsum/200/300\", \"https://picsum.photos/seed/picsum/200/300\"],",
+							"        \"description\": \"a nice house\",",
+							"        \"type\": 1,",
+							"        \"size\": 128,",
+							"        \"hasBalcony\": true,",
+							"        \"countBathrooms\": 2,",
+							"        \"countRoom\": 3,",
+							"        \"year\": 1999,",
+							"        \"finishing\": 0",
+							"    }).every((entry) => {",
+							"        const v1 = JSON.stringify(entry[1]);",
+							"        const v2 = JSON.stringify(data[entry[0]]);",
+							"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+							"        return v1 === v2;",
+							"    })).to.be.true;",
+							"});",
+							"",
+							"pm.test(\"Response contains correct address object\", () => {",
+							"    const data = pm.response.json().data;",
+							"",
+							"    pm.expect(Object.entries({",
+							"        \"lat\": 0,",
+							"        \"lng\": -1,",
+							"        \"value\": \"city, street, block, house\",",
+							"        \"floor\": 0,",
+							"        \"door\": 1",
+							"    }).every((entry) => {",
+							"        const v1 = JSON.stringify(entry[1]);",
+							"        const v2 = JSON.stringify(data.address[entry[0]]);",
+							"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+							"        return v1 === v2;",
+							"    })).to.be.true;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/houses/{{house_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"houses",
+						"{{house_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deleting user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Cookie token is not present\", () => {",
+							"    pm.expect(pm.cookies.get(\"accessToken\")).to.be.undefined;",
+							"});",
+							"",
+							"pm.test(\"Response is valid user object\", () => {",
+							"    const data = pm.response.json().data;",
+							"",
+							"    pm.expect(tv4.validate(data, pm.collectionVariables.get(\"user_schema\"))).to.be.true;",
+							"});",
+							"",
+							"pm.test(\"Response is correct user object\", () => {",
+							"    const data = pm.response.json().data;",
+							"",
+							"    pm.expect(Object.entries({",
+							"        \"email\": \"new.user@site.com\",",
+							"        \"firstName\": \"User\",",
+							"        \"lastName\": \"Surname\",",
+							"        \"rating\": 5,",
+							"        \"avatar\": \"https://picsum.photos/seed/picsum/200/300\"",
+							"    }).every((entry) => {",
+							"        const v1 = JSON.stringify(entry[1]);",
+							"        const v2 = JSON.stringify(data[entry[0]]);",
+							"        if (v1 !== v2) console.error(`${entry[0]}: ${v1} != ${v2}`);",
+							"        return v1 === v2;",
+							"    })).to.be.true;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/auth/me",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"auth",
+						"me"
+					]
+				},
+				"description": "Deleting sample user"
+			},
+			"response": []
 		}
 	],
-	"auth": {
-		"type": "apikey",
-		"apikey": [
-			{
-				"key": "value",
-				"value": "{{token}}",
-				"type": "string"
-			},
-			{
-				"key": "key",
-				"value": "accessToken",
-				"type": "string"
-			}
-		]
-	},
 	"event": [
 		{
 			"listen": "prerequest",
 			"script": {
 				"type": "text/javascript",
 				"exec": [
-					"if (!pm.collectionVariables.get(\"token\")) {",
-					"    pm.sendRequest({",
-					"        url: \"http://localhost:3000/api/auth/signup\",",
-					"        method: 'POST',",
-					"        header: {",
-					"            'content-type': 'application/json'",
+					"if (!pm.collectionVariables.get(\"id_schema\")) {",
+					"    pm.collectionVariables.set(\"id_schema\", { \"type\": \"string\", \"minLength\": 24, \"maxLength\": 24 });",
+					"}",
+					"",
+					"if (!pm.collectionVariables.get(\"user_schema\")) {",
+					"    pm.collectionVariables.set(\"user_schema\", {",
+					"        \"type\": \"object\",",
+					"        \"properties\": {",
+					"            \"_id\": pm.collectionVariables.get(\"id_schema\"),",
+					"            \"firstName\": { \"type\": \"string\" },",
+					"            \"lastName\": { \"type\": \"string\" },",
+					"            \"email\": { \"type\": \"string\" },",
+					"            \"password\": false,",
+					"            \"rating\": { \"type\": \"number\", \"min\": 0, \"max\": 5 },",
+					"            \"avatar\": { \"type\": [\"string\", \"null\"] },",
+					"            \"createdAt\": { \"type\": \"string\" },",
+					"            \"cupdatedAt\": { \"type\": \"string\" }",
 					"        },",
-					"        body: {",
-					"            mode: 'raw',",
-					"            raw: JSON.stringify({",
-					"                email: \"test.user@site.com\",",
-					"                password: \"12345\",",
-					"                firstName: \"User\",",
-					"                lastName: \"Test\"",
-					"            })",
-					"        }",
-					"    }, (err, response) => {",
-					"        pm.cookies.jar().get(\"accessToken\", \"http://localhost:3000/api/auth/signup\", (err, cookie) => {",
-					"            pm.collectionVariables.set(\"token\", cookie);",
-					"        });",
+					"        \"additionalProperties\": true,",
+					"        \"required\": [\"_id\", \"firstName\", \"lastName\", \"email\", \"rating\", \"avatar\", \"createdAt\", \"updatedAt\"]",
+					"    });",
+					"}",
+					"",
+					"if (!pm.collectionVariables.get(\"reply_schema\")) {",
+					"    pm.collectionVariables.set(\"reply_schema\", {",
+					"        \"type\": \"object\",",
+					"        \"properties\": {",
+					"            \"_id\": pm.collectionVariables.get(\"id_schema\"),",
+					"            \"owner\": pm.collectionVariables.get(\"id_schema\"),",
+					"            \"text\": { \"type\": \"string\" },",
+					"            \"rating\": { \"type\": \"number\", \"min\": 0, \"max\": 5 },",
+					"            \"createdAt\": { \"type\": \"string\" },",
+					"            \"updatedAt\": { \"type\": \"string\" }",
+					"        },",
+					"        \"additionalProperties\": true,",
+					"        \"required\": [\"_id\", \"owner\", \"text\", \"rating\", \"createdAt\", \"updatedAt\"]",
+					"    });",
+					"}",
+					"",
+					"pm.variables.set(\"address_schema\", {",
+					"    \"type\": \"object\",",
+					"    \"properties\": {",
+					"        \"_id\": pm.collectionVariables.get(\"id_schema\"),",
+					"        \"lat\": { \"type\": \"number\", \"min\": -180, \"max\": 180 },",
+					"        \"lng\": { \"type\": \"number\", \"min\": -180, \"max\": 180 },",
+					"        \"value\": { \"type\": \"string\" },",
+					"        \"floor\": { \"type\": \"number\", \"min\": 0 },",
+					"        \"door\": { \"type\": \"number\", \"min\": 0 }",
+					"    },",
+					"    \"additionalProperties\": true,",
+					"    \"required\": [\"lat\", \"lng\", \"value\", \"floor\", \"door\"]",
+					"});",
+					"",
+					"if (!pm.collectionVariables.get(\"house_schema\")) {",
+					"    pm.collectionVariables.set(\"house_schema\", {",
+					"        \"type\": \"object\",",
+					"        \"properties\": {",
+					"            \"_id\": pm.collectionVariables.get(\"id_schema\"),",
+					"            \"owner\": { \"anyOf\": [pm.collectionVariables.get(\"id_schema\"), pm.collectionVariables.get(\"user_schema\")] },",
+					"            \"address\": pm.variables.get(\"address_schema\"),",
+					"            \"photo\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } },",
+					"            \"description\": { \"type\": \"string\" },",
+					"            \"type\": { \"enum\": [0, 1, 2] },",
+					"            \"size\": { \"type\": \"number\" },",
+					"            \"hasBalcony\": { \"type\": \"boolean\" },",
+					"            \"countBathrooms\": { \"type\": \"number\" },",
+					"            \"countRoom\": { \"type\": \"number\" },",
+					"            \"year\": { \"type\": \"number\" },",
+					"            \"finishing\": { \"enum\": [0, 1] },",
+					"            \"lenToMetro\": { \"type\": \"number\" },",
+					"            \"rating\": { \"type\": \"number\", \"min\": 0, \"max\": 5 },",
+					"            \"replies\": { \"type\": \"array\", \"items\": pm.collectionVariables.get(\"reply_schema\") }",
+					"        },",
+					"        \"additionalProperties\": true,",
+					"        \"required\": [\"_id\", \"owner\", \"address\", \"photo\", \"description\", \"type\", \"size\", \"hasBalcony\", \"countBathrooms\", \"countRoom\", \"year\", \"finishing\", \"lenToMetro\", \"rating\", \"replies\"]",
+					"    });",
+					"};",
+					"",
+					"pm.collectionVariables.set(\"tag_schema\", {",
+					"    \"type\": \"object\",",
+					"    \"properties\": {",
+					"        \"_id\": pm.collectionVariables.get(\"id_schema\"),",
+					"        \"value\": { \"type\": \"string\" }",
+					"    },",
+					"    \"additionalProperties\": true,",
+					"    \"required\": [\"_id\", \"value\"]",
+					"});",
+					"",
+					"if (!pm.collectionVariables.get(\"advertisement_schema\")) {",
+					"    pm.collectionVariables.set(\"advertisement_schema\", {",
+					"        \"type\": \"object\",",
+					"        \"properties\": {",
+					"            \"_id\": pm.collectionVariables.get(\"id_schema\"),",
+					"            \"title\": { \"type\": \"string\" },",
+					"            \"price\": { \"type\": \"number\" },",
+					"            \"house\": { \"anyOf\": [pm.collectionVariables.get(\"id_schema\"), pm.collectionVariables.get(\"house_schema\")] },",
+					"            \"target\": { \"enum\": [0, 1, 2] },",
+					"            \"tags\": { \"type\": \"array\", \"items\": { \"anyOf\": [pm.collectionVariables.get(\"id_schema\"), pm.collectionVariables.get(\"tag_schema\")] } },",
+					"            \"createdAt\": { \"type\": \"string\" },",
+					"            \"updatedAt\": { \"type\": \"string\" }",
+					"        },",
+					"        \"additionalProperties\": true,",
+					"        \"required\": [\"_id\", \"title\", \"price\", \"house\", \"target\", \"tags\", \"createdAt\", \"updatedAt\"]",
 					"    });",
 					"}"
 				]
@@ -175,17 +2017,15 @@
 			"script": {
 				"type": "text/javascript",
 				"exec": [
-					"pm.test(\"Status code is 200\", function () {",
+					"pm.test(\"Status code is 200\", () => {",
 					"    pm.response.to.have.status(200);",
+					"});",
+					"",
+					"pm.test(\"Request is successful\", () => {",
+					"    pm.expect(pm.response.json().success).to.be.equal(true);",
 					"});"
 				]
 			}
-		}
-	],
-	"variable": [
-		{
-			"key": "token",
-			"value": ""
 		}
 	]
 }

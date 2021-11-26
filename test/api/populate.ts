@@ -5,7 +5,8 @@ export function getTokenCookie(headers: string[]): string | undefined {
     ?.find((cookie) => {
       return cookie.split("=")[0] === "accessToken";
     })
-    ?.split("=")[1];
+    ?.split("=")[1]
+    .split(";")[0];
 }
 
 export const defaultUser = {

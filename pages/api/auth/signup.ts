@@ -19,7 +19,7 @@ const post: ServerApiHandler<SignUpRequestData, SignUpResponseData> = async (req
   const result = (await new UserDBModel(data).save()).toObject();
 
   const jwt = generateJWT(result);
-  res.setHeader("Set-Cookie", [serialize("accessToken", jwt)]);
+  res.setHeader("Set-Cookie", [serialize("accessToken", jwt, { path: "/" })]);
 
   delete result.password;
   res.status(200).json({ success: true, data: result });

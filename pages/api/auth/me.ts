@@ -23,7 +23,8 @@ const put: ServerApiHandler<LoggedInRequestData, UserResponseData> = withAuthori
 
   data.password = nova.password;
   data.rating = nova.rating;
-  data.avatar = nova.avatar; // TODO: avatar uploading.
+
+  // TODO: avatar uploading.
 
   if (!nova._id.equals(user._id)) throw Error(ErrorMessagesTypes.err401);
 
@@ -37,7 +38,7 @@ const del: ServerApiHandler<LoggedInRequestData, UserResponseData> = withAuthori
   const result = (await UserDBModel.findByIdAndDelete(user._id))?.toObject();
   delete result?.password;
 
-  res.setHeader("Set-Cookie", [serialize("accessToken", "", { maxAge: 0 })]);
+  res.setHeader("Set-Cookie", [serialize("accessToken", "", { maxAge: 0, path: "/" })]);
   res.status(200).json({ success: true, data: result });
 });
 
