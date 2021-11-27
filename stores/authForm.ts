@@ -1,8 +1,7 @@
 import * as authApi from "core/api/auth";
-import { SignInResquestData, SignUpResquestData } from "core/types/api";
+import { SignInRequestData, SignUpRequestData } from "core/types/api";
 import RequestStatus from "core/types/requestStatus";
 import { makeAutoObservable } from "mobx";
-import Router from "next/router";
 import authStore from "./auth";
 import toasts from "./toasts";
 
@@ -13,7 +12,7 @@ class AuthFormStore {
     makeAutoObservable(this);
   }
 
-  async signIn(data: SignInResquestData): Promise<void> {
+  async signIn(data: SignInRequestData): Promise<void> {
     try {
       this.requestStatus = RequestStatus.pending;
       const resData = await authApi.signIn(data);
@@ -33,12 +32,13 @@ class AuthFormStore {
     }
   }
 
-  async signUp(data: SignUpResquestData): Promise<void> {
+  async signUp(data: SignUpRequestData): Promise<void> {
     try {
       this.requestStatus = RequestStatus.pending;
       const resData = await authApi.signUp(data);
       if (resData.success === true) {
-        Router.push("/auth/signin");
+        authStore.setUser(resData.data);
+        authStore.isChecked = true;
         this.requestStatus = RequestStatus.success;
         toasts.addNotification("Success SignUp!", "success");
         return;

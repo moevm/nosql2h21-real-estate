@@ -1,13 +1,12 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { User } from "core/models";
-import { UserAuthInfoResponse } from "core/types/api";
-import withAuthorizedUser from "lib/middlewares/withAuthorizedUser";
-import type { NextApiRequest, NextApiResponse } from "next";
+import { ServerApiHandler, UserAuthInfoResponse } from "core/types/api";
+import apiHandleMethods from "serverSide/apiHandleMethods";
+import withAuthorizedUser from "serverSide/middlewares/withAuthorizedUser";
 
-async function handler(req: NextApiRequest, res: NextApiResponse<UserAuthInfoResponse>, user: User) {
+const get: ServerApiHandler<{}, UserAuthInfoResponse> = withAuthorizedUser(async (req, res, user) => {
   res.status(200).json({
     success: true,
     data: user,
   });
-}
-export default withAuthorizedUser(handler);
+});
+
+export default apiHandleMethods().get(get).prepare();

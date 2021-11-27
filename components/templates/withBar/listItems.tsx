@@ -1,7 +1,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { ListItem, ListItemIcon, ListItemText, ListSubheader } from "@mui/material";
-import { Dashboard, ShoppingCart, People, BarChart, Layers, Assignment } from "@mui/icons-material";
+import { Dashboard, Receipt, Assignment } from "@mui/icons-material";
 
 export const mainListItems = (
   <div>
@@ -11,6 +11,22 @@ export const mainListItems = (
           <Dashboard />
         </ListItemIcon>
         <ListItemText primary="Dashboard" />
+      </ListItem>
+    </Link>
+    <Link href="/advs" passHref>
+      <ListItem button>
+        <ListItemIcon>
+          <Receipt />
+        </ListItemIcon>
+        <ListItemText primary="Advs" />
+      </ListItem>
+    </Link>
+    <Link href="/houses" passHref>
+      <ListItem button>
+        <ListItemIcon>
+          <Receipt />
+        </ListItemIcon>
+        <ListItemText primary="Houses" />
       </ListItem>
     </Link>
     {/* <Link href="/auth/signin" passHref>
