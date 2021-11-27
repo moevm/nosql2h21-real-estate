@@ -1,8 +1,8 @@
 import { ServerApiHandler, SignUpResponseData, SignUpRequestData } from "core/types/api";
-import { encodePassword, generateJWT } from "lib/auth";
-import { UserDBModel } from "lib/db/shema";
+import { encodePassword, generateJWT } from "serverSide/auth";
+import { UserDBModel } from "serverSide/db/shema";
 import { serialize } from "cookie";
-import apiHandleMethods from "lib/apiHandleMethods";
+import apiHandleMethods from "serverSide/apiHandleMethods";
 
 const post: ServerApiHandler<SignUpRequestData, SignUpResponseData> = async (req, res) => {
   const data = req.body;

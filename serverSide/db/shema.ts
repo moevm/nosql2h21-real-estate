@@ -8,7 +8,7 @@ const UserModelSchema = new Schema<User>(
     firstName: Schema.Types.String,
     lastName: Schema.Types.String,
     email: { type: Schema.Types.String, lowercase: true },
-    password: Schema.Types.String,
+    password: { type: Schema.Types.String, select: false },
     rating: Schema.Types.Number,
     avatar: Schema.Types.String,
   },

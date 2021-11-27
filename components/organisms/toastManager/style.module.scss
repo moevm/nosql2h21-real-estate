@@ -1,0 +1,15 @@
+.container {
+  position: absolute;
+  margin: auto;
+  bottom: 8;
+  left: 0;
+  right: 0;
+  top: auto;
+  width: 100%;
+  pointer-events: none;
+  & > * {
+    pointer-events: all;
+    width: 400;
+    margin: 0 auto;
+  }
+}

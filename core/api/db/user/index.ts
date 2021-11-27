@@ -14,7 +14,7 @@ function create(data: UserCreateRequestData) {
   return myaxios.post<UserCreateResponseData>(`/users`, data);
 }
 function read(data: UserReadRequestData) {
-  return myaxios.get<UserReadResponseData>(`/users`, data);
+  return myaxios.get<UserReadResponseData>(`/users`);
 }
 function update(data: UserUpdateRequestData) {
   return myaxios.put<UserUpdateResponseData>(`/users`, data);

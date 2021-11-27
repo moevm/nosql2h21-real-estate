@@ -1,7 +1,7 @@
 import { AdvResponseData, ErrorMessagesTypes, ServerApiHandler } from "core/types/api";
-import apiHandleMethods from "lib/apiHandleMethods";
-import { AdvertisementDBModel } from "lib/db/shema";
-import withAuthorizedUser from "lib/middlewares/withAuthorizedUser";
+import apiHandleMethods from "serverSide/apiHandleMethods";
+import { AdvertisementDBModel } from "serverSide/db/shema";
+import withAuthorizedUser from "serverSide/middlewares/withAuthorizedUser";
 
 const get: ServerApiHandler<{}, AdvResponseData> = async (req, res) => {
   const { id } = req.query;

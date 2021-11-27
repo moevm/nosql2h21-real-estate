@@ -1,7 +1,11 @@
 import { Advertisement, House, User } from "core/models";
 import { NextApiRequest, NextApiResponse } from "next";
 
-export type ApiRequest<Req, Res extends Response<any>> = (data?: Req) => Promise<Res>;
+export type ApiQuery<Req, Res extends ResponseData<any>> = (data: Req) => Promise<Res>;
+export type ApiQueryWithPagintaion<Req extends RequestDataWithPagintaion, Res extends ResponseDataWithPagintaion> = (
+  data: Req,
+) => Promise<Res>;
+
 export type SuccessResponse<T> = {
   success: true;
   data: T;
@@ -21,15 +25,25 @@ export type ServerApiHandlerWithUser<Req, Res, Q extends Record<string, string> 
   user: User,
 ) => Promise<any>;
 
-export type Response<T extends any = {}> = SuccessResponse<T> | ErrorResponse;
+export type ResponseData<T extends any = {}> = SuccessResponse<T> | ErrorResponse;
+export type ResponseDataWithPagintaion<T extends any = {}> =
+  | SuccessResponse<{ data: T; page: number; limit: number; total: number }>
+  | ErrorResponse;
 
-export type UserAuthInfoResponse = Response<User>;
+export type RequestData<T extends any = {}> = T;
+export type RequestDataWithPagintaion<T extends any = {}> = RequestData<{
+  data: T;
+  page: number;
+  limit: number;
+}>;
+
+export type UserAuthInfoResponse = ResponseData<User>;
 
 export type SignInRequestData = {
   email: User["email"];
   password: User["password"];
 };
-export type SignInResponseData = Response<User>;
+export type SignInResponseData = ResponseData<User>;
 
 export type SignUpRequestData = {
   firstName: User["firstName"];
@@ -37,37 +51,37 @@ export type SignUpRequestData = {
   email: User["email"];
   password: User["password"];
 };
-export type SignUpResponseData = Response<User>;
+export type SignUpResponseData = ResponseData<User>;
 
-export type SignOutResponseData = Response<null>;
+export type SignOutResponseData = ResponseData<null>;
 
-export type UserCreateRequestData = User;
-export type UserCreateResponseData = Response<User>;
+export type UserCreateRequestData = RequestData<User>;
+export type UserCreateResponseData = ResponseData<User>;
 
-export type UserReadRequestData = {};
-export type UserReadResponseData = Response<User>;
+export type UserReadRequestData = RequestData<{}>;
+export type UserReadResponseData = ResponseData<User>;
 
-export type UserUpdateRequestData = User;
-export type UserUpdateResponseData = Response<User>;
+export type UserUpdateRequestData = RequestData<User>;
+export type UserUpdateResponseData = ResponseData<User>;
 
 // User current
-export type UserRequestData = { id: string };
-export type UserResponseData = Response<User | null>;
+export type UserRequestData = RequestData<{ id: string }>;
+export type UserResponseData = ResponseData<User | null>;
 // User list
-export type UserListRequestData = {};
-export type UserListResponseData = Response<User[]>;
+export type UserListRequestData = RequestDataWithPagintaion<{}>;
+export type UserListResponseData = ResponseDataWithPagintaion<User[]>;
 // Adv current
-export type AdvRequestData = { id: string };
-export type AdvResponseData = Response<Advertisement | null>;
+export type AdvReadRequestData = RequestData<{ id: string }>;
+export type AdvReadResponseData = ResponseData<Advertisement | null>;
 // Adv list
-export type AdvListRequestData = {};
-export type AdvListResponseData = Response<Advertisement[]>;
+export type AdvListRequestData = RequestDataWithPagintaion<{}>;
+export type AdvListResponseData = ResponseDataWithPagintaion<Advertisement[]>;
 // House current
-export type HouseRequestData = { id: string };
-export type HouseResponseData = Response<House | null>;
+export type HouseReadRequestData = RequestData<{ id: string }>;
+export type HouseReadResponseData = ResponseData<House | null>;
 // House list
-export type HouseListRequestData = {};
-export type HouseListResponseData = Response<House[]>;
+export type HouseListRequestData = RequestDataWithPagintaion<{}>;
+export type HouseListResponseData = ResponseDataWithPagintaion<House[]>;
 
 // Errors msgs
 export enum ErrorMessagesTypes {

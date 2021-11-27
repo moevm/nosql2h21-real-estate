@@ -1,5 +1,5 @@
 import {
-  ApiRequest,
+  ApiQuery,
   SignInResponseData,
   SignInRequestData,
   SignOutResponseData,
@@ -9,10 +9,10 @@ import {
 } from "core/types/api";
 import myaxios from "../axios";
 
-export const signIn: ApiRequest<SignInRequestData, SignInResponseData> = (data) => myaxios.post(`/api/auth/signin`, data);
-export const signUp: ApiRequest<SignUpRequestData, SignUpResponseData> = (data) => myaxios.post(`/api/auth/signup`, data);
-export const signOut: ApiRequest<void, SignOutResponseData> = () => myaxios.post(`/api/auth/signout`);
-export const getMe: ApiRequest<undefined, UserAuthInfoResponse> = () => myaxios.get(`/api/auth/me`);
+export const signIn: ApiQuery<SignInRequestData, SignInResponseData> = (data) => myaxios.post(`/auth/signin`, data);
+export const signUp: ApiQuery<SignUpRequestData, SignUpResponseData> = (data) => myaxios.post(`/auth/signup`, data);
+export const signOut: ApiQuery<void, SignOutResponseData> = () => myaxios.post(`/auth/signout`);
+export const getMe: ApiQuery<undefined, UserAuthInfoResponse> = () => myaxios.get(`/auth/me`);
 
 const authApi = {
   signIn,

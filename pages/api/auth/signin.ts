@@ -1,12 +1,14 @@
 import { ServerApiHandler, SignInResponseData, SignUpRequestData } from "core/types/api";
-import { comparePasswords, generateJWT } from "lib/auth";
-import { UserDBModel } from "lib/db/shema";
+import { comparePasswords, generateJWT } from "serverSide/auth";
+import { UserDBModel } from "serverSide/db/shema";
 import { serialize } from "cookie";
-import apiHandleMethods from "lib/apiHandleMethods";
+import apiHandleMethods from "serverSide/apiHandleMethods";
 
-const put: ServerApiHandler<SignUpRequestData, SignInResponseData> = async (req, res) => {
+const post: ServerApiHandler<SignUpRequestData, SignInResponseData> = async (req, res) => {
+  // eslint-disable-next-line no-debugger
+  debugger;
   const data = req.body;
-  const resUser = await UserDBModel.findOne({ email: data.email });
+  const resUser = await UserDBModel.findOne({ email: data.email }).select("+passwors");
   if (!resUser) throw new Error("user was not found");
 
   const correctPassword = await comparePasswords(data.password!, resUser.password!);
@@ -19,4 +21,5 @@ const put: ServerApiHandler<SignUpRequestData, SignInResponseData> = async (req,
   res.status(200).json({ success: true, data: resUser });
 };
 
-export default apiHandleMethods().put(put).prepare();
+// export default post;
+export default apiHandleMethods().post(post).prepare();

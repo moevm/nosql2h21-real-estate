@@ -1,5 +1,5 @@
 import { Advertisement, AdvTargetType, FinishingType, HouseType, Tag, User } from "core/models";
-import { AdvertisementDBModel, HouseDBModel, TagDBModel, UserDBModel } from "lib/db/shema";
+import { AdvertisementDBModel, HouseDBModel, TagDBModel, UserDBModel } from "serverSide/db/shema";
 import usersData from "./users.json";
 import cianData from "./cian.json";
 import tagsData from "./tags.json";

@@ -1,0 +1,77 @@
+@import "/scss/variables.scss";
+
+.card {
+  padding: spacing(2);
+  display: flex;
+  flex-wrap: nowrap;
+  height: spacing(63.5);
+
+  .image {
+    min-width: 40%;
+    position: relative;
+    overflow: hidden;
+    border-radius: spacing(1);
+    display: flex;
+
+    .houseIcon {
+      height: 100%;
+      width: 100%;
+      color: $cgray;
+    }
+    .progress {
+      // position: absolute;
+      // top: 50%;
+      // left: 50%;
+      // transform: translate(-50%, -50%);
+      color: $cprimary;
+      margin: auto;
+      width: spacing(20) !important;
+      height: spacing(20) !important;
+    }
+  }
+  .info {
+    margin-left: spacing(4);
+    flex-grow: 1;
+    .header {
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: center;
+      justify-content: space-between;
+      .likeButton {
+        color: $cprimary;
+        transition: timing(1);
+        &:hover {
+          color: $csecondary;
+        }
+      }
+    }
+    .geo {
+      margin-top: spacing(4);
+      height: spacing(12);
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: center;
+      justify-content: space-between;
+
+      p {
+        margin: 0;
+        -webkit-line-clamp: 2;
+        // display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .geoIcon {
+        color: $cprimary;
+      }
+    }
+    .text {
+      margin: 0;
+      margin-top: spacing(4);
+      -webkit-line-clamp: 4;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+}

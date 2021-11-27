@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { ErrorMessagesTypes, ServerApiHandler, UserResponseData } from "core/types/api";
-import apiHandleMethods from "lib/apiHandleMethods";
-import { UserDBModel } from "lib/db/shema";
+import apiHandleMethods from "serverSide/apiHandleMethods";
+import { UserDBModel } from "serverSide/db/shema";
 
 const get: ServerApiHandler<{}, UserResponseData> = async (req, res) => {
   const { id } = req.query;
