@@ -7,10 +7,12 @@ export default function withAuthorizedUser(handler: ServerApiHandlerWithUser<any
     if (user === null) {
       res.status(401).send({
         success: false,
-        error: new Error("need auth"),
+        error: "authentication needed",
       });
     } else {
-      await handler(req, res, user);
+      const objUser = (user as any).toObject();
+      delete objUser.password;
+      await handler(req, res, objUser);
     }
   };
 }

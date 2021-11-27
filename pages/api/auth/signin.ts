@@ -4,19 +4,22 @@ import { UserDBModel } from "lib/db/shema";
 import { serialize } from "cookie";
 import apiHandleMethods from "lib/apiHandleMethods";
 
+// Bundles nothing.
 const put: ServerApiHandler<SignUpRequestData, SignInResponseData> = async (req, res) => {
   const data = req.body;
-  const resUser = await UserDBModel.findOne({ email: data.email });
-  if (!resUser) throw new Error("user was not found");
 
-  const correctPassword = await comparePasswords(data.password!, resUser.password!);
+  const result = await UserDBModel.findOne({ email: data.email });
+  if (!result) throw new Error("user was not found");
+
+  const correctPassword = await comparePasswords(data.password!, result.password!);
   if (!correctPassword) throw new Error("invalid password");
 
-  const jwt = generateJWT(resUser);
-  res.setHeader("Set-Cookie", [serialize("accessToken", jwt)]);
+  const jwt = generateJWT(result);
+  res.setHeader("Set-Cookie", [serialize("accessToken", jwt, { path: "/" })]);
 
-  delete resUser.password;
-  res.status(200).json({ success: true, data: resUser });
+  const finalResult = result.toObject();
+  delete finalResult.password;
+  res.status(200).json({ success: true, data: finalResult });
 };
 
 export default apiHandleMethods().put(put).prepare();
