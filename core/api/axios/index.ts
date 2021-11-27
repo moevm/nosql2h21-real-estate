@@ -1,9 +1,9 @@
 import axios, { AxiosResponse, AxiosError, AxiosRequestConfig } from "axios";
-import { ResponseData } from "core/types/api";
+import { Response } from "core/types/api";
 import toasts from "stores/toasts";
 
 const myaxios = axios.create({
-  baseURL: "/api",
+  // baseURL: process.env.API_PATH,
   headers: {
     "Content-Type": "application/json",
     // "Access-Control-Allow-Origin": process.env.API_PATH,
@@ -20,7 +20,7 @@ myaxios.interceptors.request.use(
 );
 
 myaxios.interceptors.response.use(
-  ({ data }: AxiosResponse<ResponseData<any>>) => {
+  ({ data }: AxiosResponse<Response<any>>) => {
     if (data.success === true) {
       return data;
     }

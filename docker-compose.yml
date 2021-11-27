@@ -2,8 +2,6 @@ version: "3.9"
 services:
   web:
     container_name: web_client
-    env_file:
-      - .env
     build:
       context: ./
       dockerfile: ./Dockerfile.${NODE_ENV}
@@ -13,7 +11,7 @@ services:
     depends_on:
       - mongodb
     volumes:
-      # - ./data-node:/data/db
+      - ./data-node:/data/db
       - ./:/${DOCKER_VOLUME}
     networks:
       - webappnetwork

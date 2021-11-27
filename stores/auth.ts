@@ -49,7 +49,7 @@ class AuthStore {
     }
     this.isChecked = true;
   }
-  // async signIn(data: SignInRequestData): Promise<void> {
+  // async signIn(data: SignInResquestData): Promise<void> {
   //   this.requestStatus = RequestStatus.pending;
   //   signIn("my-login", data);
   // }
