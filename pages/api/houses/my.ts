@@ -1,7 +1,7 @@
-import apiHandleMethods from "lib/apiHandleMethods";
+import apiHandleMethods from "serverSide/apiHandleMethods";
 import { HouseListResponseData, ErrorMessagesTypes, LoggedInRequestData, ServerApiHandler } from "core/types/api";
-import { HouseDBModel, UserDBModel } from "lib/db/shema";
-import withAuthorizedUser from "../../../lib/middlewares/withAuthorizedUser";
+import { HouseDBModel, UserDBModel } from "serverSide/db/shema";
+import withAuthorizedUser from "serverSide/middlewares/withAuthorizedUser";
 
 // Bundles User.
 const get: ServerApiHandler<LoggedInRequestData, HouseListResponseData> = withAuthorizedUser(async (req, res, user) => {

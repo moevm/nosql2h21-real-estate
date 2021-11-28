@@ -7,7 +7,7 @@ import {
 } from "core/types/api";
 import apiHandleMethods from "serverSide/apiHandleMethods";
 import withAuthorizedUser from "serverSide/middlewares/withAuthorizedUser";
-import { AdvertisementDBModel, HouseDBModel, TagDBModel } from "lib/db/shema";
+import { AdvertisementDBModel, HouseDBModel, TagDBModel } from "serverSide/db/shema";
 
 // Bundles House, User and Tags.
 const get: ServerApiHandler<AdvReadRequestData, AdvReadResponseData> = async (req, res) => {

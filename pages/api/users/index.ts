@@ -1,6 +1,6 @@
 import { ServerApiHandler, UserListRequestData, UserListResponseData } from "core/types/api";
-import apiHandleMethods from "lib/apiHandleMethods";
-import { UserDBModel } from "lib/db/shema";
+import apiHandleMethods from "serverSide/apiHandleMethods";
+import { UserDBModel } from "serverSide/db/shema";
 
 // Bundles nothing.
 const get: ServerApiHandler<UserListRequestData, UserListResponseData> = async (req, res) => {

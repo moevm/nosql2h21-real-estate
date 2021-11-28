@@ -1,6 +1,6 @@
+import { TagDBModel } from "serverSide/db/shema";
+import apiHandleMethods from "serverSide/apiHandleMethods";
 import { ServerApiHandler, TagListRequestData, TagListResponseData } from "../../../core/types/api";
-import { TagDBModel } from "../../../lib/db/shema";
-import apiHandleMethods from "../../../lib/apiHandleMethods";
 
 // Bundles nothing.
 const get: ServerApiHandler<TagListRequestData, TagListResponseData> = async (req, res) => {

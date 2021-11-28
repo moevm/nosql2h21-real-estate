@@ -1,8 +1,8 @@
 import { ErrorMessagesTypes, LoggedInRequestData, ServerApiHandler, UserResponseData } from "core/types/api";
-import apiHandleMethods from "lib/apiHandleMethods";
-import withAuthorizedUser from "lib/middlewares/withAuthorizedUser";
+import apiHandleMethods from "serverSide/apiHandleMethods";
+import withAuthorizedUser from "serverSide/middlewares/withAuthorizedUser";
 import { serialize } from "cookie";
-import { UserDBModel } from "lib/db/shema";
+import { UserDBModel } from "serverSide/db/shema";
 
 // Bundles nothing.
 const get: ServerApiHandler<LoggedInRequestData, UserResponseData> = withAuthorizedUser(async (req, res, user) => {

@@ -7,7 +7,6 @@ import PaginatedList from "../PaginatedList";
 const AdvsList: React.FC = () => {
   return (
     <>
-
       <PaginatedList store={advsStore} RowComponent={AdvCard} RowLoadingComponent={AdvCardLoading} />
     </>
   );

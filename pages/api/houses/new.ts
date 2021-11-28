@@ -1,10 +1,10 @@
-import apiHandleMethods from "lib/apiHandleMethods";
-import withAuthorizedUser from "lib/middlewares/withAuthorizedUser";
-import { HouseCreateRequestData, HouseResponseData, ServerApiHandler } from "core/types/api";
-import { HouseDBModel } from "lib/db/shema";
+import apiHandleMethods from "serverSide/apiHandleMethods";
+import withAuthorizedUser from "serverSide/middlewares/withAuthorizedUser";
+import { HouseCreateRequestData, HouseReadResponseData, ServerApiHandler } from "core/types/api";
+import { HouseDBModel } from "serverSide/db/shema";
 
 // Bundles nothing.
-const post: ServerApiHandler<HouseCreateRequestData, HouseResponseData> = withAuthorizedUser(async (req, res, user) => {
+const post: ServerApiHandler<HouseCreateRequestData, HouseReadResponseData> = withAuthorizedUser(async (req, res, user) => {
   const data = req.body;
 
   delete data._id;

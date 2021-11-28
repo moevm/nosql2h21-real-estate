@@ -1,7 +1,7 @@
-import apiHandleMethods from "lib/apiHandleMethods";
-import withAuthorizedUser from "lib/middlewares/withAuthorizedUser";
+import apiHandleMethods from "serverSide/apiHandleMethods";
+import withAuthorizedUser from "serverSide/middlewares/withAuthorizedUser";
 import { ErrorMessagesTypes, HouseRequestData, ReplyRequestData, ReplyResponseData, ServerApiHandler } from "core/types/api";
-import { HouseDBModel } from "lib/db/shema";
+import { HouseDBModel } from "serverSide/db/shema";
 
 function appendToKeys(str: string, ob: any): any {
   return Object.keys(ob).reduce((p: any, c: any): any => {

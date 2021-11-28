@@ -10,7 +10,7 @@ const ToastManager: React.FC = () => {
       {toasts.list.map((e) => (
         <Alert
           key={e.id}
-          onClose={() => {
+          onClose={(): void => {
             toasts.closeNotification(e.id);
           }}
           severity={e.type}
