@@ -1,5 +1,6 @@
-import { Advertisement, House, User } from "core/models";
+import { Advertisement, House, Reply, Tag, User } from "core/models";
 import { NextApiRequest, NextApiResponse } from "next";
+import * as mongoose from "mongoose";
 
 export type ApiQuery<Req, Res extends ResponseData<any>> = (data: Req) => Promise<Res>;
 export type ApiQueryWithPagintaion<Req extends RequestDataWithPagintaion, Res extends ResponseDataWithPagintaion> = (
@@ -82,6 +83,54 @@ export type HouseReadResponseData = ResponseData<House | null>;
 // House list
 export type HouseListRequestData = RequestDataWithPagintaion<{}>;
 export type HouseListResponseData = ResponseDataWithPagintaion<House[]>;
+// General
+export type LoggedInRequestData = {};
+
+// // User one
+// export type UserRequestData = { id: string };
+// export type UserResponseData = Response<User | null>;
+// User list
+// export type UserListRequestData = {};
+// export type UserListResponseData = Response<User[]>;
+// Adv one
+export type AdvCreateRequestData = {
+  title: Advertisement["title"];
+  price: Advertisement["price"];
+  house: mongoose.Types.ObjectId;
+  target: Advertisement["target"];
+  tags: string[];
+};
+// export type AdvResponseData = ResponseData<Advertisement | null>;
+// Adv list
+// export type AdvListRequestData = {};
+// export type AdvListResponseData = Response<Advertisement[]>;
+// House one
+export type HouseRequestData = { id: string };
+export type HouseCreateRequestData = {
+  address: House["address"];
+  photo: House["photo"];
+  description: House["description"];
+  type: House["type"];
+  size: House["size"];
+  hasBalcony: House["hasBalcony"];
+  countBathrooms: House["countBathrooms"];
+  countRoom: House["countRoom"];
+  year: House["year"];
+  finishing: House["finishing"];
+};
+// export type HouseResponseData = Response<House | null>;
+// House list
+// export type HouseListRequestData = {};
+// export type HouseListResponseData = Response<House[]>;
+// Tag list
+export type TagListRequestData = {};
+export type TagListResponseData = ResponseData<Tag[]>;
+// Reply one
+export type ReplyRequestData = { id: string };
+export type ReplyResponseData = ResponseData<Reply | { house: string } | null>;
+// Reply list
+export type ReplyListRequestData = {};
+export type ReplyListResponseData = ResponseData<Reply[]>;
 
 // Errors msgs
 export enum ErrorMessagesTypes {

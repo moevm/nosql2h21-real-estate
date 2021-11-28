@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { AdvListRequestData, AdvListResponseData, ServerApiHandler } from "core/types/api";
 import apiHandleMethods from "serverSide/apiHandleMethods";
-import { AdvertisementDBModel } from "serverSide/db/shema";
+import { AdvertisementDBModel, TagDBModel, UserDBModel } from "serverSide/db/shema";
 
 const post: ServerApiHandler<AdvListRequestData, AdvListResponseData> = async (req, res) => {
   const { body } = req;
@@ -15,11 +15,10 @@ const post: ServerApiHandler<AdvListRequestData, AdvListResponseData> = async (r
     { $skip: limit * page },
     { $limit: limit },
     { $lookup: { from: "houses", localField: "house", foreignField: "_id", as: "house" } },
-    {
-      $addFields: {
-        house: { $arrayElemAt: ["$house", 0] },
-      },
-    },
+    { $set: { house: { $first: "$house" } } },
+    { $lookup: { from: UserDBModel.collection.name, localField: "house.owner", foreignField: "_id", as: "house.owner" } },
+    { $set: { "house.owner": { $first: "$house.owner" } } },
+    { $lookup: { from: TagDBModel.collection.name, localField: "tags", foreignField: "_id", as: "tags" } },
   ]);
   const total = await AdvertisementDBModel.count();
   res.status(200).json({

@@ -37,9 +37,9 @@ const apiHandleMethods = () => {
             return res.status(404).json({ success: false, error: "page not found" });
           } catch (error) {
             if (error instanceof Error || error instanceof MongoServerError) {
-             return res.status(500).json({ success: false, error: error.message });
+              return res.status(500).json({ success: false, error: error.message });
             }
-              return res.status(500).json({ success: false, error: "server error" });
+            return res.status(500).json({ success: false, error: "server error" });
           }
         },
   };

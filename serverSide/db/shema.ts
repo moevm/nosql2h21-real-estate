@@ -5,11 +5,11 @@ import { Schema, model, models } from "mongoose";
 /* User */
 const UserModelSchema = new Schema<User>(
   {
-    firstName: Schema.Types.String,
+    firstName: { type: Schema.Types.String, required: true },
     lastName: Schema.Types.String,
-    email: { type: Schema.Types.String, lowercase: true },
-    password: { type: Schema.Types.String, select: false },
-    rating: Schema.Types.Number,
+    email: { type: Schema.Types.String, lowercase: true, required: true, unique: true },
+    password: { type: Schema.Types.String, required: true, minLength: 5 },
+    rating: { type: Schema.Types.Number, required: true, min: 0, max: 5 },
     avatar: Schema.Types.String,
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true },
@@ -21,7 +21,7 @@ export const UserDBModel = model<User>("User", UserModelSchema);
 /* Tag */
 const TagModelSchema = new Schema<Tag>(
   {
-    value: Schema.Types.String,
+    value: { type: Schema.Types.String, required: true, lowercase: true },
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true } },
 );
@@ -32,9 +32,9 @@ export const TagDBModel = model<Tag>("Tag", TagModelSchema);
 /* Reply */
 const ReplyModelSchema = new Schema<Reply>(
   {
-    owner: { type: Schema.Types.ObjectId, ref: "User" },
-    text: Schema.Types.String,
-    rating: Schema.Types.Number,
+    owner: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    text: { type: Schema.Types.String, required: true },
+    rating: { type: Schema.Types.Number, required: true, min: 0, max: 5 },
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true },
 );
@@ -42,11 +42,11 @@ const ReplyModelSchema = new Schema<Reply>(
 /* Address */
 const AddressModelSchema = new Schema<Address>(
   {
-    lat: Schema.Types.Number,
-    lng: Schema.Types.Number,
+    lat: { type: Schema.Types.Number, required: true, min: -180, max: 180 },
+    lng: { type: Schema.Types.Number, required: true, min: -180, max: 180 },
     value: Schema.Types.String,
-    floor: Schema.Types.Number,
-    door: Schema.Types.Number,
+    floor: { type: Schema.Types.Number, min: 0 },
+    door: { type: Schema.Types.Number, min: 0 },
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true } },
 );
@@ -54,27 +54,19 @@ const AddressModelSchema = new Schema<Address>(
 /* House */
 const HouseModelSchema = new Schema<House>(
   {
-    owner: { type: Schema.Types.ObjectId, ref: "User" },
-    address: AddressModelSchema,
+    owner: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    address: { type: AddressModelSchema, required: true },
     photo: [Schema.Types.String],
     description: Schema.Types.String,
-    type: {
-      type: Number,
-      default: HouseType.house,
-      enum: enumToNumArray(HouseType),
-    },
-    size: Schema.Types.Number,
-    hasBalcony: Schema.Types.Boolean,
-    countBathrooms: Schema.Types.Number,
-    countRoom: Schema.Types.Number,
-    year: Schema.Types.Number,
-    finishing: {
-      type: Number,
-      default: FinishingType.norm,
-      enum: enumToNumArray(FinishingType),
-    },
-    lenToMetro: Schema.Types.Number,
-    rating: Schema.Types.Number,
+    type: { type: Number, default: HouseType.house, enum: enumToNumArray(HouseType), required: true },
+    size: { type: Schema.Types.Number, required: true },
+    hasBalcony: { type: Schema.Types.Boolean, required: true },
+    countBathrooms: { type: Schema.Types.Number, required: true },
+    countRoom: { type: Schema.Types.Number, required: true },
+    year: { type: Schema.Types.Number, required: true },
+    finishing: { type: Number, default: FinishingType.norm, enum: enumToNumArray(FinishingType), required: true },
+    lenToMetro: { type: Schema.Types.Number, required: true },
+    rating: { type: Schema.Types.Number, required: true, min: 0, max: 5 },
     replies: [ReplyModelSchema],
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true } },
@@ -86,14 +78,10 @@ export const HouseDBModel = model<House>("House", HouseModelSchema);
 /* Advertisement */
 const AdvertisementModelSchema = new Schema<Advertisement>(
   {
-    title: Schema.Types.String,
-    price: Schema.Types.Number,
-    house: { type: Schema.Types.ObjectId, ref: "House" },
-    target: {
-      type: Number,
-      default: AdvTargetType.rents,
-      enum: enumToNumArray(AdvTargetType),
-    },
+    title: { type: Schema.Types.String, required: true },
+    price: { type: Schema.Types.Number, required: true },
+    house: { type: Schema.Types.ObjectId, ref: "House", required: true },
+    target: { type: Number, default: AdvTargetType.rents, enum: enumToNumArray(AdvTargetType), required: true },
     tags: [{ type: Schema.Types.ObjectId, ref: "Tag" }],
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true },
