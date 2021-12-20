@@ -27,7 +27,7 @@ const PaginationFooter: React.FC<Props> = (props) => {
           <ArrowBackIosNewRounded />
         </IconButton>
         {`${page + 1} / ${maxPage}`}
-        <IconButton aria-label="next" disabled={page >= maxPage} onClick={next}>
+        <IconButton aria-label="next" disabled={page + 1 >= maxPage} onClick={next}>
           <ArrowForwardIosRounded />
         </IconButton>
       </Grid>
