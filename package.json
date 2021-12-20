@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "nodemon",
     "build": "NODE_ENV=production next build && tsc --project tsconfig.server.json",
-    "start": "cross-env NODE_ENV=production node dist/index.js",
+    "start": "cross-env NODE_ENV=production ts-node server.ts",
     "docker:dev:build": "docker-compose --env-file=./.env.development build",
     "docker:dev:start": "docker-compose --env-file=./.env.development up",
     "docker:dev:launch": "docker-compose --env-file=./.env.development up -d --build",
