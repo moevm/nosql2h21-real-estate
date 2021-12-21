@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { WithBar } from "components/templates";
-import { AdvsList, NavTabs } from "components/organisms";
+import { AdvsList } from "components/organisms";
 
 const tabs = [
   { label: "List", href: "/" },
@@ -16,8 +16,6 @@ const Advs: NextPage = () => {
       <Head>
         <title>NoSQL | Advs</title>
       </Head>
-
-      {/* <NavTabs tabs={tabs} /> */}
 
       <AdvsList />
     </WithBar>
