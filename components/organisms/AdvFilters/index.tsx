@@ -4,7 +4,12 @@ import { observer } from "mobx-react";
 import React, { useState } from "react";
 import advsStore from "stores/advs";
 
-const AdvFilters: React.FC = () => {
+type Props = {
+  flag?: "fullloading" | null;
+};
+
+const AdvFilters: React.FC<Props> = (props) => {
+  const { flag } = props;
   const [expanded, setExpanded] = useState<boolean>(false);
   return (
     <div>
@@ -20,7 +25,8 @@ const AdvFilters: React.FC = () => {
                 onClick={(e) => {
                   e.stopPropagation();
                   e.preventDefault();
-                  advsStore.loadList();
+                  if (flag === "fullloading") advsStore.loadAll();
+                  else advsStore.loadList();
                 }}
               >
                 Применить

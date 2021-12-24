@@ -27,7 +27,7 @@ const AdvsMap: React.FC = () => {
     advsStore.loadAll();
   }, []);
 
-  return isLoaded && advsStore.requestStatus === RequestStatus.success ? (
+  return isLoaded ? (
     <>
       <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={15}>
         <>

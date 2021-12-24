@@ -71,7 +71,6 @@ export default class PaginatedListStore<
     if (this.requestStatus === RequestStatus.pending) return;
     try {
       this.requestStatus = RequestStatus.pending;
-
       const req = {
         data: this._reqData,
         page: 0,
