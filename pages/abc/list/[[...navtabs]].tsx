@@ -5,6 +5,7 @@ import { AdvsList, NavTabs } from "components/organisms";
 import { useMemo } from "react";
 import { useRouter } from "next/dist/client/router";
 import AdvFilters from "components/organisms/AdvFilters";
+import AdvsMap from "components/organisms/AdvsMap";
 
 const tabsDefault = [
   { label: "List", href: "/" },
@@ -30,11 +31,11 @@ const Advs: NextPage = () => {
       <Head>
         <title>NoSQL | Advs</title>
       </Head>
-      потом фильтры сюда бахну
       <AdvFilters />
       <NavTabs tabs={tabs} value={value} />
       {value === 0 && <AdvsList />}
-      {value === 1 && "Тут карту нарисую"}
+      {value === 1 && <AdvsMap />}
+      {/* {value === 1 && "Тут карту нарисую"} */}
       {value === 2 && "Тут в виде таблицы"}
       {value === 3 && "Тут диграмму круглую"}
     </WithBar>

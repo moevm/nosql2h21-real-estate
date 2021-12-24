@@ -42,6 +42,15 @@ class AdvsStore extends PaginatedList<Advertisement, typeof advApi.list> {
       }
     });
   }
+
+  async loadAll(): Promise<void> {
+    this._reqData = this.filters;
+    return super.loadAll().catch((error) => {
+      if (error instanceof Error) {
+        toasts.addNotification(error.message, "error");
+      }
+    });
+  }
 }
 
 const advsStore = new AdvsStore();

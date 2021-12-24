@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import advsStore from "stores/advs";
 
 const AdvFilters: React.FC = () => {
-  const [expanded, setExpanded] = useState<boolean>(true);
+  const [expanded, setExpanded] = useState<boolean>(false);
   return (
     <div>
       <Accordion expanded={expanded} onChange={() => setExpanded((v) => !v)}>

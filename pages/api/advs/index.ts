@@ -31,7 +31,9 @@ const helperMinMax = (obj: { min?: number; max?: number }): any => {
   return null;
 };
 const filtersToMatches = (filters: AdvListFilters): Matches => {
+  if (!filters) return {};
   const matches: Matches = {};
+
   // FIXME: add match by title
   // if (filters.title !== undefined) matches.title = { $regex: filters.title, $options: "gmi" };
 
@@ -71,7 +73,6 @@ const post: ServerApiHandler<AdvListRequestData, AdvListResponseData> = async (r
   const matches = filtersToMatches(filters);
   const aggRes: PaginatedAgregateResponse<Advertisement> = (
     await AdvertisementDBModel.aggregate([
-      // { $match: matches },
       { $lookup: { from: "houses", localField: "house", foreignField: "_id", as: "house" } },
       { $set: { house: { $first: "$house" } } },
       { $lookup: { from: UserDBModel.collection.name, localField: "house.owner", foreignField: "_id", as: "house.owner" } },
