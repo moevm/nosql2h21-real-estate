@@ -1,16 +1,14 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { WithBar } from "components/templates";
-import { AdvsList, NavTabs } from "components/organisms";
+import { AdvFilters, AdvsList, AdvsMap, AdvTable, NavTabs } from "components/organisms";
 import { useMemo } from "react";
 import { useRouter } from "next/dist/client/router";
-import AdvFilters from "components/organisms/AdvFilters";
-import AdvsMap from "components/organisms/AdvsMap";
 
 const tabsDefault = [
   { label: "List", href: "/" },
   { label: "Map", href: "/map" },
-  { label: "Tabel", href: "/table" },
+  { label: "Table", href: "/table" },
   { label: "Diagram", href: "/diagram" },
 ];
 
@@ -36,7 +34,7 @@ const Advs: NextPage = () => {
       {value === 0 && <AdvsList />}
       {value === 1 && <AdvsMap />}
       {/* {value === 1 && "Тут карту нарисую"} */}
-      {value === 2 && "Тут в виде таблицы"}
+      {value === 2 && <AdvTable />}
       {value === 3 && "Тут диграмму круглую"}
     </WithBar>
   );
