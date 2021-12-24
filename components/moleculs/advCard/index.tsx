@@ -1,5 +1,6 @@
 import { Card, CircularProgress, IconButton, Typography } from "@mui/material";
 import { Advertisement, HouseType, AdvTargetType } from "core/models";
+import Link from "next/link";
 import React, { useMemo, useState } from "react";
 import Image from "next/image";
 import { useMeridiemMode } from "@mui/lab/internal/pickers/hooks/date-helpers-hooks";
@@ -52,7 +53,11 @@ const AdvCard: React.FC<Props> = (props) => {
       </div>
       <div className={s.info}>
         <div className={s.header}>
-          <Typography variant="h5">{title}</Typography>
+          <Link href={`/abc/${data._id}`} passHref>
+            <Typography className={s.titleLink} variant="h5">
+              {title}
+            </Typography>
+          </Link>
           <IconButton aria-label="like" component="span" className={s.likeButton}>
             <FavoriteBorder />
           </IconButton>

@@ -13,7 +13,7 @@ export const mainListItems = (
         <ListItemText primary="Dashboard" />
       </ListItem>
     </Link>
-    <Link href="/advs" passHref>
+    <Link href="/abc/list" passHref>
       <ListItem button>
         <ListItemIcon>
           <Receipt />
@@ -29,38 +29,6 @@ export const mainListItems = (
         <ListItemText primary="Houses" />
       </ListItem>
     </Link>
-    {/* <Link href="/auth/signin" passHref>
-      <ListItem button>
-        <ListItemIcon>
-          <ShoppingCart />
-        </ListItemIcon>
-        <ListItemText primary="signin" />
-      </ListItem>
-    </Link>
-    <Link href="/auth/signup" passHref>
-      <ListItem button>
-        <ListItemIcon>
-          <People />
-        </ListItemIcon>
-        <ListItemText primary="signup" />
-      </ListItem>
-    </Link>
-    <Link href="/" passHref>
-      <ListItem button>
-        <ListItemIcon>
-          <BarChart />
-        </ListItemIcon>
-        <ListItemText primary="Reports" />
-      </ListItem>
-    </Link>
-    <Link href="/" passHref>
-      <ListItem button>
-        <ListItemIcon>
-          <Layers />
-        </ListItemIcon>
-        <ListItemText primary="Integrations" />
-      </ListItem>
-    </Link> */}
   </div>
 );
 

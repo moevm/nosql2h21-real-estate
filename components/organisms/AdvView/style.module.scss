@@ -1,0 +1,35 @@
+@import "/scss/variables.scss";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  margin-top: spacing(-1);
+  margin-bottom: spacing(-1);
+  & > * {
+    margin-top: spacing(1);
+    margin-bottom: spacing(1);
+  }
+}
+
+
+.image {
+  width: 100%;
+
+  min-height:300px;
+  position: relative;
+  overflow: hidden;
+  border-radius: spacing(1);
+  display: flex;
+
+  .houseIcon {
+    height: 100%;
+    width: 100%;
+    color: $cgray;
+  }
+  .progress {
+    color: $cprimary;
+    margin: auto;
+    width: spacing(20) !important;
+    height: spacing(20) !important;
+  }
+}

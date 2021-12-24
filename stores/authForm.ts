@@ -1,4 +1,4 @@
-import * as authApi from "core/api/auth";
+import authApi from "core/api/auth";
 import { SignInRequestData, SignUpRequestData } from "core/types/api";
 import RequestStatus from "core/types/requestStatus";
 import { makeAutoObservable } from "mobx";

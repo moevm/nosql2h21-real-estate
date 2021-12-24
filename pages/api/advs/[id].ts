@@ -20,7 +20,16 @@ const get: ServerApiHandler<AdvReadRequestData, AdvReadResponseData> = async (re
         path: "owner",
       },
     })
-    .populate("tags");
+    .populate("tags")
+    .populate({
+      path: "house",
+      populate: {
+        path: "replies",
+        populate: {
+          path: "owner",
+        },
+      },
+    });
   if (!data) throw Error(ErrorMessagesTypes.err404);
 
   res.status(200).json({ success: true, data });

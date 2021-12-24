@@ -15,7 +15,7 @@ class HousesStore extends PaginatedList<House, typeof houseApi.list> {
     this.loadList = this.loadList.bind(this);
   }
 
-  filters: AdvListRequestData["data"] = {};
+  filters: {} = {};
 
   async loadList(): Promise<void> {
     this._reqData = this.filters;

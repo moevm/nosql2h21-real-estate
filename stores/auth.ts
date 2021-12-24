@@ -1,6 +1,6 @@
 import { User } from "core/models";
 import { makeAutoObservable } from "mobx";
-import * as authApi from "core/api/auth";
+import authApi from "core/api/auth";
 import toasts from "./toasts";
 
 class AuthStore {
