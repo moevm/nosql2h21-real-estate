@@ -152,5 +152,3 @@ export enum ErrorMessagesTypes {
 }
 
 export type PaginatedAgregateResponse<T> = { data: T[]; totalRecords: [{ total: number }] };
-
-export type PaginatedAgregateResponse<T> = { data: T[]; totalRecords: [{ total: number }] };
