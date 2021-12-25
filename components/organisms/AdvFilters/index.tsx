@@ -27,6 +27,7 @@ const AdvFilters: React.FC<Props> = (props) => {
                 onClick={(e) => {
                   e.stopPropagation();
                   e.preventDefault();
+                  advsStore.pagination.page=0
                   if (flag === "fullloading") advsStore.loadAll();
                   if (flag === "charts") chartsStore.loadAll();
                   else advsStore.loadList();

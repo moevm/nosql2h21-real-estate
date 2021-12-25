@@ -61,7 +61,7 @@ const HouseModelSchema = new Schema<House>(
     type: { type: Number, default: HouseType.house, enum: enumToNumArray(HouseType), required: true },
     size: { type: Schema.Types.Number, required: true },
     hasBalcony: { type: Schema.Types.Boolean, required: true },
-    countBathrooms: { type: Schema.Types.Number, required: true },
+    countBathrooms: Schema.Types.Number,
     countRoom: { type: Schema.Types.Number, required: true },
     year: { type: Schema.Types.Number, required: true },
     finishing: { type: Number, default: FinishingType.norm, enum: enumToNumArray(FinishingType), required: true },

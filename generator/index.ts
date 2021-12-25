@@ -23,6 +23,10 @@ export const generateDBData = async (): Promise<Advertisement[]> => {
         tags[randomInt(tags.length - 1)],
         tags[randomInt(tags.length - 1)],
         tags[randomInt(tags.length - 1)],
+        tags[randomInt(tags.length - 1)],
+        tags[randomInt(tags.length - 1)],
+        tags[randomInt(tags.length - 1)],
+        tags[randomInt(tags.length - 1)],
       ]),
     );
 
@@ -30,7 +34,7 @@ export const generateDBData = async (): Promise<Advertisement[]> => {
   const advsData = await Promise.all(
     cianData.map(async (record) => {
       const owner = randomUser();
-      const replies = new Array(Math.round(1 + Math.random() * 4)).fill(0).map(() => {
+      const replies = new Array(Math.round(3 + Math.random() * 10)).fill(0).map(() => {
         const user = randomUser();
         return {
           owner: user._id,
@@ -47,7 +51,7 @@ export const generateDBData = async (): Promise<Advertisement[]> => {
       };
       // eslint-disable-next-line no-debugger
       // debugger;
-      const house = await HouseDBModel.create({
+      const h = {
         owner: owner._id,
         address,
         photo: record.images.split(",") || [],
@@ -55,17 +59,18 @@ export const generateDBData = async (): Promise<Advertisement[]> => {
         type: randomHouseType(),
         size: parseFloat(record.area) || 0,
         hasBalcony: Math.random() > 0.5,
-        countBatrooms: Math.round(1 + Math.random() * 3),
+        countBatrooms: Math.round(1 + Math.random() * 3) || 1,
         countRoom: record.rooms_count,
         year: record.building_year || 1990,
         finishing: randomFinishingType(), // repair_type
         lenToMetro: 0, // calc from map when created
         rating: randomRating(),
         replies,
-      });
-      // eslint-disable-next-line no-debugger
+      };
+      const preTitle = record.description?.split(" ").slice(1, 4).join(" ");
+      const house = await HouseDBModel.create(h);
       const adv = {
-        title: "title",
+        title: preTitle ? preTitle[0].toUpperCase() + preTitle.slice(1) : "title",
         price: record.price,
         house,
         target: randomAdvTargetType(),
