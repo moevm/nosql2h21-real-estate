@@ -1,11 +1,12 @@
-import { Card, CircularProgress, IconButton, Typography } from "@mui/material";
+import { Card, Chip, CircularProgress, IconButton, Typography } from "@mui/material";
 import { Advertisement, HouseType, AdvTargetType } from "core/models";
 import Link from "next/link";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { useMeridiemMode } from "@mui/lab/internal/pickers/hooks/date-helpers-hooks";
 import { FavoriteBorder, MapsHomeWorkOutlined, Room } from "@mui/icons-material";
 import RequestStatus from "core/types/requestStatus";
+import advsStore from "stores/advs";
 import s from "./style.module.scss";
 
 type Props = {
@@ -42,6 +43,9 @@ const AdvCard: React.FC<Props> = (props) => {
             alt="house photo"
             layout="fill"
             objectFit="cover"
+            onLoadStart={() => {
+              setImageRequestStatus(RequestStatus.pending);
+            }}
             onLoadingComplete={() => {
               setImageRequestStatus(RequestStatus.success);
             }}
@@ -62,16 +66,27 @@ const AdvCard: React.FC<Props> = (props) => {
             <FavoriteBorder />
           </IconButton>
         </div>
+        {data.tags.map((tag) => (
+          <Chip key={tag._id} label={tag.value} variant="outlined" />
+        ))}
         <Typography variant="subtitle1">
           {data.price.toLocaleString()} ₽ {data.target === AdvTargetType.rents && "в месяц"}
         </Typography>
         {/* <Typography className={s.title}>{data.title}</Typography> */}
-        <div className={s.geo}>
-          <Typography className={s.geo}>{data.house.address.value}</Typography>
-          <IconButton aria-label="show on map" component="span">
-            <Room className={s.geoIcon} />
-          </IconButton>
-        </div>
+        <Link
+          href={{
+            pathname: "/abc/list/map",
+            query: { lat: data.house.address.lat, lng: data.house.address.lng },
+          }}
+          passHref
+        >
+          <div className={s.geo}>
+            <Typography className={s.geo}>{data.house.address.value}</Typography>
+            <IconButton aria-label="show on map" component="span">
+              <Room className={s.geoIcon} />
+            </IconButton>
+          </div>
+        </Link>
         <Typography className={s.text}>{data.house.description}</Typography>
       </div>
     </Card>

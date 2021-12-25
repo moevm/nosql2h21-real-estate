@@ -4,7 +4,7 @@
   padding: spacing(2);
   display: flex;
   flex-wrap: nowrap;
-  height: spacing(63.5);
+  // height: spacing(63.5);
 
   .image {
     min-width: 40%;
@@ -17,6 +17,7 @@
       height: 100%;
       width: 100%;
       color: $cgray;
+      max-height: spacing(63.5);
     }
     .progress {
       // position: absolute;
@@ -75,9 +76,9 @@
     }
   }
 }
-.titleLink{
+.titleLink {
   cursor: pointer;
 }
-.titleLink{
+.titleLink {
   cursor: pointer;
 }

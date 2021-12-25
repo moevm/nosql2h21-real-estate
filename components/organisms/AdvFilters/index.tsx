@@ -3,9 +3,15 @@ import { AdvTargetType, FinishingType } from "core/models";
 import { observer } from "mobx-react";
 import React, { useState } from "react";
 import advsStore from "stores/advs";
+import chartsStore from "stores/charts";
 
-const AdvFilters: React.FC = () => {
-  const [expanded, setExpanded] = useState<boolean>(true);
+type Props = {
+  flag?: "fullloading" | "charts" | null;
+};
+
+const AdvFilters: React.FC<Props> = (props) => {
+  const { flag } = props;
+  const [expanded, setExpanded] = useState<boolean>(false);
   return (
     <div>
       <Accordion expanded={expanded} onChange={() => setExpanded((v) => !v)}>
@@ -20,7 +26,9 @@ const AdvFilters: React.FC = () => {
                 onClick={(e) => {
                   e.stopPropagation();
                   e.preventDefault();
-                  advsStore.loadList();
+                  if (flag === "fullloading") advsStore.loadAll();
+                  if (flag === "charts") chartsStore.loadAll();
+                  else advsStore.loadList();
                 }}
               >
                 Применить

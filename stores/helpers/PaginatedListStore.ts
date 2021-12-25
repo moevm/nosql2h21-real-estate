@@ -23,6 +23,7 @@ export default class PaginatedListStore<
     this.nextPage = this.nextPage.bind(this);
     this.prevPage = this.prevPage.bind(this);
     this.setLimit = this.setLimit.bind(this);
+    this.loadAll = this.loadAll.bind(this);
     this.query = query;
   }
 
@@ -51,11 +52,35 @@ export default class PaginatedListStore<
         limit: this.pagination.limit,
       } as Req;
       if (!this.query) return;
-      const res = await this.query!(req);
+      const res = await this.query(req);
       if (res.success === true) {
         const { data: resData, page, limit, total } = res.data;
         this.list = resData;
         this.pagination = { page, limit, total };
+        this.requestStatus = RequestStatus.success;
+      } else {
+        throw new Error(res.error);
+      }
+    } catch (error) {
+      this.requestStatus = RequestStatus.error;
+      throw error;
+    }
+  }
+
+  async loadAll(): Promise<void> {
+    if (this.requestStatus === RequestStatus.pending) return;
+    try {
+      this.requestStatus = RequestStatus.pending;
+      const req = {
+        data: this._reqData,
+        page: 0,
+        limit: 10000000,
+      } as Req;
+      if (!this.query) return;
+      const res = await this.query(req);
+      if (res.success === true) {
+        const { data: resData } = res.data;
+        this.list = resData;
         this.requestStatus = RequestStatus.success;
       } else {
         throw new Error(res.error);

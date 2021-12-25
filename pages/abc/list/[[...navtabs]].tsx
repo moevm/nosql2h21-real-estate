@@ -1,15 +1,14 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { WithBar } from "components/templates";
-import { AdvsList, NavTabs } from "components/organisms";
+import { AdvFilters, AdvGraphs, AdvsList, AdvsMap, AdvTable, NavTabs } from "components/organisms";
 import { useMemo } from "react";
 import { useRouter } from "next/dist/client/router";
-import AdvFilters from "components/organisms/AdvFilters";
 
 const tabsDefault = [
-  { label: "List", href: "/" },
+  { label: "List", href: "/cards" },
   { label: "Map", href: "/map" },
-  { label: "Tabel", href: "/table" },
+  { label: "Table", href: "/table" },
   { label: "Diagram", href: "/diagram" },
 ];
 
@@ -20,7 +19,7 @@ const Advs: NextPage = () => {
     [router],
   );
   const value = useMemo(() => {
-    const idx = tabs.findIndex(({ href }) => href === router.asPath);
+    const idx = tabs.findIndex(({ href }) => router.asPath.includes(href));
     if (idx <= -1) return 0;
     return idx;
   }, [router, tabs]);
@@ -30,13 +29,12 @@ const Advs: NextPage = () => {
       <Head>
         <title>NoSQL | Advs</title>
       </Head>
-      потом фильтры сюда бахну
-      <AdvFilters />
+      <AdvFilters flag={(value === 1 && "fullloading") || (value === 3 && "charts") || null} />
       <NavTabs tabs={tabs} value={value} />
       {value === 0 && <AdvsList />}
-      {value === 1 && "Тут карту нарисую"}
-      {value === 2 && "Тут в виде таблицы"}
-      {value === 3 && "Тут диграмму круглую"}
+      {value === 1 && <AdvsMap />}
+      {value === 2 && <AdvTable />}
+      {value === 3 && <AdvGraphs />}
     </WithBar>
   );
 };

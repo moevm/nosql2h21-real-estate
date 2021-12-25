@@ -28,7 +28,9 @@
     "@mui/material": "^5.0.1",
     "@mui/styles": "^5.0.1",
     "@mui/system": "^5.1.0",
+    "@react-google-maps/api": "^2.7.0",
     "@types/mongoose": "^5.11.97",
+    "@types/react-vis": "^1.11.10",
     "axios": "^0.21.4",
     "bcrypt": "^5.0.1",
     "clsx": "^1.1.1",
@@ -42,6 +44,8 @@
     "next": "11.1.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-google-maps": "^9.4.5",
+    "react-vis": "^1.11.7",
     "sass": "^1.43.4",
     "scss": "^0.2.4"
   },
