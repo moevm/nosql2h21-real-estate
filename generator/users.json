@@ -1,0 +1,794 @@
+[
+  {
+      "firstName": "Даниэль",
+      "lastName": "Рыжов",
+      "email": "hr6zdl@yandex.ru",
+      "password": "iCrEPFNE",
+      "rating": 3,
+      "avatar": "#9459A7"
+  },
+  {
+      "firstName": "Денис",
+      "lastName": "Зотов",
+      "email": "kaft93x@outlook.com",
+      "password": "3jQn9Ik2",
+      "rating": 5,
+      "avatar": "#7F4FC0"
+  },
+  {
+      "firstName": "Игорь",
+      "lastName": "Лебедев",
+      "email": "dcu@yandex.ru",
+      "password": "e0OntJ2T",
+      "rating": 2,
+      "avatar": "#588AE5"
+  },
+  {
+      "firstName": "Павел",
+      "lastName": "Рудаков",
+      "email": "19dn@outlook.com",
+      "password": "SfiewoSG",
+      "rating": 4,
+      "avatar": "#4E32E5"
+  },
+  {
+      "firstName": "София",
+      "lastName": "Григорьева",
+      "email": "pa5h@mail.ru",
+      "password": "rib9sABl",
+      "rating": 4,
+      "avatar": "#11600F"
+  },
+  {
+      "firstName": "Ирина",
+      "lastName": "Иванова",
+      "email": "281av0@gmail.com",
+      "password": "WuKgRvCz",
+      "rating": 3,
+      "avatar": "#7BC66C"
+  },
+  {
+      "firstName": "Олег",
+      "lastName": "Тихомиров",
+      "email": "8edmfh@outlook.com",
+      "password": "6s8YfQh2",
+      "rating": 2,
+      "avatar": "#B15450"
+  },
+  {
+      "firstName": "Владимир",
+      "lastName": "Зорин",
+      "email": "sfn13i@mail.ru",
+      "password": "7fq30vnh",
+      "rating": 1,
+      "avatar": "#A69C66"
+  },
+  {
+      "firstName": "Никита",
+      "lastName": "Устинов",
+      "email": "g0orc3x1@outlook.com",
+      "password": "Z8M2gxpf",
+      "rating": 3,
+      "avatar": "#784422"
+  },
+  {
+      "firstName": "Максим",
+      "lastName": "Зубков",
+      "email": "rv7bp@gmail.com",
+      "password": "heFZUvU4",
+      "rating": 5,
+      "avatar": "#381BDB"
+  },
+  {
+      "firstName": "Михаил",
+      "lastName": "Федоров",
+      "email": "93@outlook.com",
+      "password": "4sneYSsk",
+      "rating": 2,
+      "avatar": "#474F6B"
+  },
+  {
+      "firstName": "Артём",
+      "lastName": "Григорьев",
+      "email": "er@gmail.com",
+      "password": "tQ7thRM7",
+      "rating": 4,
+      "avatar": "#521F8D"
+  },
+  {
+      "firstName": "Илья",
+      "lastName": "Васильев",
+      "email": "o0my@gmail.com",
+      "password": "6edq98gW",
+      "rating": 4,
+      "avatar": "#BB919F"
+  },
+  {
+      "firstName": "Артём",
+      "lastName": "Борисов",
+      "email": "715qy08@gmail.com",
+      "password": "JlCuWj2Y",
+      "rating": 4,
+      "avatar": "#E5DA87"
+  },
+  {
+      "firstName": "Алина",
+      "lastName": "Степанова",
+      "email": "vubx0t@mail.ru",
+      "password": "sjblMzab",
+      "rating": 3,
+      "avatar": "#758665"
+  },
+  {
+      "firstName": "Тимофей",
+      "lastName": "Данилов",
+      "email": "wnhborq@outlook.com",
+      "password": "0h2qCdaR",
+      "rating": 1,
+      "avatar": "#C48B23"
+  },
+  {
+      "firstName": "Мария",
+      "lastName": "Муратова",
+      "email": "gq@yandex.ru",
+      "password": "PGgFLXzS",
+      "rating": 4,
+      "avatar": "#45CCFB"
+  },
+  {
+      "firstName": "Роман",
+      "lastName": "Колосов",
+      "email": "ic0pu@outlook.com",
+      "password": "FUYK9ddm",
+      "rating": 5,
+      "avatar": "#7AE484"
+  },
+  {
+      "firstName": "Григорий",
+      "lastName": "Горелов",
+      "email": "o7khr@yandex.ru",
+      "password": "5vpMfJNg",
+      "rating": 4,
+      "avatar": "#5FB83F"
+  },
+  {
+      "firstName": "Мирослава",
+      "lastName": "Михайлова",
+      "email": "2shlaq@outlook.com",
+      "password": "3XPzWaYC",
+      "rating": 2,
+      "avatar": "#6ACD4A"
+  },
+  {
+      "firstName": "Дарья",
+      "lastName": "Никитина",
+      "email": "cdbw@yandex.ru",
+      "password": "dYGmKP58",
+      "rating": 4,
+      "avatar": "#622CF4"
+  },
+  {
+      "firstName": "Виктория",
+      "lastName": "Морозова",
+      "email": "wrts90puk@yandex.ru",
+      "password": "BPxPzGbK",
+      "rating": 4,
+      "avatar": "#363C5B"
+  },
+  {
+      "firstName": "Степан",
+      "lastName": "Ушаков",
+      "email": "yxunv@gmail.com",
+      "password": "85bUu0ED",
+      "rating": 2,
+      "avatar": "#F273BF"
+  },
+  {
+      "firstName": "Дмитрий",
+      "lastName": "Громов",
+      "email": "7y@yandex.ru",
+      "password": "3zOQ2Ha8",
+      "rating": 3,
+      "avatar": "#F980EA"
+  },
+  {
+      "firstName": "Василиса",
+      "lastName": "Ильина",
+      "email": "6@mail.ru",
+      "password": "iF6vEHPb",
+      "rating": 3,
+      "avatar": "#ED3966"
+  },
+  {
+      "firstName": "Полина",
+      "lastName": "Макарова",
+      "email": "k8sjebg1y@mail.ru",
+      "password": "FQPYckGG",
+      "rating": 1,
+      "avatar": "#601241"
+  },
+  {
+      "firstName": "Ксения",
+      "lastName": "Галкина",
+      "email": "jirbold@gmail.com",
+      "password": "YUolBbdj",
+      "rating": 4,
+      "avatar": "#C5F7AC"
+  },
+  {
+      "firstName": "Диана",
+      "lastName": "Акимова",
+      "email": "u7yhwf1vb@mail.ru",
+      "password": "MhNQtcBd",
+      "rating": 2,
+      "avatar": "#076627"
+  },
+  {
+      "firstName": "Вячеслав",
+      "lastName": "Степанов",
+      "email": "f@outlook.com",
+      "password": "Qia8pAGH",
+      "rating": 1,
+      "avatar": "#A7CBFE"
+  },
+  {
+      "firstName": "Денис",
+      "lastName": "Ерофеев",
+      "email": "gjkhp@mail.ru",
+      "password": "Vuoo6Zt0",
+      "rating": 1,
+      "avatar": "#629F12"
+  },
+  {
+      "firstName": "Валерия",
+      "lastName": "Трифонова",
+      "email": "wyalkxfde@gmail.com",
+      "password": "ub7oZbSS",
+      "rating": 1,
+      "avatar": "#448934"
+  },
+  {
+      "firstName": "Ибрагим",
+      "lastName": "Ефимов",
+      "email": "w@outlook.com",
+      "password": "KezAaIKW",
+      "rating": 4,
+      "avatar": "#5BAAA0"
+  },
+  {
+      "firstName": "Пётр",
+      "lastName": "Козлов",
+      "email": "js3kyopz@mail.ru",
+      "password": "5IdPfOLg",
+      "rating": 4,
+      "avatar": "#B1F805"
+  },
+  {
+      "firstName": "Анастасия",
+      "lastName": "Кузнецова",
+      "email": "o@outlook.com",
+      "password": "cqsRjuHK",
+      "rating": 4,
+      "avatar": "#7277A1"
+  },
+  {
+      "firstName": "Марина",
+      "lastName": "Киселева",
+      "email": "uzfd@mail.ru",
+      "password": "ASZ5VRgt",
+      "rating": 5,
+      "avatar": "#987D24"
+  },
+  {
+      "firstName": "Дмитрий",
+      "lastName": "Рыбаков",
+      "email": "g@mail.ru",
+      "password": "LokOR55z",
+      "rating": 1,
+      "avatar": "#3DA6DE"
+  },
+  {
+      "firstName": "София",
+      "lastName": "Сидорова",
+      "email": "dvjf0@gmail.com",
+      "password": "lu5mE9U2",
+      "rating": 2,
+      "avatar": "#0B37B3"
+  },
+  {
+      "firstName": "Иван",
+      "lastName": "Орлов",
+      "email": "d2mc@outlook.com",
+      "password": "PmePRbdM",
+      "rating": 5,
+      "avatar": "#01E1DF"
+  },
+  {
+      "firstName": "Алиса",
+      "lastName": "Медведева",
+      "email": "06lk@mail.ru",
+      "password": "Dg1qoQeJ",
+      "rating": 5,
+      "avatar": "#593B95"
+  },
+  {
+      "firstName": "Виктория",
+      "lastName": "Казакова",
+      "email": "emhzysf2@yandex.ru",
+      "password": "LimJx2NE",
+      "rating": 5,
+      "avatar": "#C9FFDE"
+  },
+  {
+      "firstName": "Ксения",
+      "lastName": "Климова",
+      "email": "d1w28lkg@yandex.ru",
+      "password": "Bxxn2Qbd",
+      "rating": 2,
+      "avatar": "#E8CFA8"
+  },
+  {
+      "firstName": "Михаил",
+      "lastName": "Астахов",
+      "email": "t93@mail.ru",
+      "password": "ymJmHYw9",
+      "rating": 5,
+      "avatar": "#B56A49"
+  },
+  {
+      "firstName": "Елена",
+      "lastName": "Михайлова",
+      "email": "t3i@outlook.com",
+      "password": "KHyMRvUo",
+      "rating": 4,
+      "avatar": "#2FE355"
+  },
+  {
+      "firstName": "Дарья",
+      "lastName": "Медведева",
+      "email": "t6ro3@gmail.com",
+      "password": "TU50pa3H",
+      "rating": 1,
+      "avatar": "#7CB216"
+  },
+  {
+      "firstName": "Милана",
+      "lastName": "Федорова",
+      "email": "1zqnk0y7@yandex.ru",
+      "password": "xr3kUUcW",
+      "rating": 2,
+      "avatar": "#BB6B2A"
+  },
+  {
+      "firstName": "Софья",
+      "lastName": "Демидова",
+      "email": "768ptl4nv@gmail.com",
+      "password": "586zxcyF",
+      "rating": 2,
+      "avatar": "#52DDE9"
+  },
+  {
+      "firstName": "Валерия",
+      "lastName": "Смирнова",
+      "email": "bzq3yh2c1@mail.ru",
+      "password": "f1IMbH53",
+      "rating": 2,
+      "avatar": "#06931D"
+  },
+  {
+      "firstName": "Иван",
+      "lastName": "Соколов",
+      "email": "78k3dvwx@outlook.com",
+      "password": "KWAtoEDC",
+      "rating": 2,
+      "avatar": "#9CDFD6"
+  },
+  {
+      "firstName": "Мария",
+      "lastName": "Новикова",
+      "email": "fe8obp@mail.ru",
+      "password": "E3mcIJ68",
+      "rating": 4,
+      "avatar": "#66D23B"
+  },
+  {
+      "firstName": "Пётр",
+      "lastName": "Куликов",
+      "email": "cxh2daw8@outlook.com",
+      "password": "vLD7HSZL",
+      "rating": 4,
+      "avatar": "#12D2EC"
+  },
+  {
+      "firstName": "Гордей",
+      "lastName": "Коновалов",
+      "email": "lrsdy5p@yandex.ru",
+      "password": "9sDvzAE5",
+      "rating": 5,
+      "avatar": "#DBEDE0"
+  },
+  {
+      "firstName": "Василиса",
+      "lastName": "Тимофеева",
+      "email": "2de17h@mail.ru",
+      "password": "9NEm3455",
+      "rating": 1,
+      "avatar": "#A4AC22"
+  },
+  {
+      "firstName": "Софья",
+      "lastName": "Смирнова",
+      "email": "we3l08z5@gmail.com",
+      "password": "nNkeJCJo",
+      "rating": 4,
+      "avatar": "#F623EF"
+  },
+  {
+      "firstName": "Александр",
+      "lastName": "Скворцов",
+      "email": "i8ovxn2f@gmail.com",
+      "password": "YEeV92im",
+      "rating": 4,
+      "avatar": "#DFAC05"
+  },
+  {
+      "firstName": "Анастасия",
+      "lastName": "Панова",
+      "email": "q4as80@outlook.com",
+      "password": "wTCMRhm9",
+      "rating": 1,
+      "avatar": "#0A8B68"
+  },
+  {
+      "firstName": "Даниил",
+      "lastName": "Белов",
+      "email": "opu@outlook.com",
+      "password": "ABPMKHyi",
+      "rating": 4,
+      "avatar": "#A6593A"
+  },
+  {
+      "firstName": "София",
+      "lastName": "Шубина",
+      "email": "5iar3l8k@yandex.ru",
+      "password": "avoS7uDo",
+      "rating": 4,
+      "avatar": "#3BE30D"
+  },
+  {
+      "firstName": "Мария",
+      "lastName": "Нестерова",
+      "email": "4zegxla@mail.ru",
+      "password": "3Rn2AggH",
+      "rating": 2,
+      "avatar": "#A96ABF"
+  },
+  {
+      "firstName": "Артём",
+      "lastName": "Никулин",
+      "email": "8lf0g@yandex.ru",
+      "password": "bCVWteOl",
+      "rating": 3,
+      "avatar": "#AB1289"
+  },
+  {
+      "firstName": "Ярослава",
+      "lastName": "Русакова",
+      "email": "1zx8@yandex.ru",
+      "password": "rR3mkbAq",
+      "rating": 2,
+      "avatar": "#19D191"
+  },
+  {
+      "firstName": "Елизавета",
+      "lastName": "Егорова",
+      "email": "x@mail.ru",
+      "password": "1q12qtc5",
+      "rating": 5,
+      "avatar": "#C1076A"
+  },
+  {
+      "firstName": "Лев",
+      "lastName": "Попов",
+      "email": "34d@gmail.com",
+      "password": "hLKqTDJP",
+      "rating": 1,
+      "avatar": "#00008B"
+  },
+  {
+      "firstName": "Сергей",
+      "lastName": "Зайцев",
+      "email": "pxacl@mail.ru",
+      "password": "MtjP94TE",
+      "rating": 4,
+      "avatar": "#742E98"
+  },
+  {
+      "firstName": "Максим",
+      "lastName": "Иванов",
+      "email": "7o1@gmail.com",
+      "password": "IA7fChj0",
+      "rating": 1,
+      "avatar": "#75215E"
+  },
+  {
+      "firstName": "Сафия",
+      "lastName": "Михайлова",
+      "email": "1@gmail.com",
+      "password": "0qLakvsC",
+      "rating": 3,
+      "avatar": "#11AF37"
+  },
+  {
+      "firstName": "Никита",
+      "lastName": "Леонтьев",
+      "email": "iut@gmail.com",
+      "password": "vJuGwIkf",
+      "rating": 5,
+      "avatar": "#2080C5"
+  },
+  {
+      "firstName": "Мирослав",
+      "lastName": "Абрамов",
+      "email": "e3t@outlook.com",
+      "password": "KWATNBXN",
+      "rating": 4,
+      "avatar": "#6D1194"
+  },
+  {
+      "firstName": "Павел",
+      "lastName": "Леонтьев",
+      "email": "41clb6o2g@yandex.ru",
+      "password": "LO8HJiS8",
+      "rating": 1,
+      "avatar": "#59B01F"
+  },
+  {
+      "firstName": "Марк",
+      "lastName": "Макаров",
+      "email": "5hsbm8pi3@mail.ru",
+      "password": "k24Auw3z",
+      "rating": 3,
+      "avatar": "#121044"
+  },
+  {
+      "firstName": "Карина",
+      "lastName": "Николаева",
+      "email": "dihf8jxk@gmail.com",
+      "password": "tNuVbmRY",
+      "rating": 4,
+      "avatar": "#BFD414"
+  },
+  {
+      "firstName": "Егор",
+      "lastName": "Дьяконов",
+      "email": "dwej@yandex.ru",
+      "password": "uTzChgJl",
+      "rating": 5,
+      "avatar": "#BCCBC2"
+  },
+  {
+      "firstName": "Анастасия",
+      "lastName": "Федорова",
+      "email": "zyue8brv@outlook.com",
+      "password": "3uarjLr2",
+      "rating": 3,
+      "avatar": "#D8A068"
+  },
+  {
+      "firstName": "Егор",
+      "lastName": "Зиновьев",
+      "email": "0a5437@mail.ru",
+      "password": "UY7SsnHt",
+      "rating": 2,
+      "avatar": "#3F4964"
+  },
+  {
+      "firstName": "Макар",
+      "lastName": "Борисов",
+      "email": "fovtju3q2@yandex.ru",
+      "password": "HQFXjZ44",
+      "rating": 5,
+      "avatar": "#1E1D4D"
+  },
+  {
+      "firstName": "Аиша",
+      "lastName": "Глухова",
+      "email": "5ntglejc9@outlook.com",
+      "password": "avXKdYvm",
+      "rating": 1,
+      "avatar": "#E2F908"
+  },
+  {
+      "firstName": "Родион",
+      "lastName": "Михайлов",
+      "email": "61rpbj@mail.ru",
+      "password": "nDPBzkt7",
+      "rating": 4,
+      "avatar": "#04E1E0"
+  },
+  {
+      "firstName": "Милана",
+      "lastName": "Соловьева",
+      "email": "9m6pfk52r@outlook.com",
+      "password": "rZEAwjba",
+      "rating": 2,
+      "avatar": "#40750D"
+  },
+  {
+      "firstName": "Анна",
+      "lastName": "Королева",
+      "email": "gr@yandex.ru",
+      "password": "Cw4Qp2BV",
+      "rating": 2,
+      "avatar": "#E80060"
+  },
+  {
+      "firstName": "Александр",
+      "lastName": "Михайлов",
+      "email": "v9dux@gmail.com",
+      "password": "LKx3UO6L",
+      "rating": 4,
+      "avatar": "#78CF3F"
+  },
+  {
+      "firstName": "Ангелина",
+      "lastName": "Авдеева",
+      "email": "mek975vcx@gmail.com",
+      "password": "hoIjsC8J",
+      "rating": 4,
+      "avatar": "#7FE233"
+  },
+  {
+      "firstName": "Ярослав",
+      "lastName": "Козлов",
+      "email": "uakvj8p9d@yandex.ru",
+      "password": "JziIg3mX",
+      "rating": 2,
+      "avatar": "#27F45B"
+  },
+  {
+      "firstName": "Анастасия",
+      "lastName": "Смирнова",
+      "email": "t3m6u8v@gmail.com",
+      "password": "xKHlTUQl",
+      "rating": 2,
+      "avatar": "#6B79AF"
+  },
+  {
+      "firstName": "Максим",
+      "lastName": "Морозов",
+      "email": "jxqme@gmail.com",
+      "password": "0RTxDfU3",
+      "rating": 3,
+      "avatar": "#5B7811"
+  },
+  {
+      "firstName": "Макар",
+      "lastName": "Наумов",
+      "email": "c3@gmail.com",
+      "password": "zDgJuFvt",
+      "rating": 2,
+      "avatar": "#199AC1"
+  },
+  {
+      "firstName": "Ксения",
+      "lastName": "Панкова",
+      "email": "3xkgmsd9t@gmail.com",
+      "password": "Qp9Hekrc",
+      "rating": 1,
+      "avatar": "#1D5380"
+  },
+  {
+      "firstName": "Амина",
+      "lastName": "Моисеева",
+      "email": "s9iw@mail.ru",
+      "password": "FfS9y29d",
+      "rating": 1,
+      "avatar": "#872E05"
+  },
+  {
+      "firstName": "Маргарита",
+      "lastName": "Зуева",
+      "email": "qo2sc@mail.ru",
+      "password": "brXSbhkI",
+      "rating": 2,
+      "avatar": "#1DDF25"
+  },
+  {
+      "firstName": "Демид",
+      "lastName": "Никольский",
+      "email": "xiuq5olft@gmail.com",
+      "password": "h7QIHToK",
+      "rating": 1,
+      "avatar": "#BA443B"
+  },
+  {
+      "firstName": "Василиса",
+      "lastName": "Кудряшова",
+      "email": "8swlo27hd@outlook.com",
+      "password": "g3UExHKK",
+      "rating": 3,
+      "avatar": "#644AD9"
+  },
+  {
+      "firstName": "Ярослава",
+      "lastName": "Соколова",
+      "email": "r0o6f92@gmail.com",
+      "password": "BBxxme6I",
+      "rating": 3,
+      "avatar": "#5FE2FC"
+  },
+  {
+      "firstName": "Арина",
+      "lastName": "Владимирова",
+      "email": "z@gmail.com",
+      "password": "oeV6PVpQ",
+      "rating": 2,
+      "avatar": "#E1202A"
+  },
+  {
+      "firstName": "Злата",
+      "lastName": "Соколова",
+      "email": "r3p4mgf5@yandex.ru",
+      "password": "GvkXqaSC",
+      "rating": 2,
+      "avatar": "#D8B5CD"
+  },
+  {
+      "firstName": "Алисия",
+      "lastName": "Маркова",
+      "email": "p@outlook.com",
+      "password": "015njjll",
+      "rating": 1,
+      "avatar": "#452A7E"
+  },
+  {
+      "firstName": "Доминика",
+      "lastName": "Горелова",
+      "email": "61j@yandex.ru",
+      "password": "bA97QoQx",
+      "rating": 1,
+      "avatar": "#128012"
+  },
+  {
+      "firstName": "Анастасия",
+      "lastName": "Зайцева",
+      "email": "t2sr@gmail.com",
+      "password": "JnDTHQvl",
+      "rating": 5,
+      "avatar": "#E75731"
+  },
+  {
+      "firstName": "Дмитрий",
+      "lastName": "Горшков",
+      "email": "u7@outlook.com",
+      "password": "pm3xqTcp",
+      "rating": 4,
+      "avatar": "#B8D5F1"
+  },
+  {
+      "firstName": "Дарья",
+      "lastName": "Баранова",
+      "email": "9k15qr2h@gmail.com",
+      "password": "8snLaNG2",
+      "rating": 2,
+      "avatar": "#50DD77"
+  },
+  {
+      "firstName": "Ульяна",
+      "lastName": "Киселева",
+      "email": "3vmtdo1@outlook.com",
+      "password": "csu0CjQs",
+      "rating": 4,
+      "avatar": "#AB0FC4"
+  },
+  {
+      "firstName": "Дмитрий",
+      "lastName": "Касьянов",
+      "email": "q9@mail.ru",
+      "password": "hnZNUUZU",
+      "rating": 2,
+      "avatar": "#B3815A"
+  }
+]

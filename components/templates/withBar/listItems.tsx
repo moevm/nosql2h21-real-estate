@@ -1,7 +1,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { ListItem, ListItemIcon, ListItemText, ListSubheader } from "@mui/material";
-import { Dashboard, ShoppingCart, People, BarChart, Layers, Assignment } from "@mui/icons-material";
+import { Dashboard, Receipt, Assignment } from "@mui/icons-material";
 
 export const mainListItems = (
   <div>
@@ -13,36 +13,20 @@ export const mainListItems = (
         <ListItemText primary="Dashboard" />
       </ListItem>
     </Link>
-    {/* <Link href="/auth/signin" passHref>
+    <Link href="/abc/list" passHref>
       <ListItem button>
         <ListItemIcon>
-          <ShoppingCart />
+          <Receipt />
         </ListItemIcon>
-        <ListItemText primary="signin" />
+        <ListItemText primary="Advs" />
       </ListItem>
     </Link>
-    <Link href="/auth/signup" passHref>
+    {/* <Link href="/houses" passHref>
       <ListItem button>
         <ListItemIcon>
-          <People />
+          <Receipt />
         </ListItemIcon>
-        <ListItemText primary="signup" />
-      </ListItem>
-    </Link>
-    <Link href="/" passHref>
-      <ListItem button>
-        <ListItemIcon>
-          <BarChart />
-        </ListItemIcon>
-        <ListItemText primary="Reports" />
-      </ListItem>
-    </Link>
-    <Link href="/" passHref>
-      <ListItem button>
-        <ListItemIcon>
-          <Layers />
-        </ListItemIcon>
-        <ListItemText primary="Integrations" />
+        <ListItemText primary="Houses" />
       </ListItem>
     </Link> */}
   </div>
@@ -51,7 +35,7 @@ export const mainListItems = (
 export const secondaryListItems = (
   <div>
     <ListSubheader inset>Dop list</ListSubheader>
-    <Link href="/" passHref>
+    {/* <Link href="/" passHref>
       <ListItem button>
         <ListItemIcon>
           <Assignment />
@@ -72,6 +56,6 @@ export const secondaryListItems = (
         </ListItemIcon>
         <ListItemText primary="some report 3" />
       </ListItem>
-    </Link>
+    </Link> */}
   </div>
 );

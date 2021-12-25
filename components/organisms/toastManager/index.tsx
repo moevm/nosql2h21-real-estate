@@ -1,36 +1,16 @@
 import { Alert } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 import { observer } from "mobx-react";
 import React from "react";
 import toasts from "stores/toasts";
-
-const useStyles: any = makeStyles(() => ({
-  container: {
-    position: "absolute",
-    // border: 3px solid black,
-    margin: "auto",
-    bottom: 8,
-    left: 0,
-    right: 0,
-    top: "auto",
-    width: "100%",
-    pointerEvents: "none",
-    "& > *": {
-      pointerEvents: "all",
-      width: 400,
-      margin: "0 auto",
-    },
-  },
-}));
+import s from "./style.module.scss";
 
 const ToastManager: React.FC = () => {
-  const styles = useStyles();
   return (
-    <div className={styles.container}>
+    <div className={s.container}>
       {toasts.list.map((e) => (
         <Alert
           key={e.id}
-          onClose={() => {
+          onClose={(): void => {
             toasts.closeNotification(e.id);
           }}
           severity={e.type}

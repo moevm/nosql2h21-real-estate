@@ -1,5 +1,4 @@
-// prettier-ignore
-import React from 'react'
+import React from "react";
 import { ServerStyleSheets } from "@mui/styles";
 import Document, { Html, Head, Main, NextScript, DocumentContext } from "next/document";
 

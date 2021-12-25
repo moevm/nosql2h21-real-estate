@@ -10,7 +10,6 @@ import {
   Typography,
   Divider,
   IconButton,
-  Badge,
   Container,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -70,7 +69,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== "open" 
 const WithBar: React.FC<React.PropsWithChildren<{}>> = (props) => {
   const { children } = props;
   const [open, setOpen] = React.useState(false);
-  const toggleDrawer = () => {
+  const toggleDrawer = (): void => {
     setOpen(!open);
   };
 

@@ -1,26 +1,25 @@
-import { SignInResponseData, SignUpResquestData } from "core/types/api";
-import { comparePasswords, generateJWT, getUserIdByJWT } from "lib/auth";
-import { UserDBModel } from "lib/db/sheme";
-import type { NextApiRequest, NextApiResponse } from "next";
+import { ServerApiHandler, SignInResponseData, SignUpRequestData } from "core/types/api";
+import { comparePasswords, generateJWT } from "serverSide/auth";
+import { UserDBModel } from "serverSide/db/shema";
 import { serialize } from "cookie";
-import dbConnect from "lib/db/dbConnect";
+import apiHandleMethods from "serverSide/apiHandleMethods";
 
-async function handler(req: NextApiRequest, res: NextApiResponse<SignInResponseData>): Promise<void> {
-  const data = req.body as SignUpResquestData;
-  try {
-    await dbConnect();
-    const resUser = await UserDBModel.findOne({ email: data.email });
-    if (resUser === null) throw new Error("user was not found");
-    const correctPassword = await comparePasswords(data.password!, resUser.password!);
-    if (correctPassword === false) throw new Error("invalid password");
-    const jwt = generateJWT(resUser);
-    const idid = getUserIdByJWT(jwt);
-    res.setHeader("Set-Cookie", [serialize("accessToken", jwt)]);
+const post: ServerApiHandler<SignUpRequestData, SignInResponseData> = async (req, res) => {
+  const data = req.body;
 
-    delete resUser.password;
-    res.status(200).json({ success: true, data: resUser });
-  } catch (error) {
-    res.status(200).json({ success: false, error: (error as Error).message });
-  }
-}
-export default handler;
+  const result = await UserDBModel.findOne({ email: data.email }).select("+passwors");
+  if (!result) throw new Error("user was not found");
+
+  const correctPassword = await comparePasswords(data.password!, result.password!);
+  if (!correctPassword) throw new Error("invalid password");
+
+  const jwt = generateJWT(result);
+  res.setHeader("Set-Cookie", [serialize("accessToken", jwt, { path: "/" })]);
+
+  const finalResult = result.toObject();
+  delete finalResult.password;
+  res.status(200).json({ success: true, data: finalResult });
+};
+
+// export default post;
+export default apiHandleMethods().post(post).prepare();

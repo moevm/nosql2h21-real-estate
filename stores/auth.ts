@@ -1,6 +1,6 @@
 import { User } from "core/models";
 import { makeAutoObservable } from "mobx";
-import * as authApi from "core/api/auth";
+import authApi from "core/api/auth";
 import toasts from "./toasts";
 
 class AuthStore {
@@ -49,7 +49,7 @@ class AuthStore {
     }
     this.isChecked = true;
   }
-  // async signIn(data: SignInResquestData): Promise<void> {
+  // async signIn(data: SignInRequestData): Promise<void> {
   //   this.requestStatus = RequestStatus.pending;
   //   signIn("my-login", data);
   // }
