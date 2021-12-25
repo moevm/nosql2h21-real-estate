@@ -17,13 +17,14 @@ import {
 
 const read: ApiQuery<AdvReadRequestData, AdvReadResponseData> = (data) => myaxios.get(`/advs/${data.id}`);
 const list: ApiQuery<AdvListRequestData, AdvListResponseData> = (data) => myaxios.post(`/advs`, data);
-const chartTarget: ApiQuery<TargetChartRequestData, TargetChartResponseData> = () => myaxios.get(`/advs/charts/target`);
-const chartFinishing: ApiQuery<FinishingChartRequestData, FinishingChartResponseData> = () =>
-  myaxios.get(`/advs/charts/finishing`);
-const chartPriceCount: ApiQuery<PriceCountChartRequestData, PriceCountChartResponseData> = () =>
-  myaxios.get(`/advs/charts/price-count-xy`);
-const chartPriceSize: ApiQuery<PriceSizeChartRequestData, PriceSizeChartResponseData> = () =>
-  myaxios.get(`/advs/charts/price-size-xy`);
+const chartTarget: ApiQuery<TargetChartRequestData, TargetChartResponseData> = (data) =>
+  myaxios.post(`/advs/charts/target`, data);
+const chartFinishing: ApiQuery<FinishingChartRequestData, FinishingChartResponseData> = (data) =>
+  myaxios.post(`/advs/charts/finishing`, data);
+const chartPriceCount: ApiQuery<PriceCountChartRequestData, PriceCountChartResponseData> = (data) =>
+  myaxios.post(`/advs/charts/price-count-xy`, data);
+const chartPriceSize: ApiQuery<PriceSizeChartRequestData, PriceSizeChartResponseData> = (data) =>
+  myaxios.post(`/advs/charts/price-size-xy`, data);
 
 const advApi = { read, list, chartTarget, chartFinishing, chartPriceCount, chartPriceSize };
 

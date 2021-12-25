@@ -3,9 +3,10 @@ import { AdvTargetType, FinishingType } from "core/models";
 import { observer } from "mobx-react";
 import React, { useState } from "react";
 import advsStore from "stores/advs";
+import chartsStore from "stores/charts";
 
 type Props = {
-  flag?: "fullloading" | null;
+  flag?: "fullloading" | "charts" | null;
 };
 
 const AdvFilters: React.FC<Props> = (props) => {
@@ -26,6 +27,7 @@ const AdvFilters: React.FC<Props> = (props) => {
                   e.stopPropagation();
                   e.preventDefault();
                   if (flag === "fullloading") advsStore.loadAll();
+                  if (flag === "charts") chartsStore.loadAll();
                   else advsStore.loadList();
                 }}
               >

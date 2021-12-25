@@ -29,7 +29,7 @@ const Advs: NextPage = () => {
       <Head>
         <title>NoSQL | Advs</title>
       </Head>
-      <AdvFilters flag={(value === 1 && "fullloading") || null} />
+      <AdvFilters flag={(value === 1 && "fullloading") || (value === 3 && "charts") || null} />
       <NavTabs tabs={tabs} value={value} />
       {value === 0 && <AdvsList />}
       {value === 1 && <AdvsMap />}

@@ -1,6 +1,7 @@
 import advApi from "core/api/db/adv";
 import { RadialChartElemet, XYPlotElemet } from "core/types/api";
 import { makeAutoObservable } from "mobx";
+import advsStore from "./advs";
 
 class ChartsStore {
   target: RadialChartElemet[] = [];
@@ -15,9 +16,16 @@ class ChartsStore {
     makeAutoObservable(this);
   }
 
+  loadAll() {
+    this.loadChartTarget();
+    this.loadChartFinishing();
+    this.loadChartPriceCount();
+    this.loadChartPriceSize();
+  }
+
   loadChartTarget = () => {
     advApi
-      .chartTarget()
+      .chartTarget(advsStore.filters)
       .then((res) => {
         if (res.success) this.target = res.data;
         else throw res.error;
@@ -29,7 +37,7 @@ class ChartsStore {
 
   loadChartFinishing = () => {
     advApi
-      .chartFinishing()
+      .chartFinishing(advsStore.filters)
       .then((res) => {
         if (res.success) this.finishing = res.data;
         else throw res.error;
@@ -41,7 +49,7 @@ class ChartsStore {
 
   loadChartPriceCount = () => {
     advApi
-      .chartPriceCount()
+      .chartPriceCount(advsStore.filters)
       .then((res) => {
         if (res.success) this.priceCount = res.data;
         else throw res.error;

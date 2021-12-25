@@ -1,8 +1,11 @@
+import { advFiltersToMatch } from "core/helpers/advFiltersToMatch";
 import { ServerApiHandler, TargetChartRequestData, TargetChartResponseData } from "core/types/api";
 import apiHandleMethods from "serverSide/apiHandleMethods";
 import { AdvertisementDBModel, HouseDBModel } from "serverSide/db/shema";
 
-const get: ServerApiHandler<TargetChartRequestData, TargetChartResponseData> = async (req, res) => {
+const post: ServerApiHandler<TargetChartRequestData, TargetChartResponseData> = async (req, res) => {
+  const matches = advFiltersToMatch(req.body);
+
   const aggRes = (
     await AdvertisementDBModel.aggregate([
       {
@@ -18,6 +21,7 @@ const get: ServerApiHandler<TargetChartRequestData, TargetChartResponseData> = a
           house: { $first: "$house" },
         },
       },
+      { $match: matches },
       {
         // @ts-ignore
         $group: {
@@ -32,14 +36,14 @@ const get: ServerApiHandler<TargetChartRequestData, TargetChartResponseData> = a
           0: {
             angle: "$p1",
             color: "#448aff",
-            label: "Нормальный",
-            radius: 15,
+            label: { $concat: ["Нормальный", "(", { $toString: "$p1" }, ")"] },
+            radius: "19",
           },
           1: {
             angle: "$p2",
             color: "#83b9ff",
-            label: "Плохой",
-            radius: 19,
+            label: { $concat: ["Плохой", "(", { $toString: "$p2" }, ")"] },
+            radius: "15",
           },
         },
       },
@@ -52,4 +56,4 @@ const get: ServerApiHandler<TargetChartRequestData, TargetChartResponseData> = a
   });
 };
 
-export default apiHandleMethods().get(get).prepare();
+export default apiHandleMethods().post(post).prepare();

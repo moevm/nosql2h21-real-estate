@@ -1,10 +1,27 @@
+import { advFiltersToMatch } from "core/helpers/advFiltersToMatch";
 import { ServerApiHandler, TargetChartRequestData, TargetChartResponseData } from "core/types/api";
 import apiHandleMethods from "serverSide/apiHandleMethods";
-import { AdvertisementDBModel } from "serverSide/db/shema";
+import { AdvertisementDBModel, HouseDBModel } from "serverSide/db/shema";
 
-const get: ServerApiHandler<TargetChartRequestData, TargetChartResponseData> = async (req, res) => {
+const post: ServerApiHandler<TargetChartRequestData, TargetChartResponseData> = async (req, res) => {
+  const matches = advFiltersToMatch(req.body);
+
   const aggRes = (
     await AdvertisementDBModel.aggregate([
+      {
+        $lookup: {
+          from: HouseDBModel.collection.name,
+          localField: "house",
+          foreignField: "_id",
+          as: "house",
+        },
+      },
+      {
+        $set: {
+          house: { $first: "$house" },
+        },
+      },
+      { $match: matches },
       {
         // @ts-ignore
         $group: {
@@ -13,19 +30,20 @@ const get: ServerApiHandler<TargetChartRequestData, TargetChartResponseData> = a
           target1: { $sum: { $cond: [{ $eq: ["$target", 1] }, 1, 0] } },
         },
       },
+
       {
         $project: {
           _id: 0,
           0: {
             angle: "$target0",
             color: "#448aff",
-            label: "Продажи",
+            label: { $concat: ["Продажа", "(", { $toString: "$target0" }, ")"] },
             radius: "15",
           },
           q: {
             angle: "$target1",
             color: "#83b9ff",
-            label: "Аренда",
+            label: { $concat: ["Аренда", "(", { $toString: "$target1" }, ")"] },
             radius: "20",
           },
         },
@@ -39,4 +57,4 @@ const get: ServerApiHandler<TargetChartRequestData, TargetChartResponseData> = a
   });
 };
 
-export default apiHandleMethods().get(get).prepare();
+export default apiHandleMethods().post(post).prepare();

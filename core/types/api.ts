@@ -100,13 +100,13 @@ export type LoggedInRequestData = {};
 
 // charts
 
-export type TargetChartRequestData = RequestData<void>;
+export type TargetChartRequestData = RequestData<AdvListFilters>;
 export type TargetChartResponseData = ResponseData<RadialChartElemet[]>;
-export type FinishingChartRequestData = RequestData<void>;
+export type FinishingChartRequestData = RequestData<AdvListFilters>;
 export type FinishingChartResponseData = ResponseData<RadialChartElemet[]>;
-export type PriceCountChartRequestData = RequestData<void>;
+export type PriceCountChartRequestData = RequestData<AdvListFilters>;
 export type PriceCountChartResponseData = ResponseData<XYPlotElemet[]>;
-export type PriceSizeChartRequestData = RequestData<void>;
+export type PriceSizeChartRequestData = RequestData<AdvListFilters>;
 export type PriceSizeChartResponseData = ResponseData<XYPlotElemet[]>;
 // // User one
 // export type UserRequestData = { id: string };

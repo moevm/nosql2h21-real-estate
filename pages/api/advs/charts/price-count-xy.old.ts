@@ -8,9 +8,7 @@ const CHUNK_LENGTH = 4;
 const CHUNKS_COUNT = 10;
 
 const post: ServerApiHandler<TargetChartRequestData, TargetChartResponseData> = async (req, res) => {
-  const matches = Object.fromEntries(
-    Object.entries(advFiltersToMatch(req.body)).map(([key, value]) => [`advs.${key}`, value]),
-  );
+  const matches = advFiltersToMatch(req.body);
 
   const aggRes = (
     await AdvertisementDBModel.aggregate([
@@ -31,7 +29,6 @@ const post: ServerApiHandler<TargetChartRequestData, TargetChartResponseData> = 
         },
       },
       { $unwind: "$advs" },
-      // { $replaceRoot: { newRoot: "$advs" } },
       {
         $lookup: {
           from: HouseDBModel.collection.name,
@@ -46,7 +43,6 @@ const post: ServerApiHandler<TargetChartRequestData, TargetChartResponseData> = 
         },
       },
       { $match: matches },
-      // { $match: { "advs.price": { $eq: 3069439 } } },
       // @ts-ignore
       { $group: { _id: "$_id", advs: { $push: "$advs" } } },
       {

@@ -1,4 +1,5 @@
-import { Typography } from "@mui/material";
+import { ExpandMore } from "@mui/icons-material";
+import { Accordion, AccordionDetails, AccordionSummary, Typography } from "@mui/material";
 import { observer } from "mobx-react";
 import React, { useEffect } from "react";
 import {
@@ -24,32 +25,38 @@ const AdvGraphs: React.FC = () => {
 
   return (
     <div>
-      <Typography>Тип(круг)</Typography>
-      <RadialChart data={chartsStore.target} width={300} height={300} showLabels colorType="literal" />
-      <Typography>Ремонт(круг)</Typography>
-      <RadialChart data={chartsStore.finishing} width={300} height={300} showLabels colorType="literal" />
-      <Typography>Цена(линейный)</Typography>
-      <XYPlot width={600} height={300} stackBy="y">
-        <VerticalGridLines />
-        <HorizontalGridLines />
-        <XAxis />
-        <YAxis left={0} />
-        <CustomAxisLabel title="Цена объявления" xAxis />
-        <CustomAxisLabel title="Количество объявлений" />
-        <VerticalBarSeries data={chartsStore.priceCount} barWidth={0.5} />
-      </XYPlot>
-      <Typography>Площадь(линейный)</Typography>
-      <XYPlot width={600} height={300} stackBy="y">
-        <VerticalGridLines />
-        <HorizontalGridLines />
-        <XAxis />
-        <YAxis left={0} />
-        <CustomAxisLabel title="Цена объявления" xAxis />
-        <CustomAxisLabel title="Количество объявлений" />
-        {/* <VerticalBarSeries data={chartsStore.priceSize} barWidth={0.5} /> */}
-        <LineSeries data={chartsStore.priceSize} />
-        {/* <LineSeries data={chartsStore.priceSize} /> */}
-      </XYPlot>
+      <Accordion>
+        <AccordionSummary expandIcon={<ExpandMore />} aria-controls="panel1a-content" id="panel1a-header">
+          <Typography>Тип(круг)</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <RadialChart data={chartsStore.target} width={300} height={300} showLabels colorType="literal" />
+        </AccordionDetails>
+      </Accordion>
+      <Accordion>
+        <AccordionSummary expandIcon={<ExpandMore />} aria-controls="panel1a-content" id="panel1a-header">
+          <Typography>Ремонт(круг)</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <RadialChart data={chartsStore.finishing} width={300} height={300} showLabels colorType="literal" />
+        </AccordionDetails>
+      </Accordion>
+      <Accordion>
+        <AccordionSummary expandIcon={<ExpandMore />} aria-controls="panel1a-content" id="panel1a-header">
+          <Typography>Цена(линейный)</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <XYPlot width={600} height={300} stackBy="y">
+            <VerticalGridLines />
+            <HorizontalGridLines />
+            <XAxis />
+            <YAxis left={0} />
+            <CustomAxisLabel title="Цена (т.р.)" xAxis />
+            <CustomAxisLabel title="Количество объявлений" />
+            <VerticalBarSeries data={chartsStore.priceCount} barWidth={0.5} />
+          </XYPlot>
+        </AccordionDetails>
+      </Accordion>
     </div>
   );
 };
