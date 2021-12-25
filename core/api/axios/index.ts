@@ -6,7 +6,7 @@ const myaxios = axios.create({
   baseURL: "/api",
   headers: {
     "Content-Type": "application/json",
-    // "Access-Control-Allow-Origin": process.env.API_PATH,
+    "Access-Control-Allow-Origin": process.env.API_PATH,
     "Access-Control-Allow-Credentials": true,
     "Access-Control-Allow-Headers": "access-control-allow-headers",
   },
@@ -33,8 +33,7 @@ myaxios.interceptors.response.use(
       toasts.addNotification("You are not logged in.", "warning");
       return myaxios.post(`/api/auth/signout`);
     }
-
-    // eslint-disable-next-line consistent-return
+    if (error.response?.data?.error) return Promise.reject(new Error(error.response.data.error));
     return Promise.reject(error);
   },
 );

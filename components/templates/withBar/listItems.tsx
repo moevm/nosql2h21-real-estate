@@ -21,21 +21,21 @@ export const mainListItems = (
         <ListItemText primary="Advs" />
       </ListItem>
     </Link>
-    <Link href="/houses" passHref>
+    {/* <Link href="/houses" passHref>
       <ListItem button>
         <ListItemIcon>
           <Receipt />
         </ListItemIcon>
         <ListItemText primary="Houses" />
       </ListItem>
-    </Link>
+    </Link> */}
   </div>
 );
 
 export const secondaryListItems = (
   <div>
     <ListSubheader inset>Dop list</ListSubheader>
-    <Link href="/" passHref>
+    {/* <Link href="/" passHref>
       <ListItem button>
         <ListItemIcon>
           <Assignment />
@@ -56,6 +56,6 @@ export const secondaryListItems = (
         </ListItemIcon>
         <ListItemText primary="some report 3" />
       </ListItem>
-    </Link>
+    </Link> */}
   </div>
 );

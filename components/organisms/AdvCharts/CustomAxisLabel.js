@@ -6,12 +6,12 @@ class CustomAxisLabel extends PureComponent {
   render() {
     const yLabelOffset = {
       y: this.props.marginTop + this.props.innerHeight / 2 + this.props.title.length * 2,
-      x: 10,
+      x: 5,
     };
 
     const xLabelOffset = {
       x: this.props.marginLeft + this.props.innerWidth / 2 - this.props.title.length * 2,
-      y: 1.2 * this.props.innerHeight,
+      y: 1.2 * this.props.innerHeight - 20,
     };
 
     const transform = this.props.xAxis

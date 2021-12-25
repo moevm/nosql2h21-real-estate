@@ -3,13 +3,15 @@ import { AdvListFilters } from "core/types/api";
 type Matches = {
   title?: any;
   target?: any;
+  "house.description"?: any;
   "house.finishing"?: any;
   price?: any; // ok
   size?: any; // ok
-  countBathrooms?: any; // ok
+  "house.countRoom"?: any; // ok
   "house.rating"?: any; // ok
   "house.owner.rating"?: any; // ok
   "house.hasBalcony"?: any; // ok
+  "house.type"?: any; // ok
 };
 
 const helperMinMax = (obj: { min?: number; max?: number }): any => {
@@ -25,7 +27,6 @@ export const advFiltersToMatch = (filters: AdvListFilters): Matches => {
   const matches: Matches = {};
 
   // FIXME: add match by title
-  // if (filters.title !== undefined) matches.title = { $regex: filters.title, $options: "gmi" };
 
   // if (filters.price) {
   //   if (filters.price.min) {
@@ -33,6 +34,12 @@ export const advFiltersToMatch = (filters: AdvListFilters): Matches => {
   //     else matches.price = { $gt: filters.price.min };
   //   } else if (filters.price.max) matches.price = { $lt: filters.price.max };
   // }
+  if (filters.title) {
+    matches.title = new RegExp(`${filters.title}`, "i");
+  }
+  if (filters.description) {
+    matches["house.description"] = new RegExp(`${filters.description}`, "i");
+  }
   if (filters.price) {
     const priceMinMax = helperMinMax(filters.price);
     if (priceMinMax) matches.price = priceMinMax;
@@ -43,9 +50,9 @@ export const advFiltersToMatch = (filters: AdvListFilters): Matches => {
     if (sizeMinMax) matches.size = sizeMinMax;
   }
 
-  if (filters.countBathrooms) {
-    const countBathroomsMinMax = helperMinMax(filters.countBathrooms);
-    if (countBathroomsMinMax) matches.countBathrooms = countBathroomsMinMax;
+  if (filters.countRoom) {
+    const countRoomMinMax = helperMinMax(filters.countRoom);
+    if (countRoomMinMax) matches["house.countRoom"] = countRoomMinMax;
   }
 
   if (filters.rating) {
@@ -61,6 +68,7 @@ export const advFiltersToMatch = (filters: AdvListFilters): Matches => {
   if (filters.hasBalcony !== undefined) matches["house.hasBalcony"] = filters.hasBalcony;
   if (filters.target !== undefined) matches.target = filters.target;
   if (filters.finishing !== undefined) matches["house.finishing"] = filters.finishing;
+  if (filters.houseType !== undefined) matches["house.type"] = filters.houseType;
 
   return matches;
 };

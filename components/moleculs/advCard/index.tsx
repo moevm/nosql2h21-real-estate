@@ -30,7 +30,7 @@ const AdvCard: React.FC<Props> = (props) => {
     (image && RequestStatus.pending) || RequestStatus.success,
   );
 
-  const title = useMemo(() => getCustomTitle(data), [data]);
+  const subTitle = useMemo(() => getCustomTitle(data), [data]);
 
   return (
     <Card className={s.card} variant="outlined">
@@ -58,13 +58,18 @@ const AdvCard: React.FC<Props> = (props) => {
       <div className={s.info}>
         <div className={s.header}>
           <Link href={`/abc/${data._id}`} passHref>
-            <Typography className={s.titleLink} variant="h5">
-              {title}
-            </Typography>
+            <div>
+              <Typography className={s.titleLink} variant="h5">
+                {data.title}
+              </Typography>
+              <Typography className={s.titleLink} variant="subtitle2">
+                {subTitle}
+              </Typography>
+            </div>
           </Link>
-          <IconButton aria-label="like" component="span" className={s.likeButton}>
+          {/* <IconButton aria-label="like" component="span" className={s.likeButton}>
             <FavoriteBorder />
-          </IconButton>
+          </IconButton> */}
         </div>
         {data.tags.map((tag) => (
           <Chip key={tag._id} label={tag.value} variant="outlined" />

@@ -1,4 +1,4 @@
-import { Advertisement, AdvTargetType, FinishingType, House, Reply, Tag, User } from "core/models";
+import { Advertisement, AdvTargetType, FinishingType, House, HouseType, Reply, Tag, User } from "core/models";
 import { NextApiRequest, NextApiResponse } from "next";
 import * as mongoose from "mongoose";
 
@@ -76,15 +76,18 @@ export type AdvReadRequestData = RequestData<{ id: string }>;
 export type AdvReadResponseData = ResponseData<Advertisement | null>;
 // Adv list
 export type AdvListFilters = {
+  search?: string;
   title?: string;
+  description?: string;
   target?: AdvTargetType;
   finishing?: FinishingType;
   price: { max?: number; min?: number };
   size: { max?: number; min?: number };
-  countBathrooms: { max?: number; min?: number };
+  countRoom: { max?: number; min?: number };
   rating: { max?: number; min?: number };
   ownerRating: { max?: number; min?: number };
   hasBalcony?: boolean;
+  houseType?: HouseType;
 };
 
 export type AdvListRequestData = RequestDataWithPagintaion<AdvListFilters>;
