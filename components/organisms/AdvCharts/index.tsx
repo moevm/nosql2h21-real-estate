@@ -1,5 +1,5 @@
 import { ExpandMore } from "@mui/icons-material";
-import { Accordion, AccordionDetails, AccordionSummary, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Grid, Typography } from "@mui/material";
 import { observer } from "mobx-react";
 import React, { useEffect } from "react";
 import {
@@ -14,6 +14,7 @@ import {
 } from "react-vis";
 import chartsStore from "stores/charts";
 import CustomAxisLabel from "./CustomAxisLabel.js";
+import s from "./styles.module.scss";
 
 const AdvGraphs: React.FC = () => {
   useEffect(() => {
@@ -30,7 +31,33 @@ const AdvGraphs: React.FC = () => {
           <Typography>Тип(круг)</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <RadialChart data={chartsStore.target} width={300} height={300} showLabels colorType="literal" />
+          <Grid container justifyContent="center">
+            <RadialChart
+              className={s.radialChart}
+              data={chartsStore.target}
+              width={300}
+              height={300}
+              showLabels
+              colorType="literal"
+            />
+          </Grid>
+        </AccordionDetails>
+      </Accordion>
+      <Accordion>
+        <AccordionSummary expandIcon={<ExpandMore />} aria-controls="panel1a-content" id="panel1a-header">
+          <Typography>Тип дома(круг)</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Grid container justifyContent="center">
+            <RadialChart
+              className={s.radialChart}
+              data={chartsStore.houseType}
+              width={300}
+              height={300}
+              showLabels
+              colorType="literal"
+            />
+          </Grid>
         </AccordionDetails>
       </Accordion>
       <Accordion>
@@ -38,7 +65,16 @@ const AdvGraphs: React.FC = () => {
           <Typography>Ремонт(круг)</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <RadialChart data={chartsStore.finishing} width={300} height={300} showLabels colorType="literal" />
+          <Grid container justifyContent="center">
+            <RadialChart
+              className={s.radialChart}
+              data={chartsStore.finishing}
+              width={300}
+              height={300}
+              showLabels
+              colorType="literal"
+            />
+          </Grid>
         </AccordionDetails>
       </Accordion>
       <Accordion>
@@ -46,7 +82,7 @@ const AdvGraphs: React.FC = () => {
           <Typography>Цена(линейный)</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <XYPlot width={600} height={300} stackBy="y">
+          <XYPlot width={600} height={400} stackBy="y">
             <VerticalGridLines />
             <HorizontalGridLines />
             <XAxis />

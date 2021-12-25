@@ -73,12 +73,20 @@ const AdvCard: React.FC<Props> = (props) => {
           {data.price.toLocaleString()} ₽ {data.target === AdvTargetType.rents && "в месяц"}
         </Typography>
         {/* <Typography className={s.title}>{data.title}</Typography> */}
-        <div className={s.geo}>
-          <Typography className={s.geo}>{data.house.address.value}</Typography>
-          <IconButton aria-label="show on map" component="span">
-            <Room className={s.geoIcon} />
-          </IconButton>
-        </div>
+        <Link
+          href={{
+            pathname: "/abc/list/map",
+            query: { lat: data.house.address.lat, lng: data.house.address.lng },
+          }}
+          passHref
+        >
+          <div className={s.geo}>
+            <Typography className={s.geo}>{data.house.address.value}</Typography>
+            <IconButton aria-label="show on map" component="span">
+              <Room className={s.geoIcon} />
+            </IconButton>
+          </div>
+        </Link>
         <Typography className={s.text}>{data.house.description}</Typography>
       </div>
     </Card>

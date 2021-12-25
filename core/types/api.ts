@@ -108,6 +108,8 @@ export type PriceCountChartRequestData = RequestData<AdvListFilters>;
 export type PriceCountChartResponseData = ResponseData<XYPlotElemet[]>;
 export type PriceSizeChartRequestData = RequestData<AdvListFilters>;
 export type PriceSizeChartResponseData = ResponseData<XYPlotElemet[]>;
+export type HouseTypeChartRequestData = RequestData<AdvListFilters>;
+export type HouseTypeChartResponseData = ResponseData<XYPlotElemet[]>;
 // // User one
 // export type UserRequestData = { id: string };
 // export type UserResponseData = Response<User | null>;

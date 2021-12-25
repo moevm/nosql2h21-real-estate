@@ -1,23 +1,34 @@
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useEffect, useMemo, useState } from "react";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import { observer } from "mobx-react";
 import advsStore from "stores/advs";
 import RequestStatus from "core/types/requestStatus";
 import { AdvCard } from "components/moleculs";
 import { Advertisement } from "core/models";
+import { useRouter } from "next/dist/client/router";
 
 const containerStyle = {
   width: "100%",
   minHeight: "450px",
 };
 
-const center = {
+const defaultCenter = {
   lat: 59.9716662,
   lng: 30.3237567,
 };
 
 const AdvsMap: React.FC = () => {
   const [selected, setSelected] = useState<Advertisement | null>(null);
+
+  const router = useRouter();
+
+  const center = useMemo(
+    () => ({
+      lat: parseFloat(`${router.query.lat}`) || defaultCenter.lat,
+      lng: parseFloat(`${router.query.lng}`) || defaultCenter.lng,
+    }),
+    [router],
+  );
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",

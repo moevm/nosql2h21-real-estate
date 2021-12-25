@@ -20,3 +20,10 @@
   -ms-user-select: none;
   user-select: none;
 }
+
+.radialChart svg {
+  overflow: visible;
+  & text {
+    font-size: 12px;
+  }
+}

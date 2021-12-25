@@ -6,7 +6,7 @@ import { useMemo } from "react";
 import { useRouter } from "next/dist/client/router";
 
 const tabsDefault = [
-  { label: "List", href: "/" },
+  { label: "List", href: "/cards" },
   { label: "Map", href: "/map" },
   { label: "Table", href: "/table" },
   { label: "Diagram", href: "/diagram" },
@@ -19,7 +19,7 @@ const Advs: NextPage = () => {
     [router],
   );
   const value = useMemo(() => {
-    const idx = tabs.findIndex(({ href }) => href === router.asPath);
+    const idx = tabs.findIndex(({ href }) => router.asPath.includes(href));
     if (idx <= -1) return 0;
     return idx;
   }, [router, tabs]);

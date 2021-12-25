@@ -35,14 +35,14 @@ const post: ServerApiHandler<TargetChartRequestData, TargetChartResponseData> = 
       {
         $lookup: {
           from: HouseDBModel.collection.name,
-          localField: "house",
+          localField: "advs.house",
           foreignField: "_id",
           as: "house",
         },
       },
       {
         $set: {
-          house: { $first: "$house" },
+          "advs.house": { $first: "$house" },
         },
       },
       { $match: matches },

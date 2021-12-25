@@ -12,6 +12,8 @@ class ChartsStore {
 
   priceSize: XYPlotElemet[] = [];
 
+  houseType: XYPlotElemet[] = [];
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -21,6 +23,8 @@ class ChartsStore {
     this.loadChartFinishing();
     this.loadChartPriceCount();
     this.loadChartPriceSize();
+    this.loadChartPriceSize();
+    this.loadChartHouseType();
   }
 
   loadChartTarget = () => {
@@ -56,6 +60,18 @@ class ChartsStore {
       })
       .catch((err) => {
         console.log(`error loadChartPriceCount`, err);
+      });
+  };
+
+  loadChartHouseType = () => {
+    advApi
+      .chartHouseType(advsStore.filters)
+      .then((res) => {
+        if (res.success) this.houseType = res.data;
+        else throw res.error;
+      })
+      .catch((err) => {
+        console.log(`error loadChartHouseType`, err);
       });
   };
 

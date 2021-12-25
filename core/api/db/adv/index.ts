@@ -13,6 +13,8 @@ import {
   PriceCountChartResponseData,
   PriceSizeChartRequestData,
   PriceSizeChartResponseData,
+  HouseTypeChartRequestData,
+  HouseTypeChartResponseData,
 } from "core/types/api";
 
 const read: ApiQuery<AdvReadRequestData, AdvReadResponseData> = (data) => myaxios.get(`/advs/${data.id}`);
@@ -25,7 +27,9 @@ const chartPriceCount: ApiQuery<PriceCountChartRequestData, PriceCountChartRespo
   myaxios.post(`/advs/charts/price-count-xy`, data);
 const chartPriceSize: ApiQuery<PriceSizeChartRequestData, PriceSizeChartResponseData> = (data) =>
   myaxios.post(`/advs/charts/price-size-xy`, data);
+const chartHouseType: ApiQuery<HouseTypeChartRequestData, HouseTypeChartResponseData> = (data) =>
+  myaxios.post(`/advs/charts/housetype`, data);
 
-const advApi = { read, list, chartTarget, chartFinishing, chartPriceCount, chartPriceSize };
+const advApi = { read, list, chartTarget, chartFinishing, chartPriceCount, chartPriceSize, chartHouseType };
 
 export default advApi;
