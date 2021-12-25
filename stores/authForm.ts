@@ -43,7 +43,6 @@ class AuthFormStore {
         toasts.addNotification("Success SignUp!", "success");
         return;
       }
-
       throw new Error(resData.error);
     } catch (error) {
       this.requestStatus = RequestStatus.error;

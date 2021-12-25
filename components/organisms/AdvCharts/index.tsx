@@ -18,10 +18,7 @@ import s from "./styles.module.scss";
 
 const AdvGraphs: React.FC = () => {
   useEffect(() => {
-    chartsStore.loadChartTarget();
-    chartsStore.loadChartFinishing();
-    chartsStore.loadChartPriceCount();
-    chartsStore.loadChartPriceSize();
+    chartsStore.loadAll();
   }, []);
 
   return (
@@ -33,7 +30,7 @@ const AdvGraphs: React.FC = () => {
         <AccordionDetails>
           <Grid container justifyContent="center">
             <RadialChart
-              className={s.radialChart}
+              className={s.chart}
               data={chartsStore.target}
               width={300}
               height={300}
@@ -50,7 +47,7 @@ const AdvGraphs: React.FC = () => {
         <AccordionDetails>
           <Grid container justifyContent="center">
             <RadialChart
-              className={s.radialChart}
+              className={s.chart}
               data={chartsStore.houseType}
               width={300}
               height={300}
@@ -67,7 +64,7 @@ const AdvGraphs: React.FC = () => {
         <AccordionDetails>
           <Grid container justifyContent="center">
             <RadialChart
-              className={s.radialChart}
+              className={s.chart}
               data={chartsStore.finishing}
               width={300}
               height={300}
@@ -82,15 +79,17 @@ const AdvGraphs: React.FC = () => {
           <Typography>Цена(линейный)</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <XYPlot width={600} height={400} stackBy="y">
-            <VerticalGridLines />
-            <HorizontalGridLines />
-            <XAxis />
-            <YAxis left={0} />
-            <CustomAxisLabel title="Цена (т.р.)" xAxis />
-            <CustomAxisLabel title="Количество объявлений" />
-            <VerticalBarSeries data={chartsStore.priceCount} barWidth={0.5} />
-          </XYPlot>
+          <Grid container justifyContent="center">
+            <XYPlot width={600} height={400} stackBy="y" className={s.chart}>
+              <VerticalGridLines />
+              <HorizontalGridLines />
+              <XAxis />
+              <YAxis left={0} />
+              <CustomAxisLabel title="Цена (т.р.)" xAxis />
+              <CustomAxisLabel title="Количество объявлений" />
+              <VerticalBarSeries data={chartsStore.priceCount} barWidth={0.5} />
+            </XYPlot>
+          </Grid>
         </AccordionDetails>
       </Accordion>
     </div>
