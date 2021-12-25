@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { WithBar } from "components/templates";
-import { AdvFilters, AdvsList, AdvsMap, AdvTable, NavTabs } from "components/organisms";
+import { AdvFilters, AdvGraphs, AdvsList, AdvsMap, AdvTable, NavTabs } from "components/organisms";
 import { useMemo } from "react";
 import { useRouter } from "next/dist/client/router";
 
@@ -33,9 +33,8 @@ const Advs: NextPage = () => {
       <NavTabs tabs={tabs} value={value} />
       {value === 0 && <AdvsList />}
       {value === 1 && <AdvsMap />}
-      {/* {value === 1 && "Тут карту нарисую"} */}
       {value === 2 && <AdvTable />}
-      {value === 3 && "Тут диграмму круглую"}
+      {value === 3 && <AdvGraphs />}
     </WithBar>
   );
 };

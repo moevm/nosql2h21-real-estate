@@ -26,6 +26,6 @@
         "isolatedModules": true,
         "experimentalDecorators": true
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "serverSide/db/shema.old.js"],
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "serverSide/db/shema.old.js", "components/organisms/AdvCharts/CustomLabel.js"],
     "exclude": ["node_modules"]
 }

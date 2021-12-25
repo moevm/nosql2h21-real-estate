@@ -40,7 +40,7 @@ const AdvsMap: React.FC = () => {
           ))}
         </>
       </GoogleMap>
-      {selected && <AdvCard data={selected} />}
+      {selected && <AdvCard key={selected._id} data={selected} />}
     </>
   ) : (
     <></>

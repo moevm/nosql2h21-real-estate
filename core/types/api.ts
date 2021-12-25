@@ -98,6 +98,16 @@ export type HouseListResponseData = ResponseDataWithPagintaion<House[]>;
 // General
 export type LoggedInRequestData = {};
 
+// charts
+
+export type TargetChartRequestData = RequestData<void>;
+export type TargetChartResponseData = ResponseData<RadialChartElemet[]>;
+export type FinishingChartRequestData = RequestData<void>;
+export type FinishingChartResponseData = ResponseData<RadialChartElemet[]>;
+export type PriceCountChartRequestData = RequestData<void>;
+export type PriceCountChartResponseData = ResponseData<XYPlotElemet[]>;
+export type PriceSizeChartRequestData = RequestData<void>;
+export type PriceSizeChartResponseData = ResponseData<XYPlotElemet[]>;
 // // User one
 // export type UserRequestData = { id: string };
 // export type UserResponseData = Response<User | null>;
@@ -152,3 +162,6 @@ export enum ErrorMessagesTypes {
 }
 
 export type PaginatedAgregateResponse<T> = { data: T[]; totalRecords: [{ total: number }] };
+
+export type RadialChartElemet = { angle: number; label: string; color?: string };
+export type XYPlotElemet = { x: number; y: number };

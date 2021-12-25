@@ -74,7 +74,7 @@ export default class PaginatedListStore<
       const req = {
         data: this._reqData,
         page: 0,
-        limit: 1000,
+        limit: 10000000,
       } as Req;
       if (!this.query) return;
       const res = await this.query(req);
