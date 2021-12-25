@@ -2,9 +2,19 @@
 FROM node:14-alpine AS deps
 
 RUN apk add --no-cache libc6-compat
+
 WORKDIR /app
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+COPY package.json ./
+# COPY package.json yarn.lock ./
+# RUN yarn
+RUN apk add --no-cache --virtual .gyp \
+        python3 \
+        make \
+        g++ \
+    && yarn \
+    && apk del .gyp
+
+# RUN yarn 
 
 # # # # # # # # # # # # # # # # # # # # # # 
 FROM node:14-alpine AS builder
@@ -24,6 +34,7 @@ RUN adduser -S nextjs -u 1001
 COPY --from=builder /app/next.config.js ./
 COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
+COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 
