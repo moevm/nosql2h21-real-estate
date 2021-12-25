@@ -6,15 +6,18 @@ import PaginatedList from "./helpers/PaginatedListStore";
 import toasts from "./toasts";
 
 const defaultFilters = {
+  search: undefined,
+  description: undefined,
   title: undefined,
   price: {},
   target: undefined,
   finishing: undefined,
   size: {},
-  countBathrooms: {},
+  countRoom: {},
   rating: {},
   ownerRating: {},
   hasBalcony: undefined,
+  houseType: undefined,
 };
 
 // @ts-ignore

@@ -1,26 +1,19 @@
 import { advFiltersToMatch } from "core/helpers/advFiltersToMatch";
 import { ServerApiHandler, TargetChartRequestData, TargetChartResponseData } from "core/types/api";
 import apiHandleMethods from "serverSide/apiHandleMethods";
-import { AdvertisementDBModel, HouseDBModel } from "serverSide/db/shema";
+import { AdvertisementDBModel, HouseDBModel, UserDBModel } from "serverSide/db/shema";
 
 const post: ServerApiHandler<TargetChartRequestData, TargetChartResponseData> = async (req, res) => {
-  const matches = advFiltersToMatch(req.body);
+  const filters = req.body;
+  const matches = advFiltersToMatch(filters);
 
   const aggRes = (
     await AdvertisementDBModel.aggregate([
-      {
-        $lookup: {
-          from: HouseDBModel.collection.name,
-          localField: "house",
-          foreignField: "_id",
-          as: "house",
-        },
-      },
-      {
-        $set: {
-          house: { $first: "$house" },
-        },
-      },
+      // { $match: (filters.search && { $text: { $search: filters.search } }) || {} },
+      { $lookup: { from: "houses", localField: "house", foreignField: "_id", as: "house" } },
+      { $set: { house: { $first: "$house" } } },
+      { $lookup: { from: UserDBModel.collection.name, localField: "house.owner", foreignField: "_id", as: "house.owner" } },
+      { $set: { "house.owner": { $first: "$house.owner" } } },
       { $match: matches },
       {
         // @ts-ignore

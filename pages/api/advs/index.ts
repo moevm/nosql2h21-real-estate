@@ -1,13 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { advFiltersToMatch } from "core/helpers/advFiltersToMatch";
 import { Advertisement } from "core/models";
-import {
-  AdvListFilters,
-  AdvListRequestData,
-  AdvListResponseData,
-  PaginatedAgregateResponse,
-  ServerApiHandler,
-} from "core/types/api";
+import { AdvListRequestData, AdvListResponseData, PaginatedAgregateResponse, ServerApiHandler } from "core/types/api";
 import apiHandleMethods from "serverSide/apiHandleMethods";
 import { AdvertisementDBModel, TagDBModel, UserDBModel } from "serverSide/db/shema";
 
@@ -19,6 +13,7 @@ const post: ServerApiHandler<AdvListRequestData, AdvListResponseData> = async (r
   const matches = advFiltersToMatch(filters);
   const aggRes: PaginatedAgregateResponse<Advertisement> = (
     await AdvertisementDBModel.aggregate([
+      { $match: (filters.search && { $text: { $search: filters.search } }) || {} },
       { $lookup: { from: "houses", localField: "house", foreignField: "_id", as: "house" } },
       { $set: { house: { $first: "$house" } } },
       { $lookup: { from: UserDBModel.collection.name, localField: "house.owner", foreignField: "_id", as: "house.owner" } },

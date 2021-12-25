@@ -71,6 +71,7 @@ const HouseModelSchema = new Schema<House>(
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true } },
 );
+HouseModelSchema.index({ description: "text" });
 
 delete models.House;
 export const HouseDBModel = model<House>("House", HouseModelSchema);
@@ -87,5 +88,6 @@ const AdvertisementModelSchema = new Schema<Advertisement>(
   { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true },
 );
 
+AdvertisementModelSchema.index({ title: "text", "house.description": "text" });
 delete models.Advertisement;
 export const AdvertisementDBModel = model<Advertisement>("Advertisement", AdvertisementModelSchema);

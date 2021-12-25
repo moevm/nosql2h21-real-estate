@@ -1,8 +1,7 @@
 import { advFiltersToMatch } from "core/helpers/advFiltersToMatch";
 import { ServerApiHandler, TargetChartRequestData, TargetChartResponseData } from "core/types/api";
-import { Db } from "mongodb";
 import apiHandleMethods from "serverSide/apiHandleMethods";
-import { AdvertisementDBModel, HouseDBModel } from "serverSide/db/shema";
+import { AdvertisementDBModel, HouseDBModel, UserDBModel } from "serverSide/db/shema";
 
 const CHUNK_LENGTH = 4;
 const CHUNKS_COUNT = 10;
@@ -22,8 +21,11 @@ const post: ServerApiHandler<TargetChartRequestData, TargetChartResponseData> = 
             {
               $project: {
                 // _id: 1,
+                title: 1,
                 price: 1,
                 house: 1,
+                target: 1,
+                // tags: 1,
               },
             },
           ],
@@ -31,20 +33,31 @@ const post: ServerApiHandler<TargetChartRequestData, TargetChartResponseData> = 
         },
       },
       { $unwind: "$advs" },
-      // { $replaceRoot: { newRoot: "$advs" } },
+      // // { $replaceRoot: { newRoot: "$advs" } },
+      // {
+      //   $lookup: {
+      //     from: HouseDBModel.collection.name,
+      //     localField: "advs.house",
+      //     foreignField: "_id",
+      //     as: "house",
+      //   },
+      // },
+      // {
+      //   $set: {
+      //     "advs.house": { $first: "$house" },
+      //   },
+      // },
+      { $lookup: { from: HouseDBModel.collection.name, localField: "advs.house", foreignField: "_id", as: "house" } },
+      { $set: { "advs.house": { $first: "$house" } } },
       {
         $lookup: {
-          from: HouseDBModel.collection.name,
-          localField: "advs.house",
+          from: UserDBModel.collection.name,
+          localField: "advs.house.owner",
           foreignField: "_id",
-          as: "house",
+          as: "advs.house.owner",
         },
       },
-      {
-        $set: {
-          "advs.house": { $first: "$house" },
-        },
-      },
+      { $set: { "advs.house.owner": { $first: "$advs.house.owner" } } },
       { $match: matches },
       // { $match: { "advs.price": { $eq: 3069439 } } },
       // @ts-ignore
