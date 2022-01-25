@@ -1,6 +1,6 @@
 import { enumToNumArray } from "core/helpers/enumToNumArray";
 import { User, Advertisement, House, Tag, Reply, Address, HouseType, FinishingType, AdvTargetType } from "core/models";
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models, Model } from "mongoose";
 
 /* User */
 const UserModelSchema = new Schema<User>(
@@ -15,8 +15,8 @@ const UserModelSchema = new Schema<User>(
   { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true },
 );
 
-delete models.User;
-export const UserDBModel = model<User>("User", UserModelSchema);
+// delete models.User;
+export const UserDBModel: Model<User> = model<User>("User", UserModelSchema);
 
 /* Tag */
 const TagModelSchema = new Schema<Tag>(

@@ -13,4 +13,4 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   await connection.db.dropDatabase();
   const data = await generateDBData();
   res.status(200).json({ data });
-}
+} 
